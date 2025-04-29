@@ -1,43 +1,50 @@
-# scripts/Gameplay/Photo.gd
 extends Area2D
-# warning-ignore:unused_signal
 signal snapped(photo, slot)
 
-@export var memory_id: String = ""
+@export var memory_id : String
+@onready var sprite   := $Sprite2D
+@onready var collider := $CollisionShape2D
 
-@onready var sprite   : Sprite2D         = $Sprite2D
-@onready var collider : CollisionShape2D = $CollisionShape2D
-
-var dragging     : bool        = false
-var drag_offset  : Vector2     = Vector2.ZERO
+var dragging        := false
+var drag_offset     := Vector2.ZERO
+var original_zindex := 0
 
 func _ready() -> void:
-	# Make sure we get _input_event calls
 	set_pickable(true)
-	# Size the collider exactly to the sprite
 	if collider.shape is RectangleShape2D:
-		var size = sprite.texture.get_size() * sprite.scale
-		collider.shape.size = size
+		collider.shape.size = sprite.texture.get_size() * sprite.scale
 
-func _input_event(_viewport, event, _shape_idx) -> void:
-	# Mouse button press/release
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			# Start drag if click was inside the sprite's rect
-			var loc = to_local(event.global_position)
-			if sprite.get_rect().has_point(loc):
-				dragging = true
-				# offset keeps your grab point constant
-				drag_offset = global_position - event.global_position
-		elif dragging:
-			# On release: stop dragging and snap
+# ------------------------------------------------------------------
+func _input_event(_vp, ev, _si) -> void:
+	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+		if ev.pressed and sprite.get_rect().has_point(to_local(ev.position)):
+			if _is_frontmost_photo_at(ev.global_position):
+				dragging        = true
+				original_zindex = z_index
+				z_index         = 10_000                  # above photos only
+				drag_offset     = global_position - ev.position
+		elif !ev.pressed and dragging:
 			dragging = false
+			z_index  = original_zindex                    # restore layer
 			_try_snap()
 
-func _process(_delta: float) -> void:
-	if dragging:
-		global_position = get_global_mouse_position() + drag_offset
+	elif ev is InputEventMouseMotion and dragging:
+		global_position = ev.position + drag_offset
 
+func _unhandled_input(ev:InputEvent) -> void:
+	if dragging and ev is InputEventMouseMotion:
+		global_position = ev.position + drag_offset
+# ------------------------------------------------------------------
+func _is_frontmost_photo_at(mouse_pos: Vector2) -> bool:
+	var front_photo : Area2D = null
+	var highest_z   := -1_000_000
+	for p in get_tree().get_nodes_in_group("photos"):
+		if p.sprite.get_rect().has_point(p.to_local(mouse_pos)):
+			if p.z_index > highest_z:
+				highest_z = p.z_index
+				front_photo = p
+	return front_photo == self
+# ------------------------------------------------------------------
 func _try_snap() -> void:
 	for slot in get_tree().get_nodes_in_group("memory_slots"):
 		if slot.memory_id == memory_id and overlaps_area(slot):

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://81ymunoe4ftt"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/FetusPhoto.gd" id="1_v3gcc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_604j8"]
+
+[node name="FetusPhoto" type="Area2D"]
+script = ExtResource("1_v3gcc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_604j8")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

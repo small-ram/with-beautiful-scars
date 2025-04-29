@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://brctrwpufu2t1"]
+[gd_scene load_steps=12 format=3 uid="uid://brctrwpufu2t1"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/default.jpg" id="3_2e00o"]
+[ext_resource type="Script" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
 
 [sub_resource type="GDScript" id="GDScript_3245s"]
 script/source = "extends Node
@@ -16,6 +17,7 @@ border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
+border_color = Color(0.8, 0.8, 0.8, 0.227451)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy8we"]
 bg_color = Color(0.316636, 0.146138, 0.198699, 1)
@@ -24,9 +26,19 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
-[sub_resource type="Gradient" id="Gradient_tw2o6"]
-offsets = PackedFloat32Array(0, 0.206897)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_c7lob"]
+offsets = PackedFloat32Array(0.0149254, 0.477612, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.560784, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b00mg"]
+gradient = SubResource("Gradient_c7lob")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1a6ex"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.8
+color_ramp = SubResource("GradientTexture1D_b00mg")
 
 [node name="Main" type="Node2D"]
 script = SubResource("GDScript_3245s")
@@ -61,44 +73,14 @@ scale = Vector2(0.147268, 0.167197)
 [node name="CollisionShape2D" parent="Gameplay/PhotoStack/photo_horse" index="1"]
 position = Vector2(5, 3)
 
-[node name="UI" type="Node2D" parent="."]
-
-[node name="WorkspacePanel" type="Panel" parent="UI"]
-z_index = -10
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8o11j")
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/WorkspacePanel"]
-z_index = -10
-layout_mode = 0
-offset_left = 71.0
-offset_top = 245.0
-offset_right = 1106.0
-offset_bottom = 696.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="mem_crib" parent="UI/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(167, 230)
-scale = Vector2(10, 10)
-memory_id = "mem_crib"
-
-[node name="mem_horse" parent="UI/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(717, 236)
-scale = Vector2(10, 10)
-memory_id = "mem_horse"
+[node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ButtonBar" type="HBoxContainer" parent="UI"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 131.0
-offset_bottom = 51.0
+offset_left = 1647.0
+offset_top = 677.0
+offset_right = 1758.0
+offset_bottom = 708.0
+script = ExtResource("4_0sev1")
 
 [node name="RestartBtn" type="Button" parent="UI/ButtonBar"]
 layout_mode = 2
@@ -110,25 +92,57 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Quit"
 
-[node name="MindPanel" type="Panel" parent="UI"]
+[node name="WorkspaceLayer" type="CanvasLayer" parent="UI"]
+layer = -1
+
+[node name="WorkspacePanel" type="Panel" parent="UI/WorkspaceLayer"]
+z_index = -10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8o11j")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/WorkspaceLayer/WorkspacePanel"]
+z_index = -10
+layout_mode = 0
+offset_left = 71.0
+offset_top = 245.0
+offset_right = 1106.0
+offset_bottom = 696.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(167, 230)
+scale = Vector2(10, 10)
+memory_id = "mem_crib"
+
+[node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(717, 236)
+scale = Vector2(10, 10)
+memory_id = "mem_horse"
+
+[node name="MindPanel" type="Panel" parent="UI/WorkspaceLayer"]
+z_index = -9
 anchors_preset = -1
 anchor_left = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iy8we")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="UI/MindPanel"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="UI/WorkspaceLayer/MindPanel"]
 position = Vector2(1, 0)
 scale = Vector2(765.785, 5.29419)
-amount = 80
+emitting = false
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_1a6ex")
 lifetime = 4.0
-emission_shape = 3
-emission_rect_extents = Vector2(1, 1)
-spread = 177.0
-initial_velocity_min = 0.5
-initial_velocity_max = 2.0
-color = Color(0.804276, 0.000524818, 0.807695, 1)
-color_ramp = SubResource("Gradient_tw2o6")
 
 [editable path="Gameplay/PhotoStack/photo_crib"]
 [editable path="Gameplay/PhotoStack/photo_horse"]

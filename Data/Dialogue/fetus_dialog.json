@@ -1,0 +1,8 @@
+{
+  "id":"fetus_dialog",
+  "text":"I think I understand now. 
+	I think that I would act the same way if I was in your situation, in your times, in your shoes. 
+	I will take care of the new, descending you, in the best way I can. 
+	And I will let go of the old you, the you that is falling behind, already blurred, disappearing.",
+  "choices":[{"label":"Continue","next":"cleanup_start"}]
+}

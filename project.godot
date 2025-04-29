@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.3", "Forward Plus")
 [autoload]
 
 StageController="*res://Scripts/Gameplay/StageController.gd"
+DialogueManager="*res://Scripts/Managers/DialogueManager.gd"
 
 [display]
 
