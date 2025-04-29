@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsfcmnuk1bmxa"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/MemorySlot.gd" id="1_02non"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aiuo1"]
+size = Vector2(32, 35)
+
+[node name="MemorySlot" type="Area2D" groups=["memory_slots"]]
+position = Vector2(16, 17)
+script = ExtResource("1_02non")
+
+[node name="Sprite2D" type="Panel" parent="."]
+modulate = Color(0.699094, 0.367883, 0.270835, 1)
+custom_minimum_size = Vector2(200, 200)
+offset_left = -16.0
+offset_top = -17.0
+offset_right = 184.0
+offset_bottom = 183.0
+scale = Vector2(0.158153, 0.175011)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_aiuo1")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://38suaogiy5vs"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/WomanPhoto.gd" id="1_tc5rb"]
+[ext_resource type="Texture2D" uid="uid://cen436g0t8jc0" path="res://Assets/woman.jpg" id="2_oxlgp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32h2b"]
+size = Vector2(287.489, 358.226)
+
+[node name="Photo" type="Area2D" groups=["photos"]]
+z_index = 10
+position = Vector2(1584, 252)
+scale = Vector2(1.06439, 1.09152)
+script = ExtResource("1_tc5rb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.06689, -3.65479)
+scale = Vector2(0.193996, 0.185955)
+texture = ExtResource("2_oxlgp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.8186, -4.11777)
+shape = SubResource("RectangleShape2D_32h2b")
+
+[node name="PhrasesContainer" type="Node2D" parent="."]
+z_index = 3
+position = Vector2(-1.87903, 1.83233)
+metadata/_edit_use_anchors_ = true

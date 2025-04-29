@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://chuke612m828x"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
+[ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/horse.jpg" id="2_c27o4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32h2b"]
+size = Vector2(234.5, 197.43)
+
+[node name="Photo" type="Area2D" groups=["photos"]]
+z_index = 10
+script = ExtResource("1_f6u5o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1549, 567)
+scale = Vector2(0.147862, 0.165605)
+texture = ExtResource("2_c27o4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1548.75, 565.285)
+shape = SubResource("RectangleShape2D_32h2b")
