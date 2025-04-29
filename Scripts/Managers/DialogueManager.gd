@@ -12,11 +12,17 @@ func load_tree(id:String) -> void:
 	else:
 		push_error("Dialogue JSON parse error: %s" % file)
 
+const PANEL_SCENE := preload("res://Scenes/Overlays/DialoguePanel.tscn")
+
 func _show_panel(text:String, choices:Array) -> void:
-	var panel := preload("res://Scenes/UI/DialoguePanel.tscn").instantiate()
-	get_tree().current_scene.add_child(panel)
+	var panel := PANEL_SCENE.instantiate()          # DialoguePanel.tscn
+	# --- THIS line finds the OverlayLayer CanvasLayer in Main.tscn ---
+	var overlay := get_tree()                       \
+		.current_scene                              \
+		.get_node("UI/OverlayLayer")
+	overlay.add_child(panel)                        # add panel to layer
 	panel.set_text(text, choices)
-	panel.choice_made.connect(_on_choice)  # fires when player clicks
+	panel.choice_made.connect(_on_choice)
 
 func _on_choice(next_id:String) -> void:
 	dialogue_closed.emit(next_id)

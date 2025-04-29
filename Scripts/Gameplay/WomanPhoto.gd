@@ -1,6 +1,10 @@
-# scripts/Gameplay/WomanPhoto.gd
 extends Area2D
-signal all_words_transformed   # StageController listens to this
+signal all_words_transformed
+
+@export var left_margin  : float = 12.0
+@export var line_height  : float = 26.0      #  <— here
+@onready var sprite    := $Sprite2D
+@onready var container := $PhrasesContainer
 
 @export var overlay_words : Array[String] = [
 	"My body", "My past", "My children",
@@ -15,9 +19,6 @@ signal all_words_transformed   # StageController listens to this
 	" — dispensable",
 	" — a thankless job"
 ]
-
-@onready var sprite     : Sprite2D = $Sprite2D
-@onready var container  : Node2D   = $PhrasesContainer
 
 var revealed_count : int          = 0
 var transformed    : Array[bool]  = []

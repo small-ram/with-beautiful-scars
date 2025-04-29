@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://brctrwpufu2t1"]
+[gd_scene load_steps=12 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -53,6 +53,7 @@ script = ExtResource("1_fwmen")
 [node name="photo_crib" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
 position = Vector2(1589, 509)
 memory_id = "mem_crib"
+snap_radius = 200.0
 
 [node name="Sprite2D" parent="Gameplay/PhotoStack/photo_crib" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -65,6 +66,7 @@ position = Vector2(2, 3)
 [node name="photo_horse" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
 position = Vector2(1575, 148)
 memory_id = "mem_horse"
+snap_radius = 200.0
 
 [node name="Sprite2D" parent="Gameplay/PhotoStack/photo_horse" index="0"]
 position = Vector2(5.00002, 4)
@@ -143,6 +145,9 @@ emitting = false
 amount = 60
 process_material = SubResource("ParticleProcessMaterial_1a6ex")
 lifetime = 4.0
+
+[node name="OverlayLayer" type="CanvasLayer" parent="UI"]
+layer = 5
 
 [editable path="Gameplay/PhotoStack/photo_crib"]
 [editable path="Gameplay/PhotoStack/photo_horse"]
