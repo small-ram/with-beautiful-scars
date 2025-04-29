@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=14 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -10,6 +10,12 @@
 script/source = "extends Node
 # Empty on purpose – you’ll add Stage logic later.
 "
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mrk3f"]
+size = Vector2(240, 207)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jplre"]
+size = Vector2(248, 210)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8o11j"]
 bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
@@ -61,7 +67,8 @@ scale = Vector2(0.147783, 0.120349)
 texture = ExtResource("3_2e00o")
 
 [node name="CollisionShape2D" parent="Gameplay/PhotoStack/photo_crib" index="1"]
-position = Vector2(2, 3)
+position = Vector2(2, 2.5)
+shape = SubResource("RectangleShape2D_mrk3f")
 
 [node name="photo_horse" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
 position = Vector2(1575, 148)
@@ -73,7 +80,8 @@ position = Vector2(5.00002, 4)
 scale = Vector2(0.147268, 0.167197)
 
 [node name="CollisionShape2D" parent="Gameplay/PhotoStack/photo_horse" index="1"]
-position = Vector2(5, 3)
+position = Vector2(5, 4)
+shape = SubResource("RectangleShape2D_jplre")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
 [ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/horse.jpg" id="2_c27o4"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_32h2b"]
-size = Vector2(234.5, 197.43)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdkrx"]
+size = Vector2(249.582, 207.75)
 
 [node name="Photo" type="Area2D" groups=["photos"]]
 z_index = 10
@@ -16,5 +16,5 @@ scale = Vector2(0.147862, 0.165605)
 texture = ExtResource("2_c27o4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1548.75, 565.285)
-shape = SubResource("RectangleShape2D_32h2b")
+position = Vector2(1548.79, 567)
+shape = SubResource("RectangleShape2D_gdkrx")
