@@ -57,7 +57,7 @@ script = ExtResource("1_fwmen")
 [node name="PhotoStack" type="Node2D" parent="Gameplay"]
 
 [node name="photo_crib" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
-position = Vector2(1589, 509)
+position = Vector2(1729, 785)
 memory_id = "mem_crib"
 snap_radius = 200.0
 
@@ -71,7 +71,7 @@ position = Vector2(2, 2.5)
 shape = SubResource("RectangleShape2D_mrk3f")
 
 [node name="photo_horse" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
-position = Vector2(1575, 148)
+position = Vector2(1697, 300)
 memory_id = "mem_horse"
 snap_radius = 200.0
 
@@ -84,23 +84,6 @@ position = Vector2(5, 4)
 shape = SubResource("RectangleShape2D_jplre")
 
 [node name="UI" type="CanvasLayer" parent="."]
-
-[node name="ButtonBar" type="HBoxContainer" parent="UI"]
-offset_left = 1647.0
-offset_top = 677.0
-offset_right = 1758.0
-offset_bottom = 708.0
-script = ExtResource("4_0sev1")
-
-[node name="RestartBtn" type="Button" parent="UI/ButtonBar"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Restart"
-
-[node name="QuitBtn" type="Button" parent="UI/ButtonBar"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Quit"
 
 [node name="WorkspaceLayer" type="CanvasLayer" parent="UI"]
 layer = -1
@@ -119,21 +102,21 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_8o11j")
 z_index = -10
 layout_mode = 0
 offset_left = 71.0
-offset_top = 245.0
-offset_right = 1106.0
-offset_bottom = 696.0
+offset_top = 410.0
+offset_right = 1442.0
+offset_bottom = 1039.0
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(167, 230)
+position = Vector2(180, 425)
 scale = Vector2(10, 10)
 memory_id = "mem_crib"
 
 [node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(717, 236)
+position = Vector2(976, 246)
 scale = Vector2(10, 10)
 memory_id = "mem_horse"
 
@@ -156,6 +139,27 @@ lifetime = 4.0
 
 [node name="OverlayLayer" type="CanvasLayer" parent="UI"]
 layer = 5
+
+[node name="ButtonLayer" type="CanvasLayer" parent="UI"]
+layer = 11
+
+[node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer"]
+z_index = 19
+offset_left = 1783.0
+offset_top = 1027.0
+offset_right = 1894.0
+offset_bottom = 1058.0
+script = ExtResource("4_0sev1")
+
+[node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Restart"
+
+[node name="QuitBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Quit"
 
 [editable path="Gameplay/PhotoStack/photo_crib"]
 [editable path="Gameplay/PhotoStack/photo_horse"]
