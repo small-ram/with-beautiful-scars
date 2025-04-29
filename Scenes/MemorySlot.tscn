@@ -17,8 +17,14 @@ offset_top = -17.0
 offset_right = 184.0
 offset_bottom = 183.0
 scale = Vector2(0.158153, 0.175011)
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_aiuo1")
+
+[node name="SlotHighlight" type="Polygon2D" parent="."]
+z_index = 22
+color = Color(0.8, 0.219608, 0.321569, 0.372549)
+polygon = PackedVector2Array(16, -17, 16, 18, -16, 18, -16, -17)

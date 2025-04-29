@@ -57,7 +57,7 @@ script = ExtResource("1_fwmen")
 [node name="PhotoStack" type="Node2D" parent="Gameplay"]
 
 [node name="photo_crib" parent="Gameplay/PhotoStack" instance=ExtResource("2_r0v0p")]
-position = Vector2(1729, 785)
+position = Vector2(1699, 595)
 memory_id = "mem_crib"
 snap_radius = 200.0
 
@@ -111,12 +111,12 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(180, 425)
+position = Vector2(198, -13)
 scale = Vector2(10, 10)
 memory_id = "mem_crib"
 
 [node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(976, 246)
+position = Vector2(616, 153)
 scale = Vector2(10, 10)
 memory_id = "mem_horse"
 
@@ -145,10 +145,10 @@ layer = 11
 
 [node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer"]
 z_index = 19
-offset_left = 1783.0
-offset_top = 1027.0
-offset_right = 1894.0
-offset_bottom = 1058.0
+offset_left = 1777.0
+offset_top = 771.0
+offset_right = 1888.0
+offset_bottom = 802.0
 script = ExtResource("4_0sev1")
 
 [node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
