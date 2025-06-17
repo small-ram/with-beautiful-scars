@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cgb0blecknjna"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_p1ra4"]
-[ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/photos/tail.png" id="1_v28ch"]
-[ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/photos/notail.png" id="2_p1ra4"]
+[ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/tail.png" id="1_v28ch"]
+[ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/notail.png" id="2_p1ra4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jc51w"]
 size = Vector2(1930, 1087)

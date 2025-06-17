@@ -1,12 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://chuke612m828x"]
 
 [ext_resource type="Script" uid="uid://bdahryimgainm" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
-[ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/photos/hehory.jpg" id="2_c27o4"]
+[ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="2_c27o4"]
 
 [node name="Photo" type="Area2D" groups=["photos"]]
 z_index = 10
 collision_mask = 9
 script = ExtResource("1_f6u5o")
+allowed_slots = PackedInt32Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_c27o4")

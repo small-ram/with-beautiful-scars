@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://38suaogiy5vs"]
 
 [ext_resource type="Script" uid="uid://dgr0b1cy5uh4e" path="res://Scripts/Gameplay/WomanPhoto.gd" id="1_tc5rb"]
-[ext_resource type="Texture2D" uid="uid://cen436g0t8jc0" path="res://Assets/photos/woman.jpg" id="2_oxlgp"]
+[ext_resource type="Texture2D" uid="uid://cen436g0t8jc0" path="res://Assets/woman.jpg" id="2_oxlgp"]
 
 [node name="Photo" type="Area2D" groups=["discardable", "photos"]]
 z_index = 10

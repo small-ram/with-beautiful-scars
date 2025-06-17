@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bddvg8vbm4gev"]
 
-[ext_resource type="Script" uid="uid://ykgevl0ugmri" path="res://Scenes/Overlays/woman_lead_in_panel.gd" id="1_gvxii"]
+[ext_resource type="Script" uid="uid://ykgevl0ugmri" path="res://Scripts/Gameplay/woman_lead_in_panel.gd" id="1_gvxii"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y1pyq"]
 bg_color = Color(0, 0, 0, 1)
