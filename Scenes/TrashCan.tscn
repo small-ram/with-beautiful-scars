@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddw0x2to15ax3"]
+
+[ext_resource type="Script" uid="uid://jr13wluyoiis" path="res://Scripts/Gameplay/TrashCan.gd" id="1_dc2im"]
+[ext_resource type="Texture2D" uid="uid://c0vh554s530op" path="res://Assets/bin.jpg" id="2_c6rd7"]
+
+[node name="TrashCan" type="Area2D" groups=["bin"]]
+script = ExtResource("1_dc2im")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_c6rd7")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.445532, 0.684563)
+polygon = PackedVector2Array(-128, -95, -128, 95, 128, 95, 128, -95)

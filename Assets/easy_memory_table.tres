@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MemoryTable" load_steps=2 format=3 uid="uid://bjdovhd0fefjg"]
+
+[ext_resource type="Script" uid="uid://ns226t1vd6da" path="res://Scripts/Gameplay/MemoryTable.gd" id="1_bndln"]
+
+[resource]
+script = ExtResource("1_bndln")
+photo_to_slots = {
+"photo_closure": [4, 5, 6],
+"photo_concept": [4, 5, 6],
+"photo_crib": [1, 2, 3],
+"photo_distance": [1, 2, 3],
+"photo_hehory": [4, 5, 6],
+"photo_repair": [1, 2, 3]
+}
+slot_to_memory_id = {
+1: "mem_crib",
+2: "mem_horse",
+3: "mem_distance",
+4: "mem_repair",
+5: "mem_concept",
+6: "mem_closure"
+}
+metadata/_custom_type_script = "uid://ns226t1vd6da"

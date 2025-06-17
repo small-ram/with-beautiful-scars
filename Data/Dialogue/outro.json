@@ -1,0 +1,8 @@
+{
+  "id": "outro",
+  "text": "This is the closest to freedom I will ever be.\n\n 
+I just have to get used to how empty it feels.",
+  "choices": [
+	{"label": "Continue", "next": "cleanup_start"}
+  ]
+}

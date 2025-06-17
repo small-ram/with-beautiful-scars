@@ -1,0 +1,10 @@
+{
+  "id": "mem_closure_dialog",
+  "body": 	"Not I am sorry, I love you. The most powerful, reparative words were said to me by a medical magazine:\n\n
+			Emotional neglect occurs when caregivers fail to provide the emotional support, validation, and attention children need during their formative years.\n\n
+			I have been coming back to it since then. A healing incantation. Do you know why I find it so beautiful?",
+  "choices": [
+	{ "label": "1) I have been emotionally tortured in my own childhood.", "next": "mem_closure_reply1" },
+	{ "label": "2) I really can't take any more accusations.", "next": "mem_closure_reply1" }
+  ]
+}

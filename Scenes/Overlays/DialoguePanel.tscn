@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4augugdpdvp6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aryxm"]
+bg_color = Color(0, 0, 0, 0.698039)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="GDScript" id="GDScript_p12xf"]
+script/source = "extends Panel
+signal choice_made(next_id: String)
+
+var body: Label = null
+var list: ItemList = null
+
+func set_text(txt: String, choices: Array) -> void:
+	# cache child nodes once
+	if body == null:
+		body = get_node(\"MarginContainer/VBoxContainer/BodyLabel\") as Label
+		list = get_node(\"MarginContainer/VBoxContainer/ChoiceList\") as ItemList
+		list.item_selected.connect(_on_choice)
+
+	# update body label
+	body.text = txt
+
+	# ensure there is at least one button
+	var local_choices: Array = choices.duplicate()
+	if local_choices.is_empty():
+		local_choices.append({ \"label\": \"Continue\", \"next\": \"\" })
+
+	# populate list
+	list.clear()
+	for c in local_choices:
+		list.add_item(c[\"label\"])
+		list.set_item_metadata(list.item_count - 1, c[\"next\"])
+
+	# Always leave enough height for at least one button:
+	list.custom_minimum_size.y = 200
+
+func _on_choice(idx: int) -> void:
+	var next_id := list.get_item_metadata(idx) as String
+	queue_free()                 # close the panel
+	choice_made.emit(next_id)    # tell DialogueManager
+"
+
+[node name="DialoguePanel" type="Panel"]
+z_index = 10
+custom_minimum_size = Vector2(600, 280)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_aryxm")
+script = SubResource("GDScript_p12xf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 907.0
+offset_bottom = 584.0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="BodyLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+autowrap_mode = 2
+
+[node name="ChoiceList" type="ItemList" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2

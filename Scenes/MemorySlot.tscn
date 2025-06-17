@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsfcmnuk1bmxa"]
+
+[ext_resource type="Script" uid="uid://vbjrlylghqfb" path="res://Scripts/Gameplay/MemorySlot.gd" id="1_02non"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aiuo1"]
+size = Vector2(32, 32)
+
+[node name="MemorySlot" type="Area2D" groups=["memory_slots"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_02non")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.699094, 0.367883, 0.270835, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aiuo1")
+
+[node name="SlotHighlight" type="Polygon2D" parent="."]
+z_index = 22
+color = Color(0.8, 0.219608, 0.321569, 0.372549)
+polygon = PackedVector2Array(16, -16, 16, 16, -16, 16, -16, -16)

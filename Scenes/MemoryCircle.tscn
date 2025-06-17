@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3 uid="uid://3vv78sbkf0xp"]
+
+[ext_resource type="Texture2D" uid="uid://bdbe31eb7abii" path="res://Assets/dandelion-3160651_640.png" id="1_2pi58"]
+[ext_resource type="Script" uid="uid://b5kfmk5w3snuq" path="res://Scripts/Gameplay/MemoryCircle.gd" id="1_14nts"]
+
+[sub_resource type="Animation" id="Animation_6dnm1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.419608)]
+}
+
+[sub_resource type="Animation" id="Animation_2pi58"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_14nts"]
+resource_name = "sharpen"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.4, 1.4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.419608), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6dnm1"]
+_data = {
+&"RESET": SubResource("Animation_6dnm1"),
+&"idle": SubResource("Animation_2pi58"),
+&"sharpen": SubResource("Animation_14nts")
+}
+
+[node name="MemoryCircle" type="Area2D"]
+script = ExtResource("1_14nts")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.419608)
+z_index = 9
+texture = ExtResource("1_2pi58")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 101.0
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6dnm1")
+}

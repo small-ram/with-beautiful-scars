@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://81ymunoe4ftt"]
+
+[ext_resource type="Script" uid="uid://bnd68o0om6jde" path="res://Scripts/Gameplay/FetusPhoto.gd" id="1_v3gcc"]
+[ext_resource type="Texture2D" uid="uid://clocgk0plv58n" path="res://Assets/photos/fetus.jpg" id="2_i7j3x"]
+
+[node name="FetusPhoto" type="Area2D" groups=["non_discardable"]]
+script = ExtResource("1_v3gcc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.84284, 0.657771, 0.570258, 1)
+texture = ExtResource("2_i7j3x")

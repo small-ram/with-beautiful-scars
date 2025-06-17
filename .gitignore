@@ -1,0 +1,14 @@
+# Godot-specific ignores
+.import/
+.godot/
+export.cfg
+export_presets.cfg
+/android/
+
+# OS-specific ignores
+.DS_Store
+Thumbs.db
+
+# Other optional (IDE, temp files)
+*.tmp
+*.log

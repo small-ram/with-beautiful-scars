@@ -1,0 +1,261 @@
+[gd_scene load_steps=18 format=3 uid="uid://bfqu87r1mfsng"]
+
+[ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
+[ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
+[ext_resource type="PackedScene" uid="uid://bddvg8vbm4gev" path="res://Scenes/Overlays/WomanLeadInPanel.tscn" id="2_frkhe"]
+[ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]
+[ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
+[ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/photos/crib.jpg" id="3_2e00o"]
+[ext_resource type="Script" uid="uid://br3d2fgomq46e" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
+[ext_resource type="Texture2D" uid="uid://gmq13reaxln6" path="res://Assets/photos/distance.jpg" id="4_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://cm0p62x83b3iw" path="res://Assets/photos/repair.jpg" id="5_bmxlf"]
+[ext_resource type="Texture2D" uid="uid://b6utljt5wqpl4" path="res://Assets/photos/concept.jpg" id="6_4kpch"]
+[ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/photos/closure.jpg" id="8_bmxlf"]
+[ext_resource type="PackedScene" uid="uid://cgb0blecknjna" path="res://Scenes/Critter.tscn" id="9_4kpch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8o11j"]
+bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.8, 0.8, 0.8, 0.227451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy8we"]
+bg_color = Color(0.316636, 0.146138, 0.198699, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="Gradient" id="Gradient_c7lob"]
+offsets = PackedFloat32Array(0.0149254, 0.477612, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.560784, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b00mg"]
+gradient = SubResource("Gradient_c7lob")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1a6ex"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 0.8
+color_ramp = SubResource("GradientTexture1D_b00mg")
+
+[node name="Main" type="Node2D"]
+
+[node name="StageController" type="Node" parent="."]
+script = ExtResource("1_fwmen")
+woman_lead_in_scene = ExtResource("2_frkhe")
+gameplay_path = NodePath("../Gameplay")
+overlay_path = NodePath("../UI/OverlayLayer")
+stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
+memory_table = ExtResource("2_grg3l")
+
+[node name="Gameplay" type="Node2D" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="Gameplay"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
+
+[node name="photo_crib" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+z_index = 11
+position = Vector2(1673, 472)
+collision_mask = 1
+dialog_id = "mem_crib_dialog"
+memory_id = "mem_crib"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(1, 2, 3)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="0"]
+position = Vector2(2.00007, 2.50001)
+texture = ExtResource("3_2e00o")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="1"]
+scale = Vector2(0.942939, 1.33708)
+
+[node name="photo_distance" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1678, 316)
+collision_mask = 1
+dialog_id = "mem_distance_dialog"
+memory_id = "mem_distance"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(1, 2, 3)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_distance" index="0"]
+position = Vector2(2.00007, 2.50001)
+texture = ExtResource("4_vy5pj")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_distance" index="1"]
+scale = Vector2(0.942939, 1.33708)
+
+[node name="photo_repair" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1703, 143)
+collision_mask = 1
+dialog_id = "mem_repair_dialog"
+memory_id = "mem_repair"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(1, 2, 3)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_repair" index="0"]
+position = Vector2(2.00007, 2.50001)
+texture = ExtResource("5_bmxlf")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_repair" index="1"]
+scale = Vector2(0.764055, 1.32658)
+
+[node name="photo_concept" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1706, 541)
+collision_mask = 1
+dialog_id = "mem_concept_dialog"
+memory_id = "mem_concept"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(4, 5, 6)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_concept" index="0"]
+position = Vector2(2.00007, 2.50001)
+texture = ExtResource("6_4kpch")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_concept" index="1"]
+scale = Vector2(0.772901, 1.35797)
+
+[node name="photo_hehory" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1767, 249)
+collision_mask = 1
+dialog_id = "mem_hehory_dialog"
+memory_id = "mem_hehory"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(4, 5, 6)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_hehory" index="0"]
+position = Vector2(5.00002, 4)
+
+[node name="photo_closure" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1698, 371)
+collision_mask = 1
+dialog_id = "mem_closure_dialog"
+memory_id = "mem_closure"
+snap_radius = 200.0
+allowed_slots = PackedInt32Array(4, 5, 6)
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="0"]
+position = Vector2(5.00002, 4)
+texture = ExtResource("8_bmxlf")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="1"]
+scale = Vector2(0.769444, 1.42286)
+
+[node name="Critter" parent="Gameplay" instance=ExtResource("9_4kpch")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="WorkspaceLayer" type="CanvasLayer" parent="UI"]
+layer = -1
+
+[node name="WorkspacePanel" type="Panel" parent="UI/WorkspaceLayer"]
+z_index = -10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8o11j")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/WorkspaceLayer/WorkspacePanel"]
+z_index = -10
+layout_mode = 0
+offset_left = 71.0
+offset_top = 410.0
+offset_right = 1442.0
+offset_bottom = 1039.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(62, -130)
+scale = Vector2(3.98795, 3.26667)
+memory_id = "mem_crib"
+slot_idx = 1
+
+[node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(523, -115)
+scale = Vector2(4.22609, 3.64826)
+memory_id = "mem_hehory"
+slot_idx = 2
+
+[node name="mem_distance" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(1012, -116)
+scale = Vector2(4.22609, 3.64826)
+memory_id = "mem_distance"
+slot_idx = 3
+
+[node name="mem_repair" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(160, 245)
+scale = Vector2(4.22609, 3.64826)
+memory_id = "mem_repair"
+slot_idx = 4
+
+[node name="mem_concept" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(620, 244)
+scale = Vector2(4.22609, 3.64826)
+memory_id = "mem_concept"
+slot_idx = 5
+
+[node name="mem_closure" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
+position = Vector2(1034, 207)
+scale = Vector2(4.22609, 3.64826)
+memory_id = "mem_closure"
+slot_idx = 6
+
+[node name="MindPanel" type="Panel" parent="UI/WorkspaceLayer"]
+z_index = -9
+anchors_preset = -1
+anchor_left = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iy8we")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="UI/WorkspaceLayer/MindPanel"]
+position = Vector2(1, 0)
+scale = Vector2(765.785, 5.29419)
+emitting = false
+amount = 60
+lifetime = 4.0
+process_material = SubResource("ParticleProcessMaterial_1a6ex")
+
+[node name="OverlayLayer" type="CanvasLayer" parent="UI"]
+layer = 5
+
+[node name="ButtonLayer" type="CanvasLayer" parent="UI"]
+layer = 11
+
+[node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer"]
+z_index = 19
+offset_left = 1777.0
+offset_top = 771.0
+offset_right = 1888.0
+offset_bottom = 802.0
+script = ExtResource("4_0sev1")
+
+[node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Restart"
+
+[node name="QuitBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Quit"
+
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_crib"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_concept"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_hehory"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_closure"]
