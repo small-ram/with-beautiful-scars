@@ -18,6 +18,7 @@ metadata/_edit_use_anchors_ = true
 shape = SubResource("RectangleShape2D_aiuo1")
 
 [node name="SlotHighlight" type="Polygon2D" parent="."]
+visible = false
 z_index = 22
 color = Color(0.8, 0.219608, 0.321569, 0.372549)
 polygon = PackedVector2Array(16, -16, 16, 16, -16, 16, -16, -16)

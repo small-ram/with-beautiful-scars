@@ -7,7 +7,7 @@ var _sharp := false
 func _physics_process(_d):
 	var target := get_node(anchor_slot) as Node2D
 	var dist := position.distance_to(target.global_position)
-	var factor := clamp(250.0 - dist, 0, 250) / 250.0
+	var factor : float = clamp(250.0 - dist, 0, 250) / 250.0
 	$AnimationPlayer.seek(factor * 0.2, true)
 
 	if not _sharp and factor >= 1.0:

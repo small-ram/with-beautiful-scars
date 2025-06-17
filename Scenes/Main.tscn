@@ -60,29 +60,13 @@ offset_bottom = 40.0
 
 [node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
 
-[node name="photo_crib" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-z_index = 11
-position = Vector2(1673, 472)
-collision_mask = 1
-dialog_id = "mem_crib_dialog"
-memory_id = "mem_crib"
-snap_radius = 200.0
-allowed_slots = PackedInt32Array(1, 2, 3)
-
-[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="0"]
-position = Vector2(2.00007, 2.50001)
-texture = ExtResource("3_2e00o")
-
-[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="1"]
-scale = Vector2(0.942939, 1.33708)
-
 [node name="photo_distance" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-position = Vector2(1678, 316)
+position = Vector2(1701, 316)
 collision_mask = 1
 dialog_id = "mem_distance_dialog"
 memory_id = "mem_distance"
-snap_radius = 200.0
 allowed_slots = PackedInt32Array(1, 2, 3)
+circle_spacing = null
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_distance" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -92,12 +76,12 @@ texture = ExtResource("4_vy5pj")
 scale = Vector2(0.942939, 1.33708)
 
 [node name="photo_repair" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-position = Vector2(1703, 143)
+position = Vector2(1770, 259)
 collision_mask = 1
 dialog_id = "mem_repair_dialog"
 memory_id = "mem_repair"
-snap_radius = 200.0
 allowed_slots = PackedInt32Array(1, 2, 3)
+circle_spacing = null
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_repair" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -107,12 +91,12 @@ texture = ExtResource("5_bmxlf")
 scale = Vector2(0.764055, 1.32658)
 
 [node name="photo_concept" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-position = Vector2(1706, 541)
+position = Vector2(1684, 437)
 collision_mask = 1
 dialog_id = "mem_concept_dialog"
 memory_id = "mem_concept"
-snap_radius = 200.0
 allowed_slots = PackedInt32Array(4, 5, 6)
+circle_spacing = null
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_concept" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -122,23 +106,23 @@ texture = ExtResource("6_4kpch")
 scale = Vector2(0.772901, 1.35797)
 
 [node name="photo_hehory" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-position = Vector2(1767, 249)
+position = Vector2(1747, 356)
 collision_mask = 1
 dialog_id = "mem_hehory_dialog"
 memory_id = "mem_hehory"
-snap_radius = 200.0
 allowed_slots = PackedInt32Array(4, 5, 6)
+circle_spacing = null
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_hehory" index="0"]
 position = Vector2(5.00002, 4)
 
 [node name="photo_closure" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
-position = Vector2(1698, 371)
+position = Vector2(1701, 365)
 collision_mask = 1
 dialog_id = "mem_closure_dialog"
 memory_id = "mem_closure"
-snap_radius = 200.0
 allowed_slots = PackedInt32Array(4, 5, 6)
+circle_spacing = null
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="0"]
 position = Vector2(5.00002, 4)
@@ -146,6 +130,21 @@ texture = ExtResource("8_bmxlf")
 
 [node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="1"]
 scale = Vector2(0.769444, 1.42286)
+
+[node name="photo_crib" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
+position = Vector2(1695, 345)
+collision_mask = 1
+dialog_id = "mem_crib_dialog"
+memory_id = "mem_crib"
+allowed_slots = PackedInt32Array(1, 2, 3)
+circle_spacing = null
+
+[node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="0"]
+position = Vector2(2.00007, 2.50001)
+texture = ExtResource("3_2e00o")
+
+[node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="1"]
+scale = Vector2(0.942939, 1.33708)
 
 [node name="Critter" parent="Gameplay" instance=ExtResource("9_4kpch")]
 
@@ -253,9 +252,9 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Quit"
 
-[editable path="Gameplay/MarginContainer/PhotoStack/photo_crib"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_concept"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_hehory"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_closure"]
+[editable path="Gameplay/MarginContainer/PhotoStack/photo_crib"]
