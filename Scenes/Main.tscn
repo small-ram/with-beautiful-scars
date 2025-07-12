@@ -280,6 +280,26 @@ position = Vector2(724, 119)
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(785, 497)
 
+[node name="CritterSpawnPoints" type="Node2D" parent="SpawnPoints"]
+
+[node name="Jesterka" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(248, 123)
+
+[node name="Kliste" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(1021, 146)
+
+[node name="Sklenenka" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(710, 302)
+
+[node name="List" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(328, 705)
+
+[node name="Snek" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(696, 799)
+
+[node name="Brouk" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
+position = Vector2(1179, 648)
+
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_concept"]

@@ -38,6 +38,14 @@ const INTRO_PANEL       := preload("res://Scenes/Overlays/IntroPanel.tscn")
 const WOMAN_SCENE       := preload("res://Scenes/WomanPhoto.tscn")
 const FETUS_SCENE       := preload("res://Scenes/FetusPhoto.tscn")
 const TRASH_SCENE       := preload("res://Scenes/TrashCan.tscn")
+const CRITTER_SCENES := [
+	preload("res://Scenes/CritterSklenenka.tscn"),
+	preload("res://Scenes/CritterSnek.tscn"),
+	preload("res://Scenes/CritterBrouk.tscn"),
+	preload("res://Scenes/CritterJesterka.tscn"),
+	preload("res://Scenes/CritterKliste.tscn"),
+	preload("res://Scenes/CritterList.tscn")
+]
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -92,6 +100,16 @@ func _on_difficulty_selected(is_easy:bool) -> void:
 	var intro := INTRO_PANEL.instantiate()
 	overlay.add_child(intro)
 	intro.intro_finished.connect(_enter_stage1)
+	
+func _spawn_critters() -> void:
+	var spawns := get_tree().current_scene.find_child("CritterSpawnPoints", true, false)
+	if spawns == null:
+		push_warning("CritterSpawnPoints node missing"); return
+
+	for i in CRITTER_SCENES.size():
+		var c : Area2D = CRITTER_SCENES[i].instantiate() as Area2D   # explicit type
+		spawns.add_child(c)
+		c.global_position = spawns.get_child(i).global_position
 
 # ───────── SLOT CONFIG LOADER ─────────
 func _apply_slot_config(path:String) -> void:
@@ -116,6 +134,7 @@ func _enter_stage1() -> void:
 	snaps_done = 0
 	if gameplay: gameplay.visible = true
 	for c in overlay.get_children(): c.queue_free()
+	_spawn_critters()
 
 func _on_photo_snapped(_p, _s) -> void:
 	if stage != Stage.STAGE1: return

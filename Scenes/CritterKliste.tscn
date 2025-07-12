@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdgdiob428etg"]
+
+[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_rmqhl"]
+[ext_resource type="Texture2D" uid="uid://b5a0yujtkwjsq" path="res://Assets/Critters/kliste.jpg" id="2_rmqhl"]
+[ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/Critters/jesterka1.png" id="3_07q26"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jc51w"]
+size = Vector2(1930, 1087)
+
+[sub_resource type="Theme" id="Theme_mulg6"]
+default_font_size = 50
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_rmqhl")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_07q26")
+}],
+"loop": true,
+"name": &"trigger",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Area2D" groups=["wanderers"]]
+top_level = true
+light_mask = 0
+visibility_layer = 2
+z_index = 90
+script = ExtResource("1_rmqhl")
+one_liner_id = "Critters/kliste"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(955, 533.5)
+shape = SubResource("RectangleShape2D_jc51w")
+
+[node name="KeyLabel" type="Label" parent="."]
+z_index = 2
+offset_left = 191.0
+offset_top = 366.0
+offset_right = 231.0
+offset_bottom = 465.0
+theme = SubResource("Theme_mulg6")
+theme_override_colors/font_color = Color(0.898275, 2.59906e-06, 1.2514e-06, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "E"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 27
+z_as_relative = false
+position = Vector2(210, 417)
+scale = Vector2(0.303272, 0.313652)
+sprite_frames = SubResource("SpriteFrames_fp3vr")
+animation = &"idle"
