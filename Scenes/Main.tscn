@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=18 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -12,7 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://cm0p62x83b3iw" path="res://Assets/repair.jpg" id="5_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://b6utljt5wqpl4" path="res://Assets/concept.jpg" id="6_4kpch"]
 [ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/closure.jpg" id="8_bmxlf"]
-[ext_resource type="PackedScene" uid="uid://cgb0blecknjna" path="res://Scenes/Critter.tscn" id="9_4kpch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8o11j"]
 bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
@@ -151,11 +150,6 @@ texture = ExtResource("3_2e00o")
 [node name="CollisionPolygon2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="1"]
 scale = Vector2(0.942939, 1.33708)
 
-[node name="Critter" parent="Gameplay" instance=ExtResource("9_4kpch")]
-wander_speed = null
-wander_interval = null
-lifetime = null
-
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="WorkspaceLayer" type="CanvasLayer" parent="UI"]
@@ -292,13 +286,13 @@ position = Vector2(1021, 146)
 position = Vector2(710, 302)
 
 [node name="List" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(328, 705)
+position = Vector2(333, 344)
 
 [node name="Snek" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(696, 799)
+position = Vector2(573, 398)
 
 [node name="Brouk" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(1179, 648)
+position = Vector2(1108, 304)
 
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]

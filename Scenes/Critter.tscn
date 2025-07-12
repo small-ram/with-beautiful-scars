@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cgb0blecknjna"]
+[gd_scene load_steps=7 format=3 uid="uid://dxjbopg6emdgf"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_p1ra4"]
 [ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/Critters/jesterka2.png" id="1_v28ch"]
