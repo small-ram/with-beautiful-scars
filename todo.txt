@@ -13,7 +13,7 @@ zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 lepší responzivita rozlišení
 design hrací plochy
 na začátku otázku: Are you my parent?
-a potom How difficult is it for you to forgive?
+a potom How difficult is it for you to forgive? = nastavení obtížnosti
 líbí se mi to vlastně i v tý surovosti, neupravenosti. Docela mi to sedí
 zapeceteni vzpominek = z odkvetle kvetiny na rozkvetlou
 

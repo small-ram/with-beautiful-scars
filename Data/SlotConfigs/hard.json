@@ -1,0 +1,8 @@
+{
+  "photo_distance": [1, 2, 3],
+  "photo_repair":   [1, 2, 3],
+  "photo_concept":  [4, 5, 6],
+  "photo_hehory":   [4, 5, 6],
+  "photo_closure":  [4, 5, 6],
+  "photo_crib":     [1, 2, 3]
+}

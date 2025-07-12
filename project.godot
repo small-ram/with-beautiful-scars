@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 DialogueManager="*res://Scripts/Managers/DialogueManager.gd"
 AudioManager="*res://Scripts/Managers/AudioManager.gd"
 MemoryPool="*res://Scripts/Gameplay/MemoryPool.gd"
+KeyAssigner="*res://Scripts/Gameplay/KeyAssigner.gd"
 
 [display]
 

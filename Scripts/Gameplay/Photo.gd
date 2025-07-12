@@ -15,6 +15,8 @@ signal snapped(photo: Photo, slot: Area2D)
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
 @export var circle_spacing : float            = 200.0    # px gap
+@export_node_path("Node2D") var origin_path : NodePath
+
 
 # ───────────────────────────
 #  Internal state
@@ -113,20 +115,33 @@ func _sprite_contains_screen_point(ph: Photo, screen_pt: Vector2) -> bool:
 #  Circle preview handling
 # ───────────────────────────
 func _spawn_memory_circles() -> void:
-	if _circle_container:
+	if _circle_container:                    # already spawned for this drag
 		return
 
+	# 1. decide which Canvas layer receives the circles
 	var parent := get_tree().get_first_node_in_group("WorkspaceLayer")
 	if parent == null:
-		parent = get_tree().root
+		parent = get_tree().root            # safety fallback
 
+	# 2. decide the origin for the first circle
+	var origin_node : Node2D = null
+	if origin_path != NodePath(""):
+		origin_node = get_node_or_null(origin_path)
+
+	var origin : Vector2
+	if origin_node:
+		origin = origin_node.global_position
+	else:
+		# fallback-corner if the designer forgot to place CircleOrigin
+		origin = Vector2(128, get_viewport_rect().size.y - 128)
+
+	# 3. create a private container so we can delete circles in one call
 	_circle_container = Node2D.new()
 	_circle_container.name = "CirclesContainer"
 	parent.add_child(_circle_container)
 
+	# 4. instance one MemoryCircle per allowed slot
 	var circle_scene := preload("res://Scenes/MemoryCircle.tscn")
-	var origin := Vector2(128, get_viewport_rect().size.y - 128)
-
 	var idx := 0
 	for slot_idx in allowed_slots:
 		var slot := _find_slot_by_idx(slot_idx)
@@ -141,6 +156,9 @@ func _spawn_memory_circles() -> void:
 
 		c.init(slot, self)
 		c.connect("seal_done", Callable(self, "_on_seal"))
+
+	if DEBUG:
+		print(name, ": spawned", _circle_container.get_child_count(), "circles at", origin)
 
 func _clear_circles() -> void:
 	if _circle_container:
@@ -181,6 +199,7 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 
 	MemoryPool.claim(mem_id)
 	emit_signal("snapped", self, slot)
+	AudioManager.play_sfx("photoSnap")
 
 	if dialog_id != "":
 		DialogueManager.load_tree(dialog_id)

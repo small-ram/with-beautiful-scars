@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwm5b1eo1km2a"]
+
+[sub_resource type="GDScript" id="GDScript_woart"]
+script/source = "extends HBoxContainer
+class_name MemoryStatus
+
+@export var table : MemoryTable   # drag your MemoryTable here in the Inspector
+
+func set_sealed(mem_id:String) -> void:
+	var idx := _index_for(mem_id)
+	if idx == -1: return
+	var tex := table.memory_to_status_tex[mem_id][\"bloom\"]
+	get_child(idx).texture = tex
+
+func reset_all() -> void:
+	for i in get_child_count():
+		var mem := table.slot_to_memory_id[i+1]   # index 0→slot 1, etc.
+		get_child(i).texture = table.memory_to_status_tex[mem][\"bud\"]
+
+func _index_for(mem_id:String) -> int:
+	# slot indices are 1-based, icons are 0-based
+	for k in table.slot_to_memory_id:
+		if table.slot_to_memory_id[k] == mem_id:
+			return k-1
+	return -1
+"
+
+[node name="MemoryStatus" type="HBoxContainer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_right = 20.0
+grow_vertical = 0
+scale = Vector2(0.914345, 27.3471)
+script = SubResource("GDScript_woart")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+layout_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="."]
+layout_mode = 2

@@ -1,86 +1,117 @@
-extends "res://Scripts/Gameplay/Photo.gd"    # inherit drag snap
+@tool
+extends "res://Scripts/Gameplay/Photo.gd"   # keep drag/snap behaviour
 signal all_words_transformed
 
-@export var left_margin : float = 12.0
-@export var line_height : float = 26.0
+# ───────────── tweakables ─────────────
+@export var phrases_file       : String = "res://Data/woman_phrases.json"
+@export var reveal_radius      : float  = 200.0     # px
+@export var hover_scale_factor : float  = 1.4
+@export var fade_strength      : float  = 1.0
+@export var base_tint          : Color = Color(0.7, 0.7, 0.9)  # far colour
+@export var hover_tint         : Color = Color(1,   1,   1)    # near colour
+@export var transformed_tint   : Color = Color(1, 0.9, 0.6)    # after click
 
-@onready var container := $PhrasesContainer
+# ───────────── cached nodes & state ─────────────
+@onready var _container : Node2D = $ShardContainer
 
-# ------------------------------------------------------------------
-# short + long sentence pairs
-# ------------------------------------------------------------------
-@export var phrases : Array[Dictionary] = [
-	{ "short": "My body",     "long": " — changed beyond recognition" },
-	{ "short": "My past",     "long": " — a dream of freedom, disappearing" },
-	{ "short": "My children", "long": " — deeply unloveable" },
-	{ "short": "My self",     "long": " — pain of the strongest gravity" },
-	{ "short": "My career",   "long": " — dispensable" },
-	{ "short": "My home",     "long": " — a thankless job" }
-]
+var _phrases     : Array[Dictionary] = []
+var _labels      : Array[Label]      = []
+var _transformed : PackedByteArray
 
-var revealed_count : int         = 0
-var transformed    : Array[bool] = []
-
-# ------------------------------------------------------------------
+# ────────────────────────────────────────────────
 func _ready() -> void:
-	transformed.resize(phrases.size())
-	container.z_index = 10
-	sprite.z_index    = 0
+	super._ready()      # Photo.gd initialisation
 
-func _input_event(_vp, event: InputEvent, _shape_idx: int) -> void:
-	# 1) woman-specific mouse handling
+	_load_phrases()
+	_spawn_labels()
+
+	_transformed = PackedByteArray()
+	_transformed.resize(_phrases.size())
+
+	for i in range(_container.get_child_count()):
+		var shard : Area2D = _container.get_child(i)
+		shard.area_entered.connect(_on_shard_entered.bind(i))
+		shard.area_exited .connect(_on_shard_exited .bind(i))
+		shard.input_event .connect(_on_shard_input  .bind(i))
+
+		var overlay := shard.get_node("CrackOverlay") as CanvasItem
+		overlay.visible = false
+
+	set_process(true)
+
+# ────────────────────────────────────────────────
+func _load_phrases() -> void:
+	var txt := FileAccess.get_file_as_string(phrases_file)
+	var j   := JSON.new()
+	if j.parse(txt) != OK or typeof(j.data) != TYPE_ARRAY:
+		push_error("WomanPhoto: JSON load failed"); return
+	for e in j.data:
+		if typeof(e) == TYPE_DICTIONARY:
+			_phrases.append(e as Dictionary)
+
+# ────────────────────────────────────────────────
+func _spawn_labels() -> void:
+	for i in range(_phrases.size()):
+		var shard  : Area2D             = _container.get_child(i)
+		var poly   : PackedVector2Array = shard.get_node("CollisionPolygon2D").polygon
+		var center : Vector2            = _poly_box_center(poly)
+
+		var lbl := Label.new()
+		lbl.text        = _phrases[i]["short"]
+		lbl.anchor_left = 0
+		lbl.anchor_top  = 0
+		lbl.position    = center
+		lbl.visible     = false
+		lbl.scale       = Vector2.ONE
+		lbl.modulate    = base_tint
+		lbl.z_index     = 100                      # always on top
+
+		shard.add_child(lbl)
+		_labels.append(lbl)
+
+func _poly_box_center(poly:PackedVector2Array) -> Vector2:
+	var min_x := INF; var min_y := INF
+	var max_x := -INF; var max_y := -INF
+	for p in poly:
+		min_x = min(min_x, p.x); max_x = max(max_x, p.x)
+		min_y = min(min_y, p.y); max_y = max(max_y, p.y)
+	return Vector2((min_x + max_x) * 0.5, (min_y + max_y) * 0.5)
+
+# ────────────────────────────────────────────────
+func _process(_delta:float) -> void:
+	var mp : Vector2 = get_viewport().get_mouse_position()
+
+	for i in range(_labels.size()):
+		if _transformed[i]: continue
+		var lbl := _labels[i]
+
+		var dist : float = mp.distance_to(lbl.global_position)
+		var t    : float = clamp(1.0 - dist / reveal_radius, 0.0, 1.0)
+
+		lbl.visible      = t > 0.05
+		lbl.scale        = Vector2.ONE * lerp(1.0, hover_scale_factor, t)
+		lbl.modulate     = base_tint.lerp(hover_tint, t)
+		lbl.modulate.a   = t * fade_strength
+
+# ───────────── shard callbacks ─────────────
+func _on_shard_entered(_area:Area2D, _idx:int) -> void: pass
+func _on_shard_exited (_area:Area2D, _idx:int) -> void: pass
+
+func _on_shard_input(_vp, event:InputEvent, _shape_idx:int, idx:int) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			_reveal_next_phrase()
-			return                      # stop: don't start a drag
-		elif event.button_index == MOUSE_BUTTON_LEFT:
-			_handle_phrase_click(event.global_position)
-			# no return → allow Photo.gd to treat same press as drag start
+		_transform_phrase(idx)
 
-	# 2) delegate all input to Photo.gd so dragging works
-	super._input_event(_vp, event, _shape_idx)
+# ────────────────────────────────────────────────
+func _transform_phrase(idx:int) -> void:
+	if idx < 0 or idx >= _labels.size() or _transformed[idx]: return
 
-# ------------------------------------------------------------------
-func _reveal_next_phrase() -> void:
-	if revealed_count >= phrases.size():
-		return
+	var lbl := _labels[idx]
+	lbl.text     = _phrases[idx]["long"]          # replace short → long
+	lbl.modulate = transformed_tint
+	_transformed[idx] = true
 
-	var data: Dictionary = phrases[revealed_count]
+	var overlay := _container.get_child(idx).get_node("CrackOverlay") as CanvasItem
+	overlay.visible = true
 
-	var lbl := Label.new()
-	lbl.text = String(data["short"])
-	lbl.name = "phrase"
-	lbl.set_meta("idx", revealed_count)
-	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	lbl.theme_type_variation = "Label"
-
-	# ensure size is calculated for first-frame hit-testing
-	lbl.size = lbl.get_minimum_size()
-	lbl.position = Vector2(left_margin, -20 + revealed_count * line_height)
-
-	container.add_child(lbl)
-	lbl.z_index = 10
-
-	revealed_count += 1
-
-# ------------------------------------------------------------------
-func _handle_phrase_click(global_pos: Vector2) -> void:
-	var local: Vector2 = container.to_local(global_pos)   # ← typed
-	for i in range(container.get_child_count() - 1, -1, -1):
-		var n := container.get_child(i)
-		if n is Label:
-			var lbl := n as Label
-			var rect := Rect2(lbl.position, lbl.size)
-			if rect.has_point(local):
-				var idx := int(lbl.get_meta("idx"))
-				if not transformed[idx]:
-					_transform_label(lbl, idx)
-				return
-
-func _transform_label(lbl: Label, idx: int) -> void:
-	var data: Dictionary = phrases[idx]
-	lbl.text = String(data["short"]) + String(data["long"])
-	lbl.modulate = Color(1.0, 0.8, 0.4)
-	transformed[idx] = true
-	if transformed.count(false) == 0:
+	if !_transformed.has(0):                      # all done
 		all_words_transformed.emit()

@@ -9,7 +9,6 @@ collision_mask = 9
 script = ExtResource("1_f6u5o")
 snap_radius = 100.0
 allowed_slots = PackedInt32Array()
-circle_spacing = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_c27o4")

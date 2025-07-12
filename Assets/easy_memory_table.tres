@@ -14,7 +14,7 @@ photo_to_slots = {
 }
 slot_to_memory_id = {
 1: "mem_crib",
-2: "mem_horse",
+2: "mem_hehory",
 3: "mem_distance",
 4: "mem_repair",
 5: "mem_concept",

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://3vv78sbkf0xp"]
 
-[ext_resource type="Texture2D" uid="uid://bdbe31eb7abii" path="res://Assets/dandelion-3160651_640.png" id="1_2pi58"]
+[ext_resource type="Texture2D" uid="uid://bdbe31eb7abii" path="res://Assets/Circles/circle_crib.png" id="1_2pi58"]
 [ext_resource type="Script" uid="uid://b5kfmk5w3snuq" path="res://Scripts/Gameplay/MemoryCircle.gd" id="1_14nts"]
 
 [sub_resource type="Animation" id="Animation_6dnm1"]

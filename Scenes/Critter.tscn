@@ -35,7 +35,6 @@ light_mask = 0
 visibility_layer = 2
 z_index = 90
 script = ExtResource("1_p1ra4")
-action_name = "lizard_key"
 one_liner_id = "lizard"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

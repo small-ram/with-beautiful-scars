@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlfjmnwyap55e"]
+
+[ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="1_hmjht"]
+
+[node name="ParentChoicePanel" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hmjht")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 965.0
+offset_top = 482.0
+offset_right = 1035.0
+offset_bottom = 522.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="YesBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Yes"
+
+[node name="NoBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "No"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 921.0
+offset_top = 377.0
+offset_right = 1075.0
+offset_bottom = 400.0
+text = "Are you her parent?"

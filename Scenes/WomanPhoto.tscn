@@ -1,19 +1,97 @@
-[gd_scene load_steps=3 format=3 uid="uid://38suaogiy5vs"]
+[gd_scene load_steps=4 format=3 uid="uid://38suaogiy5vs"]
 
 [ext_resource type="Script" uid="uid://dgr0b1cy5uh4e" path="res://Scripts/Gameplay/WomanPhoto.gd" id="1_tc5rb"]
-[ext_resource type="Texture2D" uid="uid://cen436g0t8jc0" path="res://Assets/woman.jpg" id="2_oxlgp"]
+[ext_resource type="Texture2D" uid="uid://cay8phxsjurb0" path="res://Assets/woman_edited.png" id="2_ex7yj"]
+[ext_resource type="Texture2D" uid="uid://upe5t6p8x81a" path="res://Assets/woman_glass_edited.png" id="3_qw7of"]
 
-[node name="Photo" type="Area2D" groups=["discardable", "photos"]]
+[node name="WomanPhoto" type="Area2D" groups=["discardable", "photos"]]
 z_index = 10
+position = Vector2(1002, 535)
+scale = Vector2(0.667691, 0.667691)
 script = ExtResource("1_tc5rb")
+reveal_radius = 340.805
+hover_scale_factor = 3.475
+base_tint = Color(1, 1, 1, 1)
+hover_tint = Color(0.798321, 0.727744, 0, 1)
+allowed_slots = PackedInt32Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_oxlgp")
+texture = ExtResource("2_ex7yj")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-scale = Vector2(0.131038, 0.133807)
+position = Vector2(5.24196, 2.99539)
+scale = Vector2(0.464825, 0.453405)
 polygon = PackedVector2Array(-730, -960, -730, 960, 730, 960, 730, -960)
 
 [node name="PhrasesContainer" type="Node2D" parent="." groups=["non_discardable"]]
 z_index = 3
 metadata/_edit_use_anchors_ = true
+
+[node name="ShardContainer" type="Node2D" parent="."]
+
+[node name="Shard" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard"]
+polygon = PackedVector2Array(-529, -510, -150, -517, -140, -449, -120, -354, -99, -296, -29, -77, -5, 23, -60, 107, -64, 114, -184, 15, -351, -136, -454, -224, -527, -281)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard"]
+visible = false
+position = Vector2(-1098, -1673)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(587.938, 1162.89, 966.938, 1155.89, 976.938, 1223.89, 996.938, 1318.89, 1017.94, 1376.89, 1087.94, 1595.89, 1111.94, 1695.89, 1056.94, 1779.89, 1052.94, 1786.89, 932.938, 1687.89, 765.938, 1536.89, 662.938, 1448.89, 589.938, 1391.89)
+uv = PackedVector2Array(29.5605, 199.816, 408.561, 192.816, 418.561, 260.816, 438.561, 355.816, 459.561, 413.816, 529.561, 632.816, 553.561, 732.816, 498.561, 816.816, 494.561, 823.816, 374.561, 724.816, 207.561, 573.816, 104.561, 485.816, 31.5605, 428.816)
+
+[node name="Shard2" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard2"]
+polygon = PackedVector2Array(-141, -519, 352, -527, 358, -242, 354, -236, 285, -193, 149, -92, 8, 15, -15, -68, -87, -281, -95, -312, -113, -355, -127, -403, -132, -425, -140, -477)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard2"]
+visible = false
+position = Vector2(-524, -706)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(412.217, 191.034, 905.217, 183.034, 911.217, 468.034, 907.217, 474.034, 838.217, 517.034, 702.217, 618.034, 561.217, 725.034, 538.217, 642.034, 466.217, 429.034, 458.217, 398.034, 440.217, 355.034, 426.217, 307.034, 421.217, 285.034, 413.217, 233.034)
+
+[node name="Shard3" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard3"]
+polygon = PackedVector2Array(362, -221, 366, -55, 365, 198, 293, 157, 236, 126, 77, 56, 17, 30, 166, -81, 278, -167, 327, -202)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard3"]
+visible = false
+position = Vector2(-537, -700)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(910.861, 484.678, 914.861, 650.678, 913.861, 903.678, 841.861, 862.678, 784.861, 831.678, 625.861, 761.678, 565.861, 735.678, 714.861, 624.678, 826.861, 538.678, 875.861, 503.678)
+
+[node name="Shard4" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard4"]
+polygon = PackedVector2Array(-61, 142, -24, 83, 3, 48, 142, 106, 218, 139, 306, 184, 363, 217, 360, 568, 357, 572, 217, 572, 155, 467, 28, 269, -39, 171)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard4"]
+visible = false
+position = Vector2(-546, -697)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(487.861, 843.322, 524.861, 784.322, 551.861, 749.322, 690.861, 807.322, 766.861, 840.322, 854.861, 885.322, 911.861, 918.322, 908.861, 1269.32, 905.861, 1273.32, 765.861, 1273.32, 703.861, 1168.32, 576.861, 970.322, 509.861, 872.322)
+
+[node name="Shard5" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard5"]
+polygon = PackedVector2Array(197, 571, -525, 573, -528, 571, -527, 500, -510, 480, -460, 433, -381, 360, -314, 306, -185, 220, -66, 157, 19, 288, 100, 413, 165, 509, 194, 559)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard5"]
+visible = false
+position = Vector2(-543, -706)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(745.861, 1267.97, 23.8607, 1269.97, 20.8607, 1267.97, 21.8607, 1196.97, 38.8607, 1176.97, 88.8607, 1129.97, 167.861, 1056.97, 234.861, 1002.97, 363.861, 916.966, 482.861, 853.966, 567.861, 984.966, 648.861, 1109.97, 713.861, 1205.97, 742.861, 1255.97)
+
+[node name="Shard6" type="Area2D" parent="ShardContainer"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShardContainer/Shard6"]
+polygon = PackedVector2Array(-529, -267, -472, -230, -403, -174, -281, -57, -192, 25, -120, 90, -70, 134, -74, 140, -167, 186, -280, 255, -348, 303, -432, 383, -526, 477, -527, 77)
+
+[node name="CrackOverlay" type="Polygon2D" parent="ShardContainer/Shard6"]
+visible = false
+position = Vector2(-549, -702)
+texture = ExtResource("3_qw7of")
+polygon = PackedVector2Array(28.5728, 443.034, 85.5728, 480.034, 154.573, 536.034, 276.573, 653.034, 365.573, 735.034, 437.573, 800.034, 487.573, 844.034, 483.573, 850.034, 390.573, 896.034, 277.573, 965.034, 209.573, 1013.03, 125.573, 1093.03, 31.5728, 1187.03, 30.5728, 787.034)

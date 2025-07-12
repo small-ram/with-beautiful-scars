@@ -6,10 +6,10 @@ signal intro_finished
 # The lines of intro text
 # -------------------------------------------------------------------
 var lines : Array[String] = [
-	"I was tougher as a kid.",
-	"As an adult, I'm always on the verge\nof AN ABYSS.",
-	"(Or something equally dramatic to emphasize my mental instability)",
-	"My therapist said she believes\nin the “transformational power of internal dialogue”.",
+	"She was a tough child.",
+	"Now she always seems to be on the verge of ABYSS.",
+	"(Or something equally dramatic to emphasize her mental instability)",
+	"Her therapist said she believes\n in the 'transformational power of internal dialogue'.",
 	"...",
 	"That's easy.",
 	"The abyss has always had your voice.",
