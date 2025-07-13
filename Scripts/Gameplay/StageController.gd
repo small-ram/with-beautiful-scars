@@ -132,6 +132,7 @@ func _apply_slot_config(path:String) -> void:
 func _enter_stage1() -> void:
 	stage      = Stage.STAGE1
 	CircleBank.reset_all()
+	CircleBank.show_bank()
 	snaps_done = 0
 	if gameplay: gameplay.visible = true
 	for c in overlay.get_children(): c.queue_free()
@@ -175,6 +176,7 @@ func _enter_stage3() -> void:
 # ───────── STAGE 4 – CLEANUP ─────────
 func _enter_cleanup() -> void:
 	stage = Stage.CLEANUP
+	CircleBank.hide_bank()
 	for ph in get_tree().get_nodes_in_group("photos"):
 		if ph.is_in_group("non_discardable"): continue
 		if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()

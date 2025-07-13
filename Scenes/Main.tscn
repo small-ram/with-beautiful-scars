@@ -266,6 +266,8 @@ scale = Vector2(0.0676262, 0.304409)
 [node name="TrashSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(724, 119)
 
+[node name="CircleBank" type="Marker2D" parent="SpawnPoints"]
+
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(785, 497)
 
