@@ -1,10 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://ddw0x2to15ax3"]
 
 [ext_resource type="Script" uid="uid://jr13wluyoiis" path="res://Scripts/Gameplay/TrashCan.gd" id="1_dc2im"]
-[ext_resource type="Texture2D" uid="uid://dl8arsmauqols" path="res://Assets/river.jpg" id="2_eavrt"]
+[ext_resource type="Texture2D" uid="uid://bwj3ueyx2ikfg" path="res://Assets/river.png" id="2_eavrt"]
 
 [node name="TrashCan" type="Area2D" groups=["bin"]]
-position = Vector2(0, -3)
 script = ExtResource("1_dc2im")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

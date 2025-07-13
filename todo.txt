@@ -1,19 +1,15 @@
-zvuk nalepení
 intro se posouvá samo, ne klikáním
 restart restartuje od puzzlu, ne od intra
 kolco každé jiné
 kolca se ukážou nejdříve všechny a pak ubývají po zapečetění
 pečetě na fotkách
 lepší vizuál dialogu s fotkou + text
-woman photo - text se nepřidáva, ale mění
-přidat všechny observations - animace není potřeba, jen by nemusela mít ten bílý background
+critters - bez bileho pozadi 
 observations musí být všechny dokončené, než se povolí přechod do nové fáze
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 lepší responzivita rozlišení
 design hrací plochy
-na začátku otázku: Are you my parent?
-a potom How difficult is it for you to forgive? = nastavení obtížnosti
 líbí se mi to vlastně i v tý surovosti, neupravenosti. Docela mi to sedí
-zapeceteni vzpominek = z odkvetle kvetiny na rozkvetlou
+zapeceteni vzpominek = z odkvetle kvetiny na rozkvetlou nebo naopak
 

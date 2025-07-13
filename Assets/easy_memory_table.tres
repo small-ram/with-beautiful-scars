@@ -1,6 +1,12 @@
-[gd_resource type="Resource" script_class="MemoryTable" load_steps=2 format=3 uid="uid://bjdovhd0fefjg"]
+[gd_resource type="Resource" script_class="MemoryTable" load_steps=8 format=3 uid="uid://bjdovhd0fefjg"]
 
 [ext_resource type="Script" uid="uid://ns226t1vd6da" path="res://Scripts/Gameplay/MemoryTable.gd" id="1_bndln"]
+[ext_resource type="Texture2D" uid="uid://bdbe31eb7abii" path="res://Assets/Circles/circle_crib.png" id="1_lo4vx"]
+[ext_resource type="Texture2D" uid="uid://db46jjxw4suqw" path="res://Assets/Circles/circle_horse.png" id="2_iv46k"]
+[ext_resource type="Texture2D" uid="uid://dsxl4p5nlkjk2" path="res://Assets/Circles/circle_distance.png" id="3_oqvbl"]
+[ext_resource type="Texture2D" uid="uid://c3sn5inru6mwy" path="res://Assets/Circles/circle_repair.jpg" id="4_vbhlu"]
+[ext_resource type="Texture2D" uid="uid://dlslwpt0vy2lu" path="res://Assets/Circles/circle_concept.png" id="5_a3k3o"]
+[ext_resource type="Texture2D" uid="uid://bqsos7m1ulfdt" path="res://Assets/Circles/circle_closure.jpg" id="6_8i2ob"]
 
 [resource]
 script = ExtResource("1_bndln")
@@ -19,5 +25,13 @@ slot_to_memory_id = {
 4: "mem_repair",
 5: "mem_concept",
 6: "mem_closure"
+}
+memory_to_circle_tex = {
+"mem_closure": ExtResource("6_8i2ob"),
+"mem_concept": ExtResource("5_a3k3o"),
+"mem_crib": ExtResource("1_lo4vx"),
+"mem_distance": ExtResource("3_oqvbl"),
+"mem_hehory": ExtResource("2_iv46k"),
+"mem_repair": ExtResource("4_vbhlu")
 }
 metadata/_custom_type_script = "uid://ns226t1vd6da"

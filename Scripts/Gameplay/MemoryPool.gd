@@ -18,6 +18,9 @@ func is_free(id : String) -> bool:
 	
 func claim(id : String) -> void:
 	_free.erase(id)
+	claimed.emit(id)
 	
 func all_used() -> bool:
 	return _free.is_empty()
+
+signal claimed(mem_id:String)

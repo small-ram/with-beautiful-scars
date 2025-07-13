@@ -20,6 +20,7 @@ DialogueManager="*res://Scripts/Managers/DialogueManager.gd"
 AudioManager="*res://Scripts/Managers/AudioManager.gd"
 MemoryPool="*res://Scripts/Gameplay/MemoryPool.gd"
 KeyAssigner="*res://Scripts/Gameplay/KeyAssigner.gd"
+CircleBank="*res://Scripts/Gameplay/CircleBank.gd"
 
 [display]
 

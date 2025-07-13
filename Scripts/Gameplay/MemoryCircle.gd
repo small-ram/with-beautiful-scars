@@ -3,6 +3,8 @@ extends Area2D
 
 signal seal_done(photo)
 
+@export var tex : Texture2D
+
 var _slot  : Node2D
 var _photo : Area2D
 var _sharp : bool = false
@@ -10,6 +12,7 @@ var _sharp : bool = false
 func init(slot:Node2D, photo:Area2D) -> void:
 	_slot  = slot
 	_photo = photo
+	if tex: $Sprite2D.texture = tex
 	$AnimationPlayer.play("sharpen")   # ← NEW: put the player on the clip
 	set_process(true)          # make sure _physics_process runs
 

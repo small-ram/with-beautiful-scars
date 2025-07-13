@@ -70,7 +70,7 @@ collision_mask = 1
 dialog_id = "mem_distance_dialog"
 memory_id = "mem_distance"
 allowed_slots = PackedInt32Array(1, 2, 3)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_distance" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -85,7 +85,7 @@ collision_mask = 1
 dialog_id = "mem_repair_dialog"
 memory_id = "mem_repair"
 allowed_slots = PackedInt32Array(1, 2, 3)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_repair" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -100,7 +100,7 @@ collision_mask = 1
 dialog_id = "mem_concept_dialog"
 memory_id = "mem_concept"
 allowed_slots = PackedInt32Array(4, 5, 6)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_concept" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -115,7 +115,7 @@ collision_mask = 1
 dialog_id = "mem_hehory_dialog"
 memory_id = "mem_hehory"
 allowed_slots = PackedInt32Array(4, 5, 6)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_hehory" index="0"]
 position = Vector2(5.00002, 4)
@@ -126,7 +126,7 @@ collision_mask = 1
 dialog_id = "mem_closure_dialog"
 memory_id = "mem_closure"
 allowed_slots = PackedInt32Array(4, 5, 6)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="0"]
 position = Vector2(5.00002, 4)
@@ -141,7 +141,7 @@ collision_mask = 1
 dialog_id = "mem_crib_dialog"
 memory_id = "mem_crib"
 allowed_slots = PackedInt32Array(1, 2, 3)
-origin_path = NodePath("../../../../UI/WorkspaceLayer/CircleOrigin")
+origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -230,15 +230,6 @@ amount = 60
 lifetime = 4.0
 process_material = SubResource("ParticleProcessMaterial_1a6ex")
 
-[node name="CircleOrigin" type="Node2D" parent="UI/WorkspaceLayer"]
-position = Vector2(118, 923)
-scale = Vector2(0.0676262, 0.304409)
-
-[node name="ColorRect" type="ColorRect" parent="UI/WorkspaceLayer/CircleOrigin"]
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(26.9476, 5.1267)
-
 [node name="OverlayLayer" type="CanvasLayer" parent="UI"]
 layer = 5
 
@@ -267,6 +258,10 @@ text = "Quit"
 
 [node name="WomanSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(798, 585)
+
+[node name="CirclesOrigin" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(175, 100)
+scale = Vector2(0.0676262, 0.304409)
 
 [node name="TrashSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(724, 119)

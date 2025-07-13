@@ -131,6 +131,7 @@ func _apply_slot_config(path:String) -> void:
 # ───────── STAGE 1 – PUZZLE ─────────
 func _enter_stage1() -> void:
 	stage      = Stage.STAGE1
+	CircleBank.reset_all()
 	snaps_done = 0
 	if gameplay: gameplay.visible = true
 	for c in overlay.get_children(): c.queue_free()

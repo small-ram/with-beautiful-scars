@@ -150,6 +150,7 @@ func _spawn_memory_circles() -> void:
 			continue
 
 		var c : Area2D = circle_scene.instantiate()
+		c.set("tex", slot.get_circle_texture())   # inject per-slot icon
 		_circle_container.add_child(c)
 		c.global_position = origin + Vector2(idx * circle_spacing, 0)
 		idx += 1

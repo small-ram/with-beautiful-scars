@@ -7,3 +7,6 @@ func _ready():
 	add_to_group("memory_slots")
 	collision_layer = 2       # slot layer
 	collision_mask  = 0       # doesn’t detect physics, only overlaps
+	
+func get_circle_texture() -> Texture2D:
+	return MemoryPool.table.memory_to_circle_tex.get(memory_id, null)
