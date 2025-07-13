@@ -32,6 +32,8 @@ var _circles_spawned  := false
 var _circle_container : Node2D = null
 
 static var current_drag : Photo = null         # exclusive-drag lock
+static var preview_enabled : bool = true   # master switch for circle previews
+
 const DEBUG := true
 
 # ───────────────────────────
@@ -47,17 +49,14 @@ func _ready() -> void:
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 	if _snapped:
 		return
-
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
 		if ev.pressed:
-			# drag only if THIS is the visible top-most photo at the click
-			if _top_photo_at_point(ev.position) != self:
-				return
-			if Photo.current_drag != null:
-				return
+			if _top_photo_at_point(ev.position) != self: return
+			if Photo.current_drag != null: return
 			Photo.current_drag = self
 
-			if not _circles_spawned:
+			# ↓ only spawn previews if the flag is ON
+			if Photo.preview_enabled and !_circles_spawned:
 				_spawn_memory_circles()
 				_circles_spawned = true
 
@@ -65,7 +64,6 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			_in_hand  = true
 			_drag_off = global_position - ev.position
 			move_to_front()
-
 		else:  # mouse released
 			if Photo.current_drag != self:
 				return

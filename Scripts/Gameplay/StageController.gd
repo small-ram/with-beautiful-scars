@@ -131,6 +131,7 @@ func _apply_slot_config(path:String) -> void:
 # ───────── STAGE 1 – PUZZLE ─────────
 func _enter_stage1() -> void:
 	stage      = Stage.STAGE1
+	Photo.preview_enabled = true
 	CircleBank.reset_all()
 	CircleBank.show_bank()
 	snaps_done = 0
@@ -176,6 +177,7 @@ func _enter_stage3() -> void:
 # ───────── STAGE 4 – CLEANUP ─────────
 func _enter_cleanup() -> void:
 	stage = Stage.CLEANUP
+	Photo.preview_enabled = false
 	CircleBank.hide_bank()
 	for ph in get_tree().get_nodes_in_group("photos"):
 		if ph.is_in_group("non_discardable"): continue
