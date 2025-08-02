@@ -6,7 +6,7 @@ class_name MemoryTable
 	"mem_crib":       preload("res://Assets/Circles/circle_crib.png"),
 	"mem_hehory":     preload("res://Assets/Circles/circle_horse.png"),
 	"mem_distance":   preload("res://Assets/Circles/circle_distance.png"),
-	"mem_repair":     preload("res://Assets/Circles/circle_repair.jpg"),
+	"mem_repair":     preload("res://Assets/Circles/circle_repair.png"),
 	"mem_concept":    preload("res://Assets/Circles/circle_concept.png"),
-	"mem_closure":    preload("res://Assets/Circles/circle_closure.jpg")
+	"mem_closure":    preload("res://Assets/Circles/circle_closure.png")
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqsos7m1ulfdt"
-path="res://.godot/imported/circle_closure.jpg-766f1598fab6f49f015ba5faa8e01937.ctex"
+uid="uid://bxkx3b7vu0nau"
+path="res://.godot/imported/circle_closure.png-17d908d1c94a7f668f3c358a2db7ee8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Circles/circle_closure.jpg"
-dest_files=["res://.godot/imported/circle_closure.jpg-766f1598fab6f49f015ba5faa8e01937.ctex"]
+source_file="res://Assets/Circles/circle_closure.png"
+dest_files=["res://.godot/imported/circle_closure.png-17d908d1c94a7f668f3c358a2db7ee8a.ctex"]
 
 [params]
 
@@ -30,5 +30,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=256
+process/size_limit=0
 detect_3d/compress_to=1
