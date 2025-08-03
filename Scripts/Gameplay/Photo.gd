@@ -6,6 +6,8 @@ extends Area2D
 #  Signals
 # ───────────────────────────
 signal snapped(photo: Photo, slot: Area2D)
+signal drag_started(photo)
+signal drag_ended(photo)
 
 # ───────────────────────────
 #  Inspector fields
@@ -14,7 +16,6 @@ signal snapped(photo: Photo, slot: Area2D)
 @export var memory_id      : String           = ""
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
-@export var circle_spacing : float            = 200.0    # px gap
 @export_node_path("Node2D") var origin_path : NodePath
 
 
@@ -28,11 +29,8 @@ var _drag_off         : Vector2
 var _snapped          := false
 var _in_hand          := false
 var is_sealed         := false
-var _circles_spawned  := false
-var _circle_container : Node2D = null
 
 static var current_drag : Photo = null         # exclusive-drag lock
-static var preview_enabled : bool = true   # master switch for circle previews
 
 const DEBUG := true
 
@@ -54,23 +52,18 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			if _top_photo_at_point(ev.position) != self: return
 			if Photo.current_drag != null: return
 			Photo.current_drag = self
-
-			# ↓ only spawn previews if the flag is ON
-			if Photo.preview_enabled and !_circles_spawned:
-				_spawn_memory_circles()
-				_circles_spawned = true
-
 			_dragging = true
 			_in_hand  = true
 			_drag_off = global_position - ev.position
 			move_to_front()
+			emit_signal("drag_started", self)
 		else:  # mouse released
 			if Photo.current_drag != self:
 				return
 			_dragging = false
 			_in_hand  = false
 			_try_snap()
-			_clear_circles()
+			emit_signal("drag_ended", self)
 			Photo.current_drag = null
 
 func _input(ev: InputEvent) -> void:
@@ -110,62 +103,6 @@ func _sprite_contains_screen_point(ph: Photo, screen_pt: Vector2) -> bool:
 	return rect.has_point(local_pt)
 
 # ───────────────────────────
-#  Circle preview handling
-# ───────────────────────────
-func _spawn_memory_circles() -> void:
-	if _circle_container:                    # already spawned for this drag
-		return
-
-	# 1. decide which Canvas layer receives the circles
-	var parent := get_tree().get_first_node_in_group("WorkspaceLayer")
-	if parent == null:
-		parent = get_tree().root            # safety fallback
-
-	# 2. decide the origin for the first circle
-	var origin_node : Node2D = null
-	if origin_path != NodePath(""):
-		origin_node = get_node_or_null(origin_path)
-
-	var origin : Vector2
-	if origin_node:
-		origin = origin_node.global_position
-	else:
-		# fallback-corner if the designer forgot to place CircleOrigin
-		origin = Vector2(128, get_viewport_rect().size.y - 128)
-
-	# 3. create a private container so we can delete circles in one call
-	_circle_container = Node2D.new()
-	_circle_container.name = "CirclesContainer"
-	parent.add_child(_circle_container)
-
-	# 4. instance one MemoryCircle per allowed slot
-	var circle_scene := preload("res://Scenes/MemoryCircle.tscn")
-	var idx := 0
-	for slot_idx in allowed_slots:
-		var slot := _find_slot_by_idx(slot_idx)
-		if slot == null:
-			if DEBUG: push_warning("%s: slot %s missing" % [name, slot_idx])
-			continue
-
-		var c : Area2D = circle_scene.instantiate()
-		c.set("tex", slot.get_circle_texture())   # inject per-slot icon
-		_circle_container.add_child(c)
-		c.global_position = origin + Vector2(idx * circle_spacing, 0)
-		idx += 1
-
-		c.init(slot, self)
-		c.connect("seal_done", Callable(self, "_on_seal"))
-
-	if DEBUG:
-		print(name, ": spawned", _circle_container.get_child_count(), "circles at", origin)
-
-func _clear_circles() -> void:
-	if _circle_container:
-		_circle_container.queue_free()
-		_circle_container = null
-	_circles_spawned = false
-
-# ───────────────────────────
 #  Snap logic (unchanged)
 # ───────────────────────────
 func _try_snap() -> void:
@@ -191,7 +128,6 @@ func _try_snap() -> void:
 	_snap_to_slot(slot, mem_id)
 
 func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
-	_clear_circles()
 	_snapped = true
 	global_position = slot.global_position
 	set_pickable(false)

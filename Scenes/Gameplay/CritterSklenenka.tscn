@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3 uid="uid://b02saw60yhi3i"]
+
+[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
+[ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
+[ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/Critters/jesterka1.png" id="3_3cy2b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jc51w"]
+size = Vector2(1930, 1087)
+
+[sub_resource type="Theme" id="Theme_mulg6"]
+default_font_size = 50
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldw5y"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(0, 0, 512, 476)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shv6o"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(512, 0, 512, 476)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5snik"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(0, 476, 512, 476)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsdvj"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(512, 476, 512, 476)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1ih2"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(0, 952, 512, 476)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqd2c"]
+atlas = ExtResource("2_g87b1")
+region = Rect2(512, 952, 512, 476)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldw5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shv6o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5snik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsdvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1ih2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqd2c")
+}],
+"loop": true,
+"name": &"move",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3cy2b")
+}],
+"loop": true,
+"name": &"trigger",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Area2D" groups=["wanderers"]]
+top_level = true
+light_mask = 0
+visibility_layer = 2
+z_index = 90
+script = ExtResource("1_ysoph")
+one_liner_id = "Critters/sklenenka"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jc51w")
+
+[node name="KeyLabel" type="Label" parent="."]
+z_index = 2
+offset_right = 40.0
+offset_bottom = 99.0
+theme = SubResource("Theme_mulg6")
+theme_override_colors/font_color = Color(0.898275, 2.59906e-06, 1.2514e-06, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "E"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 27
+z_as_relative = false
+scale = Vector2(0.303272, 0.313652)
+sprite_frames = SubResource("SpriteFrames_fp3vr")
+animation = &"move"
+frame_progress = 0.337625

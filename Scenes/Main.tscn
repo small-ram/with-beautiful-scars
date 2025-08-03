@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=19 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/crib.jpg" id="3_2e00o"]
+[ext_resource type="PackedScene" uid="uid://bvc3anuilxmgo" path="res://Scenes/Overlays/MidStagePanel.tscn" id="3_frkhe"]
 [ext_resource type="Script" uid="uid://br3d2fgomq46e" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
 [ext_resource type="PackedScene" uid="uid://b7xedi8tnuqpo" path="res://Scenes/Overlays/ParentIntroPanel.tscn" id="4_frkhe"]
 [ext_resource type="Texture2D" uid="uid://gmq13reaxln6" path="res://Assets/distance.jpg" id="4_vy5pj"]
@@ -50,9 +51,11 @@ gameplay_path = NodePath("../Gameplay")
 overlay_path = NodePath("../UI/OverlayLayer")
 stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
 woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
-trash_spawn_path = NodePath("../SpawnPoints/TrashSpawn")
+river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
 fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
+fetus_target_path = NodePath("../SpawnPoints/FetusTarget")
 woman_lead_in_scene = ExtResource("2_frkhe")
+mid_stage_panel = ExtResource("3_frkhe")
 memory_table = ExtResource("2_grg3l")
 alt_intro_scene = ExtResource("4_frkhe")
 
@@ -70,8 +73,6 @@ collision_mask = 1
 dialog_id = "mem_distance_dialog"
 memory_id = "mem_distance"
 allowed_slots = PackedInt32Array(1, 2, 3)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_distance" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -86,8 +87,6 @@ collision_mask = 1
 dialog_id = "mem_repair_dialog"
 memory_id = "mem_repair"
 allowed_slots = PackedInt32Array(1, 2, 3)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_repair" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -102,8 +101,6 @@ collision_mask = 1
 dialog_id = "mem_concept_dialog"
 memory_id = "mem_concept"
 allowed_slots = PackedInt32Array(4, 5, 6)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_concept" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -118,8 +115,6 @@ collision_mask = 1
 dialog_id = "mem_hehory_dialog"
 memory_id = "mem_hehory"
 allowed_slots = PackedInt32Array(4, 5, 6)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_hehory" index="0"]
 position = Vector2(5.00002, 4)
@@ -130,8 +125,6 @@ collision_mask = 1
 dialog_id = "mem_closure_dialog"
 memory_id = "mem_closure"
 allowed_slots = PackedInt32Array(4, 5, 6)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_closure" index="0"]
 position = Vector2(5.00002, 4)
@@ -146,8 +139,6 @@ collision_mask = 1
 dialog_id = "mem_crib_dialog"
 memory_id = "mem_crib"
 allowed_slots = PackedInt32Array(1, 2, 3)
-circle_spacing = 500.0
-origin_path = NodePath("../../../../SpawnPoints/CirclesOrigin")
 
 [node name="Sprite2D" parent="Gameplay/MarginContainer/PhotoStack/photo_crib" index="0"]
 position = Vector2(2.00007, 2.50001)
@@ -184,37 +175,37 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(337, 69)
+position = Vector2(148, -135)
 scale = Vector2(3.98795, 3.26667)
 memory_id = "mem_crib"
 slot_idx = 1
 
 [node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(798, 84)
+position = Vector2(541, -136)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_hehory"
 slot_idx = 2
 
 [node name="mem_distance" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(1287, 83)
+position = Vector2(143, 234)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_distance"
 slot_idx = 3
 
 [node name="mem_repair" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(435, 444)
+position = Vector2(1043, -127)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_repair"
 slot_idx = 4
 
 [node name="mem_concept" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(895, 443)
+position = Vector2(661, 260)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_concept"
 slot_idx = 5
 
 [node name="mem_closure" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(1309, 406)
+position = Vector2(1109, 235)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_closure"
 slot_idx = 6
@@ -263,40 +254,19 @@ text = "Quit"
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="WomanSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(798, 585)
+position = Vector2(1511, 465)
 
-[node name="CirclesOrigin" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(175, 100)
-scale = Vector2(0.0676262, 0.304409)
-
-[node name="TrashSpawn" type="Marker2D" parent="SpawnPoints"]
+[node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(724, 119)
 
 [node name="CircleBankOrigin" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(149, 943)
 
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(785, 497)
+position = Vector2(1518, 468)
 
-[node name="CritterSpawnPoints" type="Node2D" parent="SpawnPoints"]
-
-[node name="Jesterka" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(248, 123)
-
-[node name="Kliste" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(1021, 146)
-
-[node name="Sklenenka" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(710, 302)
-
-[node name="List" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(333, 344)
-
-[node name="Snek" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(573, 398)
-
-[node name="Brouk" type="Marker2D" parent="SpawnPoints/CritterSpawnPoints"]
-position = Vector2(1108, 304)
+[node name="FetusTarget" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(602, 645)
 
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]

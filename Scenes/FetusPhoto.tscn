@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://81ymunoe4ftt"]
+[gd_scene load_steps=4 format=3 uid="uid://81ymunoe4ftt"]
 
 [ext_resource type="Script" uid="uid://bnd68o0om6jde" path="res://Scripts/Gameplay/FetusPhoto.gd" id="1_v3gcc"]
 [ext_resource type="Texture2D" uid="uid://clocgk0plv58n" path="res://Assets/fetus.jpg" id="2_i7j3x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i7j3x"]
+size = Vector2(195.5, 255.5)
 
 [node name="FetusPhoto" type="Area2D" groups=["non_discardable"]]
 script = ExtResource("1_v3gcc")
@@ -9,3 +12,7 @@ script = ExtResource("1_v3gcc")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.84284, 0.657771, 0.570258, 1)
 texture = ExtResource("2_i7j3x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, 0.25)
+shape = SubResource("RectangleShape2D_i7j3x")
