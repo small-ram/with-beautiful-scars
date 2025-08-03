@@ -1,10 +1,10 @@
 {
   "id": "mem_repair_dialog",
-  "body": 	"When she left the house for good it took her a few years to learn how to live without fear. (Or something equally exaggerated.) 
+  "body": 	"When She left the house for good it took Her few years to learn how to live without fear. (Or something equally exaggerated.) 
 Not again, but for the first time. 
-She got a copy of the Book that advised you against comforting the baby when she was unhappy and shrieking in the crib. 
-She used the cutout images to try and make a meaning of it all.
-What do you think she was trying to achieve?",
+She got a copy of the Book that advised you against comforting the unhappy baby shrieking in her crib. 
+She used the cutout images for alchemical purposes, to see if the pain could be transformed into forgiveness.
+What do you think She was trying to achieve?",
   "choices": [
 	{ "label": "1) Confirmation of victimhood. To wear it, bathe in it, rub it into her skin.", "next": "mem_repair_reply1" },
 	{ "label": "2) I don’t think it’s a very good story when it doesn’t have my side in it. ", "next": "mem_repair_reply2" }

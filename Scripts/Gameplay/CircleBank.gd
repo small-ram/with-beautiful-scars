@@ -3,7 +3,7 @@ signal bank_ready
 
 # ───────── inspector knobs ─────────
 @export_node_path("Marker2D") var origin_path : NodePath = NodePath("")
-@export var icon_spacing : Vector2 = Vector2(230, 0)
+@export var icon_spacing : Vector2 = Vector2(200, 0)
 @export var max_dist     : float   = 250.0
 @export var max_scale    : float   = 1.8
 @export var pulse_tint   : Color   = Color(1, 1, 1)

@@ -53,7 +53,8 @@ stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
 woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
 river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
 fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
-fetus_target_path = NodePath("../SpawnPoints/FetusTarget")
+fetus_centre_path = NodePath("../SpawnPoints/FetusCentre")
+woman_target_path = NodePath("../SpawnPoints/WomanTarget")
 woman_lead_in_scene = ExtResource("2_frkhe")
 mid_stage_panel = ExtResource("3_frkhe")
 memory_table = ExtResource("2_grg3l")
@@ -175,37 +176,37 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(148, -135)
+position = Vector2(104, -234)
 scale = Vector2(3.98795, 3.26667)
 memory_id = "mem_crib"
 slot_idx = 1
 
 [node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(541, -136)
+position = Vector2(541, -227)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_hehory"
 slot_idx = 2
 
 [node name="mem_distance" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(143, 234)
+position = Vector2(111, 66)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_distance"
 slot_idx = 3
 
 [node name="mem_repair" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(1043, -127)
+position = Vector2(1039, -229)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_repair"
 slot_idx = 4
 
 [node name="mem_concept" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(661, 260)
+position = Vector2(488, 65)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_concept"
 slot_idx = 5
 
 [node name="mem_closure" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(1109, 235)
+position = Vector2(958, 66)
 scale = Vector2(4.22609, 3.64826)
 memory_id = "mem_closure"
 slot_idx = 6
@@ -216,6 +217,7 @@ anchors_preset = -1
 anchor_left = 0.8
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -221.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iy8we")
 
@@ -257,7 +259,7 @@ text = "Quit"
 position = Vector2(1511, 465)
 
 [node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(724, 119)
+position = Vector2(1577, 185)
 
 [node name="CircleBankOrigin" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(149, 943)
@@ -265,8 +267,11 @@ position = Vector2(149, 943)
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1518, 468)
 
-[node name="FetusTarget" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(602, 645)
+[node name="WomanTarget" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(593, 781)
+
+[node name="FetusCentre" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1647, 622)
 
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]

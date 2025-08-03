@@ -19,6 +19,8 @@ func _on_area_exited(a: Area2D) -> void:
 func _physics_process(_delta: float) -> void:
 	# delete any photo that is inside AND no longer being dragged
 	for p in _inside.duplicate():
+		if not p.is_in_group("gold"):               # new guard
+			continue
 		var dragging: bool = false                 # ← typed
 		if p.has_method("is_in_hand"):
 			dragging = p.is_in_hand()
@@ -30,11 +32,12 @@ func _physics_process(_delta: float) -> void:
 	if _all_cleared():
 		cleanup_complete.emit()
 
-
 func _all_cleared() -> bool:
 	for p in get_tree().get_nodes_in_group("photos"):
 		if p.is_in_group("non_discardable"):
-			continue            # skip the fetus
-		if p.is_inside_tree():
+			continue
+		if not p.is_in_group("gold"):           # must be gold first
+			return false
+		if p.is_inside_tree():                  # gold but not yet trashed
 			return false
 	return true

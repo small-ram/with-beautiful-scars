@@ -1,7 +1,7 @@
 {
   "id": "mem_repair_dialog",
-  "body": 	"Your time will come. By the way I’ve read the book. There was no such advice. On the contrary, the authors encouraged parents to comfort their children and show them affection.",
+  "body": 	"Your time will come. By the way She read the book. There was no such advice. On the contrary, the authors encouraged parents to comfort their children and show them affection.",
   "choices": [	
-	{ "label": "I wanted you to be tough. Like me. Without having to experience the same level of violence I did as a kid.", "next": "mem_repair_reply2_1AND1_1" },
+	{ "label": "I wanted Her to be tough. Like me. Preferably without having to experience the same level of violence I did as a kid.", "next": "" },
 		]
 }

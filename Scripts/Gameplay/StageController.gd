@@ -18,7 +18,8 @@ extends Node
 @export_node_path("Marker2D")    var woman_spawn_path   : NodePath
 @export_node_path("Marker2D")    var river_spawn_path   : NodePath
 @export_node_path("Marker2D")    var fetus_spawn_path   : NodePath
-@export_node_path("Marker2D")    var fetus_target_path  : NodePath
+@export_node_path("Marker2D") 	var fetus_centre_path : NodePath
+@export_node_path("Marker2D")    var woman_target_path  : NodePath
 
 @export var woman_lead_in_scene : PackedScene
 @export var mid_stage_panel     : PackedScene               # “Now she is ready …”
@@ -32,7 +33,8 @@ extends Node
 @onready var _woman_spawn : Marker2D = get_node_or_null(woman_spawn_path)
 @onready var _river_pos   : Marker2D = get_node_or_null(river_spawn_path)
 @onready var _fetus_spawn : Marker2D = get_node_or_null(fetus_spawn_path)
-@onready var _fetus_target: Marker2D = get_node_or_null(fetus_target_path)
+@onready var _fetus_centre : Marker2D = get_node_or_null(fetus_centre_path)
+@onready var _woman_target: Marker2D = get_node_or_null(woman_target_path)
 
 # ───────── STATE ─────────
 enum Stage { INTRO, STAGE1, STAGE2, STAGE3, STAGE4, END }
@@ -164,7 +166,7 @@ func _spawn_woman() -> void:
 # ──────── STAGE 3 (woman shrinks → fetus) ────────
 func _enter_stage3() -> void:
 	stage = Stage.STAGE3
-	var dest := _fetus_target.global_position if _fetus_target else Vector2(100,100)
+	var dest := _woman_target.global_position if _woman_target else Vector2(100,100)
 	woman.create_tween().tween_property(woman,"global_position",dest,0.8).set_trans(Tween.TRANS_SINE)
 	woman.create_tween().tween_property(woman,"scale",Vector2.ONE*0.3,0.8)
 
@@ -172,7 +174,7 @@ func _enter_stage3() -> void:
 	fetus = FETUS_SCENE.instantiate()
 	get_tree().current_scene.add_child(fetus)
 	fetus.global_position = (_fetus_spawn.global_position if _fetus_spawn else Vector2.ZERO)
-	fetus.center_pos      = get_viewport().size / 2
+	fetus.center_pos      = _fetus_centre.global_position
 	AudioManager.play_sfx(heartbeat_sfx)
 	fetus.dialog_done.connect(_enter_stage4)
 

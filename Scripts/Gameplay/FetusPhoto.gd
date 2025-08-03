@@ -32,6 +32,18 @@ func _on_dialogue_closed(_id:String) -> void:
 
 # ───────── gild photos on touch ─────────
 func _on_area_entered(a:Area2D) -> void:
-	if a.is_in_group("photos") and not a.is_in_group("non_discardable"):
-		a.sprite.modulate = Color(1, 0.85, 0.3)      # gold tint
-		a.allowed_slots   = PackedInt32Array()       # disable snapping
+	if not a.is_in_group("photos"):            # only photos matter
+		return
+
+	# must be dragged *right now*
+	var is_dragging: bool = a.has_method("is_in_hand") and a.is_in_hand()
+	if not is_dragging:
+		return
+
+	# already gold? skip
+	if a.is_in_group("gold"): return
+
+	# — gild —
+	a.sprite.modulate = Color(1, 0.85, 0.3)
+	a.allowed_slots   = PackedInt32Array()      # disable snapping
+	a.add_to_group("gold")

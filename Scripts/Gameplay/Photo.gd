@@ -31,8 +31,19 @@ var _in_hand          := false
 var is_sealed         := false
 
 static var current_drag : Photo = null         # exclusive-drag lock
+static var _unused_tapes : Array[Texture2D] = []   # shared between all photos
 
 const DEBUG := true
+# tape pool  (add the exact filenames you have in Assets/Tape/)
+const TAPE_TEXTURES : Array[Texture2D] = [
+	preload("res://Assets/Tape/tape1.png"),
+	preload("res://Assets/Tape/tape2.png"),
+	preload("res://Assets/Tape/tape3.png"),
+	preload("res://Assets/Tape/tape4.png"),
+	preload("res://Assets/Tape/tape6.png"),
+	preload("res://Assets/Tape/tape7.png"),
+	preload("res://Assets/Tape/tape8.png")
+]
 
 # ───────────────────────────
 #  Ready
@@ -133,6 +144,7 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 	set_pickable(false)
 
 	MemoryPool.claim(mem_id)
+	_attach_random_tape()
 	emit_signal("snapped", self, slot)
 	AudioManager.play_sfx("photoSnap")
 
@@ -167,7 +179,25 @@ func unlock_for_cleanup() -> void:
 		return
 	_snapped = false
 	set_pickable(true)
+	
+func _attach_random_tape() -> void:
+	if _unused_tapes.is_empty():
+		_unused_tapes = TAPE_TEXTURES.duplicate()
+		_unused_tapes.shuffle()
+
+	var tex : Texture2D = _unused_tapes.pop_back()
+	if tex == null: return                             # safety
+
+	var tape := Sprite2D.new()
+	tape.texture = tex
+	tape.centered = true
+	add_child(tape)
+
+	# --- position: centre of top edge ---
+	var half_h := sprite.texture.get_height() * sprite.scale.y * 0.5
+	tape.position = Vector2(0, -half_h)                # local space
+	
 
 func _on_seal(_p: Photo) -> void:
 	is_sealed = true
-	# TODO: add stamp/tween if desired
+	_attach_random_tape()

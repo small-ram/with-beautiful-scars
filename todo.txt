@@ -1,11 +1,8 @@
 intro se posouvá samo, ne klikáním
 restart restartuje od puzzlu, ne od intra
-pečetě na fotkách
 lepší vizuál dialogu s fotkou + text
 critters a circles - vsechny transparent bez bileho pozadi 
-critters musí být všechny dokončené, než se povolí přechod do nové fáze
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
-upravit to co se děje po stage 2, to jak funguje plod v děloze
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 lepší responzivita rozlišení
