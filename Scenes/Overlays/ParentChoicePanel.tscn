@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlfjmnwyap55e"]
+[gd_scene load_steps=4 format=3 uid="uid://dlfjmnwyap55e"]
 
 [ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="1_hmjht"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmjht"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hmjht"]
+font_size = 25
 
 [node name="ParentChoicePanel" type="Panel"]
 anchors_preset = 15
@@ -34,8 +37,9 @@ text = "No"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 921.0
-offset_top = 377.0
-offset_right = 1075.0
-offset_bottom = 400.0
+offset_left = 884.0
+offset_top = 409.0
+offset_right = 1124.0
+offset_bottom = 444.0
 text = "Are you her parent?"
+label_settings = SubResource("LabelSettings_hmjht")

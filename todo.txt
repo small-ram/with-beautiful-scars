@@ -2,6 +2,7 @@ intro se posouvá samo, ne klikáním
 restart restartuje od puzzlu, ne od intra
 lepší vizuál dialogu s fotkou + text
 critters a circles - vsechny transparent bez bileho pozadi 
+at jdou critters casteji videt
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)

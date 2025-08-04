@@ -1,7 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=17 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
-[ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
 [ext_resource type="PackedScene" uid="uid://bddvg8vbm4gev" path="res://Scenes/Overlays/WomanLeadInPanel.tscn" id="2_frkhe"]
 [ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
@@ -13,14 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://cm0p62x83b3iw" path="res://Assets/repair.jpg" id="5_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://b6utljt5wqpl4" path="res://Assets/concept.jpg" id="6_4kpch"]
 [ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/closure.jpg" id="8_bmxlf"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8o11j"]
-bg_color = Color(0.0666667, 0.0666667, 0.0666667, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.8, 0.8, 0.8, 0.227451)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iy8we"]
 bg_color = Color(0.316636, 0.146138, 0.198699, 1)
@@ -152,64 +143,6 @@ scale = Vector2(0.942939, 1.33708)
 
 [node name="WorkspaceLayer" type="CanvasLayer" parent="UI"]
 layer = -1
-
-[node name="WorkspacePanel" type="Panel" parent="UI/WorkspaceLayer"]
-z_index = -10
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8o11j")
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/WorkspaceLayer/WorkspacePanel"]
-z_index = -10
-layout_mode = 0
-offset_left = 92.0
-offset_top = 408.0
-offset_right = 1463.0
-offset_bottom = 1037.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="mem_crib" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(104, -234)
-scale = Vector2(3.98795, 3.26667)
-memory_id = "mem_crib"
-slot_idx = 1
-
-[node name="mem_horse" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(541, -227)
-scale = Vector2(4.22609, 3.64826)
-memory_id = "mem_hehory"
-slot_idx = 2
-
-[node name="mem_distance" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(111, 66)
-scale = Vector2(4.22609, 3.64826)
-memory_id = "mem_distance"
-slot_idx = 3
-
-[node name="mem_repair" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(1039, -229)
-scale = Vector2(4.22609, 3.64826)
-memory_id = "mem_repair"
-slot_idx = 4
-
-[node name="mem_concept" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(488, 65)
-scale = Vector2(4.22609, 3.64826)
-memory_id = "mem_concept"
-slot_idx = 5
-
-[node name="mem_closure" parent="UI/WorkspaceLayer/WorkspacePanel/MarginContainer" instance=ExtResource("1_pt8x6")]
-position = Vector2(958, 66)
-scale = Vector2(4.22609, 3.64826)
-memory_id = "mem_closure"
-slot_idx = 6
 
 [node name="MindPanel" type="Panel" parent="UI/WorkspaceLayer"]
 z_index = -9
