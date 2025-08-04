@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm1er3hcci1x6"]
-
-[ext_resource type="Texture2D" uid="uid://f8uylfanvar1" path="res://Assets/bg.png" id="1_rsuow"]
-
-[sub_resource type="Theme" id="Theme_rsuow"]
-
-[node name="DialogBox" type="NinePatchRect"]
-theme = SubResource("Theme_rsuow")
-texture = ExtResource("1_rsuow")
