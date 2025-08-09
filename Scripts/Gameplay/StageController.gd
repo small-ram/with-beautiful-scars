@@ -51,12 +51,12 @@ var critters_done  : int = 0
 
 # critter queue
 const CRITTERS : Array[PackedScene] = [
-	preload("res://Scenes/Gameplay/CritterJesterka.tscn"),
-	preload("res://Scenes/Gameplay/CritterBrouk.tscn"),
-	preload("res://Scenes/Gameplay/CritterList.tscn"),
-	preload("res://Scenes/Gameplay/CritterSklenenka.tscn"),
-	preload("res://Scenes/Gameplay/CritterSnek.tscn"),
-	preload("res://Scenes/Gameplay/CritterKliste.tscn")
+	preload("res://Scenes/Critters/CritterJesterka.tscn"),
+	preload("res://Scenes/Critters/CritterBrouk.tscn"),
+	preload("res://Scenes/Critters/CritterList.tscn"),
+	preload("res://Scenes/Critters/CritterSklenenka.tscn"),
+	preload("res://Scenes/Critters/CritterSnek.tscn"),
+	preload("res://Scenes/Critters/CritterKliste.tscn")
 ]
 var _queue : Array[PackedScene] = []
 var _current_critter : Node = null

@@ -1,8 +1,0 @@
-{
-  "id": "mem_distance_dialog",
-  "body": 	"She looks scared when she sees you. She looks so thin. Did she stop eating again? What are you thinking?",
-  "choices": [
-	{ "label": "1) I need to force her into eating again.", "next": "mem_distance_reply3_1" },
-	{ "label": "2) The child-less years were the happiest of my life.", "next": "mem_distance_reply3_2" },
-	]
-}

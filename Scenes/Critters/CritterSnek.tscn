@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhs0511407c3h"]
+
+[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_v487x"]
+[ext_resource type="Texture2D" uid="uid://c2vtwbmilmjtm" path="res://Assets/Critters/snek.png" id="2_hkuhv"]
+
+[sub_resource type="Theme" id="Theme_mulg6"]
+default_font_size = 50
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hkuhv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hkuhv")
+}],
+"loop": true,
+"name": &"trigger",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Area2D" groups=["wanderers"]]
+top_level = true
+light_mask = 0
+visibility_layer = 2
+z_index = 90
+script = ExtResource("1_v487x")
+one_liner_id = "Critters/snek"
+
+[node name="KeyLabel" type="Label" parent="."]
+z_index = 2
+offset_right = 40.0
+offset_bottom = 99.0
+scale = Vector2(0.573004, 0.573004)
+theme = SubResource("Theme_mulg6")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "E"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 27
+z_as_relative = false
+scale = Vector2(0.393, 0.407)
+sprite_frames = SubResource("SpriteFrames_fp3vr")
+animation = &"idle"

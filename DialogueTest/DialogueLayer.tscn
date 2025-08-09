@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpuigb3va2qkd"]
+
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://DialogueTest/dialogue_default.tres" id="1_dhyk3"]
+[ext_resource type="Script" uid="uid://c0x1abl8v6380" path="res://DialogueTest/DialogueUI.gd" id="1_g87dj"]
+[ext_resource type="Texture2D" uid="uid://cw73txgkbugfh" path="res://Assets/dark-texture-background.jpg" id="3_3r4kx"]
+
+[node name="DialogueLayer" type="CanvasLayer"]
+layer = 100
+follow_viewport_enabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DialogueUI" type="Control" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_dhyk3")
+script = ExtResource("1_g87dj")
+
+[node name="Backplate" type="NinePatchRect" parent="MarginContainer/DialogueUI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666667
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_3r4kx")
+
+[node name="Content" type="MarginContainer" parent="MarginContainer/DialogueUI/Backplate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="BodyAndChoices" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LineRow" type="HBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Portrait" type="TextureRect" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/LineRow"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_horizontal = 0
+stretch_mode = 5
+
+[node name="BodyLabel" type="RichTextLabel" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/LineRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="ChoiceBox" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer"]
+
+[node name="sfxHover" type="AudioStreamPlayer2D" parent="MarginContainer"]

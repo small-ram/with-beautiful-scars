@@ -38,6 +38,7 @@ script = ExtResource("1_p1ra4")
 one_liner_id = "lizard"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.0501587, 0.210666)
 shape = SubResource("RectangleShape2D_jc51w")
 
 [node name="KeyLabel" type="Label" parent="."]

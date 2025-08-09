@@ -1,8 +1,0 @@
-{
-  "id": "mem_distance_dialog",
-  "body": 	"The book is there but she’s not. Are you screaming her name now?",
-  "choices": [
-	{ "label": "1) Yes.", "next": "mem_distance_reply2_1" },
-	{ "label": "2) No.", "next": "mem_distance_reply2_2" },
-	]
-}

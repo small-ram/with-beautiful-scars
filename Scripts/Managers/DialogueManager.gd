@@ -8,7 +8,7 @@ const PANEL_SCENE := preload("res://Scenes/Overlays/DialoguePanel.tscn")
 var _active_panel : Node = null
 
 func load_tree(id:String) -> void:
-	var file := "res://Data/Dialogue/%s.json" % id
+	var file := "res://Data/Dialogue/Photos/%s.json" % id
 	var j := JSON.new()
 	if j.parse(FileAccess.get_file_as_string(file)) != OK or typeof(j.data) != TYPE_DICTIONARY:
 		push_error("Dialogue JSON parse error: %s" % file)

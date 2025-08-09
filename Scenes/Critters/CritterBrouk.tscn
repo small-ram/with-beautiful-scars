@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://54ccmuxuohxe"]
+
+[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
+[ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_irxac")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_irxac")
+}],
+"loop": true,
+"name": &"trigger",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Area2D" groups=["wanderers"]]
+top_level = true
+light_mask = 0
+visibility_layer = 2
+z_index = 90
+script = ExtResource("1_c02s6")
+one_liner_id = "Critters/brouk"
+
+[node name="KeyLabel" type="Label" parent="."]
+z_index = 2
+offset_top = -24.0
+offset_right = 40.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.898039, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "E"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 27
+z_as_relative = false
+scale = Vector2(0.303272, 0.313652)
+sprite_frames = SubResource("SpriteFrames_fp3vr")
+animation = &"move"

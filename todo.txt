@@ -1,11 +1,12 @@
-intro se posouvá samo, ne klikáním
+intro ať se posouvá samo, ne klikáním
 restart restartuje od puzzlu, ne od intra
-lepší vizuál dialogu s fotkou + text
-critters a circles - vsechny transparent bez bileho pozadi 
-at jdou critters casteji videt
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 lepší responzivita rozlišení
-design hrací plochy
-
+dialogue: 
+1) Když je text odpovědi dlouhý, tlačítko by se mělo zvýšit, ne rozšířit
+2) Odpovědi by měly být ukotveny na jednom místě a ne dynamické podle délky dialogu
+3) Změnit barvu, velikost etc. fontu
+4) Možná zobrazit fotku které se to týká
+sjednotit intro/difficulty/outro etc design

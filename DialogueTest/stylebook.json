@@ -1,0 +1,13 @@
+{
+  "default": {
+	"theme": "res://DialogueTest/dialogue_default.tres"
+  },
+  "angry": {
+	"theme": "res://themes/dialogue_angry.tres",
+	"body_color": "#ff5050"
+  },
+  "quiet": {
+	"theme": "res://themes/dialogue_quiet.tres",
+	"body_font_size": 18
+  }
+}
