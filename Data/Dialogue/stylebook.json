@@ -1,6 +1,6 @@
 {
   "default": {
-	"theme": "res://DialogueTest/dialogue_default.tres"
+        "theme": "res://Scenes/Overlays/dialogue_default.tres"
   },
   "angry": {
 	"theme": "res://themes/dialogue_angry.tres",
