@@ -47,7 +47,7 @@ const TAPE_TEXTURES : Array[Texture2D] = [
 #  Ready
 # ───────────────────────────
 func _ready() -> void:
-        set_pickable(true)
+		set_pickable(true)
 
 # ───────────────────────────
 #  Input (drag / drop)
@@ -112,23 +112,17 @@ func _sprite_contains_screen_point(ph: Photo, screen_pt: Vector2) -> bool:
 func _try_snap() -> void:
 	var slot : Area2D = _nearest_slot()
 	if slot == null:
-		if DEBUG: print("[Photo] ⨯ no nearby slot – pos=", global_position)
 		return
 	if slot.slot_idx not in allowed_slots:
-		if DEBUG: print("[Photo] ⨯ slot not allowed idx=", slot.slot_idx, " allowed=", allowed_slots)
 		return
 
 	var mem_id : String = MemoryPool.table.slot_to_memory_id[slot.slot_idx]
 	if not MemoryPool.is_free(mem_id):
-		if DEBUG: print("[Photo] ⨯ memory already used id=", mem_id)
 		return
 
 	var dist : float = global_position.distance_to(slot.global_position)
 	if dist > snap_radius:
-		if DEBUG: print("[Photo] ⨯ too far dist=", dist, " radius=", snap_radius)
 		return
-
-	if DEBUG: print("[Photo] ✓ snap OK slot=", slot.slot_idx, " mem=", mem_id)
 	_snap_to_slot(slot, mem_id)
 
 func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
@@ -148,18 +142,11 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 # ───────────────────────────
 func _start_dialogue_if_possible() -> void:
 	if dialog_id == "":
-		if DEBUG: print("[Photo] (no dialog_id set) – skip")
 		return
 	if Engine.is_editor_hint():
-		if DEBUG: print("[Photo] editor hint – skip dialogue")
 		return
-
-		if not is_instance_valid(DialogueManager):
-				push_warning("[Photo] DialogueManager autoload not found")
-				return
-		if not DialogueManager.has_method("start"):
-				push_warning("[Photo] DialogueManager is missing method 'start(String)'")
-				return
+	if not DialogueManager.has_method("start"):
+			return
 	DialogueManager.start(dialog_id)
 # ───────────────────────────
 #  Helpers

@@ -10,5 +10,3 @@ This folder contains core gameplay scenes.
 - `River.tscn` – stage 4 cleanup area where completed photos are discarded.
 - `Critters/` – collection of creature scenes used during the first stage.
 - `Overlays/` – UI panels such as introduction and difficulty selection.
-
-Legacy scenes `MemoryCircle.tscn` and `Critter.tscn` were removed as unused.

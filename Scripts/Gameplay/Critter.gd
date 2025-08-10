@@ -108,18 +108,7 @@ func _trigger() -> void:
 	label.hide()
 	sprite.animation_finished.connect(_on_trigger_anim_finished, CONNECT_ONE_SHOT)
 
-	if one_liner_id == "":
-		if DEBUG: print("[Critter] (no one_liner_id) – only play trigger anim")
-		return
-
-		if not is_instance_valid(DialogueManager):
-				push_warning("[Critter] DialogueManager autoload not found")
-				return
-		if not DialogueManager.has_method("start"):
-				push_warning("[Critter] DialogueManager is missing method 'start(String)'")
-				return
 	# Connect to know when dialogue ends (one-shot).
-	if DEBUG: print("[Critter] → starting one-liner id='", one_liner_id, "'")
 	DialogueManager.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
 	DialogueManager.start(one_liner_id)
 
@@ -133,7 +122,6 @@ func _on_dialogue_finished(last_id: String) -> void:
 	# Ignore unrelated dialogues if multiple critters/photos can trigger
 	if last_id != one_liner_id:
 		return
-	if DEBUG: print("[Critter] dialogue finished id='", last_id, "'")
 	_triggered = false
 	sprite.play("move")
 	emit_signal("dialogue_done")

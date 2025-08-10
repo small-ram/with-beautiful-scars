@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dmphyegaj2je4" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
-[ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]
+[ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Data/SlotConfigs/easy_memory_table.tres" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/crib.jpg" id="3_2e00o"]
 [ext_resource type="PackedScene" uid="uid://bvc3anuilxmgo" path="res://Scenes/Overlays/MidStagePanel.tscn" id="3_frkhe"]

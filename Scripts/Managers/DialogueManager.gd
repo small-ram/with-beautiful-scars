@@ -1,6 +1,5 @@
 # File: DialogueManager.gd (autoload)
 # Godot 4.4
-
 extends Node
 
 signal dialogue_started(id: String)
@@ -10,8 +9,7 @@ signal choice_made(id: String, choice_index: int, next_id: String)
 signal dialogue_finished(last_id: String)
 signal dialogue_closed(id: String) # legacy alias
 
-@export var dialogue_ui_scene: PackedScene = preload("res://DialogueTest/DialogueLayer.tscn")
-
+@export var dialogue_ui_scene: PackedScene = preload("res://Scenes/DialogueLayer.tscn")
 @export var search_dirs: PackedStringArray = [
 	"res://Data/Dialogue/Photos",
 	"res://Data/Dialogue/Critters",
