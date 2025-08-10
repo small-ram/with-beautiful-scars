@@ -112,18 +112,10 @@ func _trigger() -> void:
 		if DEBUG: print("[Critter] (no one_liner_id) – only play trigger anim")
 		return
 
-	var dm : Node = get_tree().get_root().get_node_or_null("DialogueManager")
-	if dm == null:
-		push_warning("[Critter] DialogueManager autoload not found at /root/DialogueManager")
-		return
-	if not dm.has_method("start"):
-		push_warning("[Critter] DialogueManager is missing method 'start(String)'")
-		return
-
-	# Connect to know when dialogue ends (one-shot).
-	if DEBUG: print("[Critter] → starting one-liner id='", one_liner_id, "'")
-	dm.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
-	dm.call("start", one_liner_id)
+        # Connect to know when dialogue ends (one-shot).
+        if DEBUG: print("[Critter] → starting one-liner id='", one_liner_id, "'")
+        DialogueManager.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
+        DialogueManager.start(one_liner_id)
 
 func _on_trigger_anim_finished(_anim:String) -> void:
 	# If dialogue did not run, allow movement again
