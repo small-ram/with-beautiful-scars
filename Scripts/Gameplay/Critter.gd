@@ -16,7 +16,7 @@ var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _action_name : String
 var _triggered   : bool = false
-const DEBUG := true
+const DEBUG := OS.is_debug_build()
 
 # ───────── READY ─────────
 func _ready() -> void:

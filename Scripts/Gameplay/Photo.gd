@@ -32,7 +32,7 @@ var is_sealed : bool    = false
 static var current_drag    : Photo = null                # exclusive-drag lock
 static var _unused_tapes   : Array[Texture2D] = []       # shared between all photos
 
-const DEBUG := true
+const DEBUG := OS.is_debug_build()
 
 # tape pool  (add the exact filenames you have in Assets/Tape/)
 const TAPE_TEXTURES : Array[Texture2D] = [
