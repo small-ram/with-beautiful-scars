@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpuigb3va2qkd"]
 
-[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://DialogueTest/dialogue_default.tres" id="1_dhyk3"]
-[ext_resource type="Script" uid="uid://c0x1abl8v6380" path="res://DialogueTest/DialogueUI.gd" id="1_g87dj"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Data/Dialogue/dialogue_default.tres" id="1_dhyk3"]
+[ext_resource type="Script" uid="uid://c0x1abl8v6380" path="res://Scripts/UI/DialogueUI.gd" id="1_g87dj"]
 [ext_resource type="Texture2D" uid="uid://cw73txgkbugfh" path="res://Assets/dark-texture-background.jpg" id="3_3r4kx"]
 
 [node name="DialogueLayer" type="CanvasLayer"]
