@@ -16,7 +16,6 @@ signal drag_ended(photo)
 @export var memory_id      : String           = ""
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
-@export_node_path("Node2D") var origin_path  : NodePath
 
 # ───────────────────────────
 #  Internal state
@@ -27,7 +26,6 @@ var _dragging : bool    = false
 var _drag_off : Vector2
 var _snapped  : bool    = false
 var _in_hand  : bool    = false
-var is_sealed : bool    = false
 
 static var current_drag    : Photo = null                # exclusive-drag lock
 static var _unused_tapes   : Array[Texture2D] = []       # shared between all photos
@@ -189,7 +187,7 @@ func _find_slot_by_idx(idx: int) -> Area2D:
 	return null
 
 # ───────────────────────────
-#  Cleanup & seal
+#  Cleanup
 # ───────────────────────────
 func unlock_for_cleanup() -> void:
 	if not _snapped:
@@ -211,8 +209,5 @@ func _attach_random_tape() -> void:
 	add_child(tape)
 
 	var half_h : float = sprite.texture.get_height() * sprite.scale.y * 0.5
-	tape.position = Vector2(0, -half_h)
+        tape.position = Vector2(0, -half_h)
 
-func _on_seal(_p: Photo) -> void:
-	is_sealed = true
-	_attach_random_tape()
