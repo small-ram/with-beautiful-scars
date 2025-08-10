@@ -3,7 +3,7 @@ extends Node
 #
 # Flow summary
 #   • parent / difficulty   (unchanged)
-#   • Stage 1  – 6 photos snapped AND 6 critter dialogues done
+#   • Stage 1  – 6 photos snapped AND CRITTERS.size() critter dialogues done
 #   • Stage 2  – mid panel → woman photo
 #   • Stage 3  – woman shrinks to marker, fetus spawns at FetusSpawn
 #               click fetus → centre + heartbeat + dialogue
@@ -144,8 +144,8 @@ func _on_photo_snapped(_p, _slot) -> void:
 	_check_stage1_done()
 
 func _check_stage1_done() -> void:
-	if snaps_done == photos_total and critters_done == 6 and _current_critter == null:
-		_enter_stage2()
+        if snaps_done == photos_total and critters_done == CRITTERS.size() and _current_critter == null:
+                _enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:
