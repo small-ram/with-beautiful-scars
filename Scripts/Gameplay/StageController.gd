@@ -194,7 +194,7 @@ func _enter_stage4() -> void:
 # ──────── OUTRO ────────
 func _enter_end() -> void:
 	stage = Stage.END
-	DialogueManager.load_tree("outro")
+	DialogueManager.start("outro")
 
 # ──────── helpers ────────
 func _clear_overlay() -> void:

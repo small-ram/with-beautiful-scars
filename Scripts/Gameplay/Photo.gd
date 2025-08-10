@@ -157,16 +157,14 @@ func _start_dialogue_if_possible() -> void:
 		if DEBUG: print("[Photo] editor hint – skip dialogue")
 		return
 
-	var dm : Node = get_tree().get_root().get_node_or_null("DialogueManager")
-	if dm == null:
-		push_warning("[Photo] DialogueManager autoload not found at /root/DialogueManager")
-		return
-	if not dm.has_method("start"):
-		push_warning("[Photo] DialogueManager is missing method 'start(String)'")
-		return
-
+        if not is_instance_valid(DialogueManager):
+                push_warning("[Photo] DialogueManager autoload not found")
+                return
+        if not DialogueManager.has_method("start"):
+                push_warning("[Photo] DialogueManager is missing method 'start(String)'")
+                return
 	if DEBUG: print("[Photo] → starting dialogue id='", dialog_id, "'")
-	dm.call("start", dialog_id)
+        DialogueManager.start(dialog_id)
 
 # ───────────────────────────
 #  Helpers
