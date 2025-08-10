@@ -109,15 +109,15 @@ func _on_diff_selected(easy:bool) -> void:
 	intro.intro_finished.connect(_enter_stage1)
 
 func _apply_slot_cfg(path:String) -> void:
-        if path.is_empty() or not FileAccess.file_exists(path):
-                return
-        var j := JSON.new()
-        if j.parse(FileAccess.get_file_as_string(path)) != OK:
-                return
-        for n in j.data:
-                var ph := get_tree().current_scene.find_child(n, true, false)
-                if ph:
-                        ph.allowed_slots = PackedInt32Array(j.data[n])
+		if path.is_empty() or not FileAccess.file_exists(path):
+				return
+		var j := JSON.new()
+		if j.parse(FileAccess.get_file_as_string(path)) != OK:
+				return
+		for n in j.data:
+				var ph := get_tree().current_scene.find_child(n, true, false)
+				if ph:
+						ph.allowed_slots = PackedInt32Array(j.data[n])
 
 # ──────── STAGE 1 ────────
 func _enter_stage1() -> void:

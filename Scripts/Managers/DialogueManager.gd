@@ -235,4 +235,3 @@ func _dismiss_ui() -> void:
 			(_ui_host as CanvasItem).visible = false
 		else:
 			_ui_host.set("visible", false)
-
