@@ -49,8 +49,7 @@ const TAPE_TEXTURES : Array[Texture2D] = [
 #  Ready
 # ───────────────────────────
 func _ready() -> void:
-	set_pickable(true)
-	add_to_group("photos")
+        set_pickable(true)
 
 # ───────────────────────────
 #  Input (drag / drop)
