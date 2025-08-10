@@ -113,5 +113,5 @@ func _transform_phrase(idx:int) -> void:
 	var overlay := _container.get_child(idx).get_node("CrackOverlay") as CanvasItem
 	overlay.visible = true
 
-	if !_transformed.has(0):                      # all done
+	if _transformed.count(0) == 0:			# all done
 		all_words_transformed.emit()
