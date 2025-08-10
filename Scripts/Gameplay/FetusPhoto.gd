@@ -24,7 +24,7 @@ func _move_to_center_and_talk() -> void:
 	   .set_trans(Tween.TRANS_SINE)
 	await tw.finished
 
-	DialogueManager.start(dialog_id)
+	DialogueManager.load_tree(dialog_id)
 	DialogueManager.dialogue_closed.connect(_on_dialogue_closed, CONNECT_ONE_SHOT)
 
 func _on_dialogue_closed(_id:String) -> void:
