@@ -144,7 +144,7 @@ func _on_photo_snapped(_p, _slot) -> void:
 	_check_stage1_done()
 
 func _check_stage1_done() -> void:
-	if snaps_done == photos_total and critters_done == 6 and _current_critter == null:
+	if snaps_done == photos_total and critters_done == CRITTERS.size() and _current_critter == null:
 		_enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
