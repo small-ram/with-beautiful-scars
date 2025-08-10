@@ -23,10 +23,6 @@ position = Vector2(5.24196, 2.99539)
 scale = Vector2(0.464825, 0.453405)
 polygon = PackedVector2Array(-730, -960, -730, 960, 730, 960, 730, -960)
 
-[node name="PhrasesContainer" type="Node2D" parent="." groups=["non_discardable"]]
-z_index = 3
-metadata/_edit_use_anchors_ = true
-
 [node name="ShardContainer" type="Node2D" parent="."]
 
 [node name="Shard" type="Area2D" parent="ShardContainer"]
