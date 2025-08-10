@@ -139,6 +139,12 @@ func _on_dialogue_finished(last_id: String) -> void:
 	_triggered = false
 	sprite.play("move")
 	emit_signal("dialogue_done")
+	if InputMap.has_action(_action_name):
+		InputMap.erase_action(_action_name)
+
+func _exit_tree() -> void:
+	if InputMap.has_action(_action_name):
+		InputMap.erase_action(_action_name)
 
 # ───────── DEBUG DRAW ─────────
 func _draw() -> void:
