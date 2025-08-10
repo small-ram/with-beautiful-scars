@@ -29,10 +29,8 @@ func _ready() -> void:
 	_transformed.resize(_phrases.size())
 
 	for i in range(_container.get_child_count()):
-		var shard : Area2D = _container.get_child(i)
-		shard.area_entered.connect(_on_shard_entered.bind(i))
-		shard.area_exited .connect(_on_shard_exited .bind(i))
-		shard.input_event .connect(_on_shard_input  .bind(i))
+                var shard : Area2D = _container.get_child(i)
+                shard.input_event.connect(_on_shard_input.bind(i))
 
 		var overlay := shard.get_node("CrackOverlay") as CanvasItem
 		overlay.visible = false
@@ -91,15 +89,11 @@ func _process(_delta:float) -> void:
 		lbl.visible      = t > 0.05
 		lbl.scale        = Vector2.ONE * lerp(1.0, hover_scale_factor, t)
 		lbl.modulate     = base_tint.lerp(hover_tint, t)
-		lbl.modulate.a   = t * fade_strength
-
-# ───────────── shard callbacks ─────────────
-func _on_shard_entered(_area:Area2D, _idx:int) -> void: pass
-func _on_shard_exited (_area:Area2D, _idx:int) -> void: pass
+                lbl.modulate.a   = t * fade_strength
 
 func _on_shard_input(_vp, event:InputEvent, _shape_idx:int, idx:int) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		_transform_phrase(idx)
+        if event is InputEventMouseButton and event.pressed:
+                _transform_phrase(idx)
 
 # ────────────────────────────────────────────────
 func _transform_phrase(idx:int) -> void:
