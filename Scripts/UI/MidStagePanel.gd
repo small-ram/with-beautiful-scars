@@ -1,5 +1,7 @@
 extends "res://Scripts/UI/TextSequencePanel.gd"
 
-var lines : Array[String] = [
-        "Now She is ready to hear your part of the story."
+var LINES : Array[String] = [
+		"Now She is ready to hear your part of the story."
 ]
+func _init() -> void:
+		lines = LINES

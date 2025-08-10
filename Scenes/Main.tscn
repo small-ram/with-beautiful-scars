@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bfqu87r1mfsng"]
 
-[ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
+[ext_resource type="Script" uid="uid://dmphyegaj2je4" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
 [ext_resource type="PackedScene" uid="uid://bddvg8vbm4gev" path="res://Scenes/Overlays/WomanLeadInPanel.tscn" id="2_frkhe"]
 [ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]

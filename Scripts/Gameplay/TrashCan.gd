@@ -14,21 +14,20 @@ func _on_area_entered(a: Area2D) -> void:
 		_inside.append(a)
 
 func _on_area_exited(a: Area2D) -> void:
-        _inside.erase(a)
-
-func _is_photo_dragging(area: Area2D) -> bool:
-        return area.has_method("is_in_hand") and area.is_in_hand()
+	_inside.erase(a)
 
 func _physics_process(_delta: float) -> void:
-        # delete any photo that is inside AND no longer being dragged
-        for p in _inside.duplicate():
-                if not p.is_in_group("gold"):               # new guard
-                        continue
-                var is_dragging: bool = _is_photo_dragging(p)
+	# delete any photo that is inside AND no longer being dragged
+	for p in _inside.duplicate():
+		if not p.is_in_group("gold"):               # new guard
+			continue
+		var dragging: bool = false                 # ← typed
+		if p.has_method("is_in_hand"):
+			dragging = p.is_in_hand()
 
-                if not is_dragging and p.is_inside_tree():
-                        p.queue_free()
-                        _inside.erase(p)
+		if not dragging and p.is_inside_tree():
+			p.queue_free()
+			_inside.erase(p)
 
 	if _all_cleared():
 		cleanup_complete.emit()

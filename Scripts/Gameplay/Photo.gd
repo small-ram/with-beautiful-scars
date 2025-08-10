@@ -209,5 +209,4 @@ func _attach_random_tape() -> void:
 	add_child(tape)
 
 	var half_h : float = sprite.texture.get_height() * sprite.scale.y * 0.5
-        tape.position = Vector2(0, -half_h)
-
+	tape.position = Vector2(0, -half_h)
