@@ -81,9 +81,9 @@ func _ready() -> void:
 	overlay.add_child(parent)
 	parent.parent_chosen.connect(_on_parent_decided)
 
-        for ph in get_tree().get_nodes_in_group("photos"):
-                photos_total += 1
-                ph.dialogue_done.connect(_on_photo_dialogue_done)
+	for ph in get_tree().get_nodes_in_group("photos"):
+		photos_total += 1
+		ph.dialogue_done.connect(_on_photo_dialogue_done)
 
 # ──────── PARENT / DIFFICULTY ────────
 func _on_parent_decided(is_parent:bool) -> void:
@@ -121,12 +121,12 @@ func _apply_slot_cfg(path:String) -> void:
 
 # ──────── STAGE 1 ────────
 func _enter_stage1() -> void:
-        stage = Stage.STAGE1
-        gameplay.visible = true
-        CircleBank.reset_all(); CircleBank.show_bank()
-        photo_dialogues_done = 0; critters_done = 0
-        _queue = CRITTERS.duplicate(); _queue.shuffle()
-        _spawn_next_critter()
+		stage = Stage.STAGE1
+		gameplay.visible = true
+		CircleBank.reset_all(); CircleBank.show_bank()
+		photo_dialogues_done = 0; critters_done = 0
+		_queue = CRITTERS.duplicate(); _queue.shuffle()
+		_spawn_next_critter()
 
 func _spawn_next_critter() -> void:
 	if _current_critter: _current_critter.queue_free()
@@ -144,13 +144,13 @@ func _on_critter_done() -> void:
 	_check_stage1_done()
 
 func _on_photo_dialogue_done(_p) -> void:
-        if stage != Stage.STAGE1: return
-        photo_dialogues_done += 1
-        _check_stage1_done()
+		if stage != Stage.STAGE1: return
+		photo_dialogues_done += 1
+		_check_stage1_done()
 
 func _check_stage1_done() -> void:
-        if photo_dialogues_done == photos_total and critters_done == CRITTERS.size() and _current_critter == null:
-                _enter_stage2()
+		if photo_dialogues_done == photos_total and critters_done == CRITTERS.size() and _current_critter == null:
+				_enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:

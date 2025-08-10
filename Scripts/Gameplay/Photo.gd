@@ -130,31 +130,31 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 	set_pickable(false)
 
 	MemoryPool.claim(mem_id)
-        _attach_random_tape()
-        emit_signal("snapped", self, slot)
-        AudioManager.play_sfx("photoSnap")
+	_attach_random_tape()
+	emit_signal("snapped", self, slot)
+	AudioManager.play_sfx("photoSnap")
 
-        _start_dialogue_if_possible()
+	_start_dialogue_if_possible()
 
 # ───────────────────────────
 #  Dialogue trigger
 # ───────────────────────────
 func _start_dialogue_if_possible() -> void:
-        if dialog_id == "":
-                return
-        if Engine.is_editor_hint():
-                return
-        if not DialogueManager.has_method("start"):
-                        return
-        DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
-        DialogueManager.start(dialog_id)
+	if dialog_id == "":
+			return
+	if Engine.is_editor_hint():
+			return
+	if not DialogueManager.has_method("start"):
+					return
+	DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
+	DialogueManager.start(dialog_id)
 
 func _on_dialogue_finished(last_id: String) -> void:
-        if last_id != dialog_id:
-                return
-        if DialogueManager.dialogue_finished.is_connected(_on_dialogue_finished):
-                DialogueManager.dialogue_finished.disconnect(_on_dialogue_finished)
-        emit_signal("dialogue_done", self)
+		if last_id != dialog_id:
+				return
+		if DialogueManager.dialogue_finished.is_connected(_on_dialogue_finished):
+				DialogueManager.dialogue_finished.disconnect(_on_dialogue_finished)
+		emit_signal("dialogue_done", self)
 # ───────────────────────────
 #  Helpers
 # ───────────────────────────
