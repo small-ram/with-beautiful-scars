@@ -178,6 +178,12 @@ func _nearest_slot() -> Area2D:
 				best   = s
 	return best
 
+func _find_slot_by_idx(idx: int) -> Area2D:
+	for s in get_tree().get_nodes_in_group("memory_slots"):
+		if s.slot_idx == idx:
+			return s
+	return null
+
 # ───────────────────────────
 #  Cleanup
 # ───────────────────────────
