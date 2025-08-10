@@ -20,6 +20,7 @@ var _stylebook: Dictionary = {}
 var _button_theme_path: String = ""
 var _theme_cache: Dictionary = {}  # path -> Theme
 
+
 func _ready() -> void:
 	add_to_group("dialogue_ui")
 	if is_instance_valid(DialogueManager):
@@ -27,20 +28,32 @@ func _ready() -> void:
 	_autowire_nodes()
 	_stylebook = _load_json(stylebook_path)
 
+
 # ---------- Node wiring ----------
 func _autowire_nodes() -> void:
-	if body_path != NodePath():      _body       = get_node_or_null(body_path) as RichTextLabel
-	if choice_path != NodePath():    _choice_box = get_node_or_null(choice_path) as VBoxContainer
-	if portrait_path != NodePath():  _portrait   = get_node_or_null(portrait_path) as TextureRect
-	if anim_path != NodePath():      _anim       = get_node_or_null(anim_path) as AnimationPlayer
-	if hover_path != NodePath():     _hover_snd  = get_node_or_null(hover_path)
+	if body_path != NodePath():
+		_body = get_node_or_null(body_path) as RichTextLabel
+	if choice_path != NodePath():
+		_choice_box = get_node_or_null(choice_path) as VBoxContainer
+	if portrait_path != NodePath():
+		_portrait = get_node_or_null(portrait_path) as TextureRect
+	if anim_path != NodePath():
+		_anim = get_node_or_null(anim_path) as AnimationPlayer
+	if hover_path != NodePath():
+		_hover_snd = get_node_or_null(hover_path)
 
 	if _body == null:
-		_body = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/BodyLabel") as RichTextLabel
+		_body = (
+			get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/BodyLabel") as RichTextLabel
+		)
 	if _choice_box == null:
-		_choice_box = get_node_or_null("Backplate/Content/BodyAndChoices/ChoiceBox") as VBoxContainer
+		_choice_box = (
+			get_node_or_null("Backplate/Content/BodyAndChoices/ChoiceBox") as VBoxContainer
+		)
 	if _portrait == null:
-		_portrait = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/Portrait") as TextureRect
+		_portrait = (
+			get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/Portrait") as TextureRect
+		)
 	if _anim == null:
 		_anim = get_node_or_null("../AnimationPlayer") as AnimationPlayer
 	if _hover_snd == null:
@@ -64,6 +77,7 @@ func _autowire_nodes() -> void:
 	if _portrait == null:
 		_portrait = _find_first_of_type(self, "TextureRect") as TextureRect
 
+
 func _find_first_of_type(root: Node, type_name: String) -> Node:
 	for c: Node in root.get_children():
 		if c.get_class() == type_name:
@@ -72,6 +86,7 @@ func _find_first_of_type(root: Node, type_name: String) -> Node:
 		if n != null:
 			return n
 	return null
+
 
 # ---------- Public API ----------
 func show_line(data: Dictionary) -> void:
@@ -121,6 +136,7 @@ func show_line(data: Dictionary) -> void:
 	if _anim != null and _anim.has_animation("FadeIn"):
 		_anim.play("FadeIn")
 
+
 # ---------- Choices ----------
 func _clear_choices() -> void:
 	if _choice_box == null:
@@ -129,6 +145,7 @@ func _clear_choices() -> void:
 	for c: Node in children:
 		_choice_box.remove_child(c)  # immediate removal so child count is updated now
 		c.queue_free()
+
 
 func _add_choice_button(index: int, label_text: String) -> void:
 	var b: Button = Button.new()
@@ -150,6 +167,7 @@ func _add_choice_button(index: int, label_text: String) -> void:
 
 	_choice_box.add_child(b)
 
+
 func _add_continue_button() -> void:
 	var b: Button = Button.new()
 	b.text = "Continue"
@@ -163,13 +181,16 @@ func _add_continue_button() -> void:
 	_choice_box.add_child(b)
 	b.grab_focus()
 
+
 func _on_continue_pressed() -> void:
 	if is_instance_valid(DialogueManager):
 		DialogueManager.advance()
 
+
 func _on_btn_pressed(index: int) -> void:
 	if is_instance_valid(DialogueManager):
 		DialogueManager.choose(index)
+
 
 func _on_btn_hovered() -> void:
 	if _hover_snd != null and hover_sfx != null:
@@ -187,12 +208,14 @@ func _on_btn_hovered() -> void:
 	if _anim != null and _anim.has_animation("ChoiceHoverPulse"):
 		_anim.play("ChoiceHoverPulse")
 
+
 # ---------- Styling ----------
 func _resolve_style(line: Dictionary) -> Dictionary:
 	var style_key: String = str(line.get("style", "default"))
 	var def_any: Variant = _stylebook.get("default", {})
 	var st_any: Variant = _stylebook.get(style_key, def_any)
 	return (st_any as Dictionary) if (st_any is Dictionary) else {}
+
 
 func _apply_style(style: Dictionary) -> void:
 	var theme_path_s: String = str(style.get("theme", ""))
@@ -214,6 +237,7 @@ func _apply_style(style: Dictionary) -> void:
 
 	_button_theme_path = str(style.get("button_theme", ""))
 
+
 func _get_theme(path: String) -> Theme:
 	if path == "":
 		return null
@@ -227,6 +251,7 @@ func _get_theme(path: String) -> Theme:
 	_theme_cache[path] = th
 	return th
 
+
 # ---------- JSON utils ----------
 func _load_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
@@ -238,6 +263,7 @@ func _load_json(path: String) -> Dictionary:
 	f.close()
 	var parsed_any: Variant = JSON.parse_string(txt)
 	return (parsed_any as Dictionary) if (parsed_any is Dictionary) else {}
+
 
 func _current_button_theme_path() -> String:
 	return _button_theme_path
