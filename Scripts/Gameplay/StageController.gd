@@ -21,7 +21,6 @@ extends Node
 @export_node_path("Marker2D") 	var fetus_centre_path : NodePath
 @export_node_path("Marker2D")    var woman_target_path  : NodePath
 
-@export var woman_lead_in_scene : PackedScene
 @export var mid_stage_panel     : PackedScene               # “Now she is ready …”
 @export var memory_table        : MemoryTable
 @export var alt_intro_scene     : PackedScene
