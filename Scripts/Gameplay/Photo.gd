@@ -32,7 +32,6 @@ var is_sealed : bool    = false
 static var current_drag    : Photo = null                # exclusive-drag lock
 static var _unused_tapes   : Array[Texture2D] = []       # shared between all photos
 
-const DEBUG := true
 
 # tape pool  (add the exact filenames you have in Assets/Tape/)
 const TAPE_TEXTURES : Array[Texture2D] = [
@@ -115,23 +114,23 @@ func _sprite_contains_screen_point(ph: Photo, screen_pt: Vector2) -> bool:
 func _try_snap() -> void:
 	var slot : Area2D = _nearest_slot()
 	if slot == null:
-		if DEBUG: print("[Photo] ⨯ no nearby slot – pos=", global_position)
+		if OS.is_debug_build(): print("[Photo] ⨯ no nearby slot – pos=", global_position)
 		return
 	if slot.slot_idx not in allowed_slots:
-		if DEBUG: print("[Photo] ⨯ slot not allowed idx=", slot.slot_idx, " allowed=", allowed_slots)
+		if OS.is_debug_build(): print("[Photo] ⨯ slot not allowed idx=", slot.slot_idx, " allowed=", allowed_slots)
 		return
 
 	var mem_id : String = MemoryPool.table.slot_to_memory_id[slot.slot_idx]
 	if not MemoryPool.is_free(mem_id):
-		if DEBUG: print("[Photo] ⨯ memory already used id=", mem_id)
+		if OS.is_debug_build(): print("[Photo] ⨯ memory already used id=", mem_id)
 		return
 
 	var dist : float = global_position.distance_to(slot.global_position)
 	if dist > snap_radius:
-		if DEBUG: print("[Photo] ⨯ too far dist=", dist, " radius=", snap_radius)
+		if OS.is_debug_build(): print("[Photo] ⨯ too far dist=", dist, " radius=", snap_radius)
 		return
 
-	if DEBUG: print("[Photo] ✓ snap OK slot=", slot.slot_idx, " mem=", mem_id)
+	if OS.is_debug_build(): print("[Photo] ✓ snap OK slot=", slot.slot_idx, " mem=", mem_id)
 	_snap_to_slot(slot, mem_id)
 
 func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
@@ -151,10 +150,10 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 # ───────────────────────────
 func _start_dialogue_if_possible() -> void:
 	if dialog_id == "":
-		if DEBUG: print("[Photo] (no dialog_id set) – skip")
+		if OS.is_debug_build(): print("[Photo] (no dialog_id set) – skip")
 		return
 	if Engine.is_editor_hint():
-		if DEBUG: print("[Photo] editor hint – skip dialogue")
+		if OS.is_debug_build(): print("[Photo] editor hint – skip dialogue")
 		return
 
 	var dm : Node = get_tree().get_root().get_node_or_null("DialogueManager")
@@ -165,7 +164,7 @@ func _start_dialogue_if_possible() -> void:
 		push_warning("[Photo] DialogueManager is missing method 'start(String)'")
 		return
 
-	if DEBUG: print("[Photo] → starting dialogue id='", dialog_id, "'")
+	if OS.is_debug_build(): print("[Photo] → starting dialogue id='", dialog_id, "'")
 	dm.call("start", dialog_id)
 
 # ───────────────────────────

@@ -16,7 +16,6 @@ var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _action_name : String
 var _triggered   : bool = false
-const DEBUG := true
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -109,7 +108,7 @@ func _trigger() -> void:
 	sprite.animation_finished.connect(_on_trigger_anim_finished, CONNECT_ONE_SHOT)
 
 	if one_liner_id == "":
-		if DEBUG: print("[Critter] (no one_liner_id) – only play trigger anim")
+		if OS.is_debug_build(): print("[Critter] (no one_liner_id) – only play trigger anim")
 		return
 
 	var dm : Node = get_tree().get_root().get_node_or_null("DialogueManager")
@@ -121,7 +120,7 @@ func _trigger() -> void:
 		return
 
 	# Connect to know when dialogue ends (one-shot).
-	if DEBUG: print("[Critter] → starting one-liner id='", one_liner_id, "'")
+	if OS.is_debug_build(): print("[Critter] → starting one-liner id='", one_liner_id, "'")
 	dm.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
 	dm.call("start", one_liner_id)
 
@@ -135,7 +134,7 @@ func _on_dialogue_finished(last_id: String) -> void:
 	# Ignore unrelated dialogues if multiple critters/photos can trigger
 	if last_id != one_liner_id:
 		return
-	if DEBUG: print("[Critter] dialogue finished id='", last_id, "'")
+	if OS.is_debug_build(): print("[Critter] dialogue finished id='", last_id, "'")
 	_triggered = false
 	sprite.play("move")
 	emit_signal("dialogue_done")
