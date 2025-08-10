@@ -5,7 +5,7 @@ signal dialog_done
 @export var dialog_id  : String = "fetus_dialog"
 @export var center_pos : Vector2                 # set by StageController
 
-@onready var _clicked : bool = false
+var _clicked : bool = false
 
 func _ready() -> void:
 	input_pickable = true                        # receive mouse clicks
