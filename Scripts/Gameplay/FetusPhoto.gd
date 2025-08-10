@@ -3,7 +3,7 @@ extends Area2D
 signal dialog_done
 
 @export var dialog_id  : String = "fetus_dialog"
-@export var center_pos : Vector2                 # set by StageController
+@export var center_pos : Vector2                 # set by FetusStage
 
 @onready var _clicked : bool = false
 

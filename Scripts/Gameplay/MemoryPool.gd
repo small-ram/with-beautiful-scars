@@ -2,10 +2,10 @@ extends Node
 # --------------------------------------------------------------------
 #  INTERNAL DATA
 # --------------------------------------------------------------------
-var table : MemoryTable            # will be set from StageController
+var table : MemoryTable            # will be set from StageManager
 var _free : Array = []     # IDs that are still available
 # --------------------------------------------------------------------
-#  INITIALISE FROM STAGECONTROLLER
+#  INITIALISE FROM STAGEMANAGER
 # --------------------------------------------------------------------
 func init_from_table(t : MemoryTable) -> void:
 	table  = t

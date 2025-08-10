@@ -108,7 +108,7 @@ func _reset_all() -> void:
 	for mem_id : String in _icons:
 		_reset_icon(mem_id, _icons[mem_id])
 
-# ───────── API for StageController ─────────
+# ───────── API for StageManager ─────────
 func show_bank():  visible = true
 func hide_bank():  visible = false
 func reset_all() -> void:
