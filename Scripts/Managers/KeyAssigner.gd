@@ -1,4 +1,5 @@
-# res://Scripts/Managers/KeyAssigner.gd
+# Scripts/Managers/KeyAssigner.gd
+# Autoloaded as "KeyAssigner" via project.godot
 extends Node
 
 var _unused_codes : Array[int] = []
