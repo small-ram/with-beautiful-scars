@@ -12,3 +12,4 @@ Thumbs.db
 # Other optional (IDE, temp files)
 *.tmp
 *.log
+*.uid
