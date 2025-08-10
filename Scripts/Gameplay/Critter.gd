@@ -1,22 +1,25 @@
 extends Area2D
 signal dialogue_done
 
-@export var base_action  : String = "critter"
-@export var one_liner_id : String = ""
-@export var move_speed   : float  = 80.0     # px/s
-@export var off_margin   : float  = 64.0     # how far past the edge before flip
-@export var lane_padding : float  = 80.0     # keep lane away from perpendicular edges
-@export var debug_bounds : bool   = false    # draw detected screen rect
-
-@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
-@onready var label  : Label            = $KeyLabel
-@onready var vp     : Viewport         = get_viewport()
-
-var _view : Rect2
-var _dir  : Vector2 = Vector2.ZERO
-var _action_name : String
-var _triggered   : bool = false
 const DEBUG := true
+
+@export var base_action: String = "critter"
+@export var one_liner_id: String = ""
+@export var move_speed: float = 80.0  # px/s
+@export var off_margin: float = 64.0  # how far past the edge before flip
+@export var lane_padding: float = 80.0  # keep lane away from perpendicular edges
+@export var debug_bounds: bool = false  # draw detected screen rect
+
+var _view: Rect2
+var _dir: Vector2 = Vector2.ZERO
+var _action_name: String
+var _keycode: int = -1
+var _triggered: bool = false
+
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var label: Label = $KeyLabel
+@onready var vp: Viewport = get_viewport()
+
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -27,13 +30,16 @@ func _ready() -> void:
 	_spawn_at_random_edge()
 	sprite.play("move")
 
+
 # ───────── VIEW UTIL ─────────
 func _refresh_view_rect() -> void:
 	_view = vp.get_visible_rect()
 	queue_redraw()
 
+
 func _on_viewport_resized() -> void:
 	_refresh_view_rect()
+
 
 # ───────── PHYSICS ─────────
 func _physics_process(delta: float) -> void:
@@ -44,20 +50,25 @@ func _physics_process(delta: float) -> void:
 
 	# Horizontal runs: flip after leaving real L/R by off_margin
 	if _dir.x != 0.0:
-		if (_dir.x > 0.0 and global_position.x > _view.position.x + _view.size.x + off_margin) \
-		or (_dir.x < 0.0 and global_position.x < _view.position.x - off_margin):
+		if (
+			(_dir.x > 0.0 and global_position.x > _view.position.x + _view.size.x + off_margin)
+			or (_dir.x < 0.0 and global_position.x < _view.position.x - off_margin)
+		):
 			_dir.x = -_dir.x
 			_update_facing()
 
 	# Vertical runs: flip after leaving real T/B by off_margin
 	if _dir.y != 0.0:
-		if (_dir.y > 0.0 and global_position.y > _view.position.y + _view.size.y + off_margin) \
-		or (_dir.y < 0.0 and global_position.y < _view.position.y - off_margin):
+		if (
+			(_dir.y > 0.0 and global_position.y > _view.position.y + _view.size.y + off_margin)
+			or (_dir.y < 0.0 and global_position.y < _view.position.y - off_margin)
+		):
 			_dir.y = -_dir.y
 			_update_facing()
 
 	if Input.is_action_just_pressed(_action_name):
 		_trigger()
+
 
 # ───────── SPAWN HELPERS ─────────
 func _spawn_at_random_edge() -> void:
@@ -85,14 +96,17 @@ func _spawn_at_random_edge() -> void:
 
 	_update_facing()
 
+
 # ───────── DIRECTION → SPRITE ORIENT ─────────
 func _update_facing() -> void:
 	# Art faces +Y (up), so rotate dir to that frame
 	sprite.rotation = atan2(_dir.y, _dir.x) - PI / 2
 
+
 # ───────── KEY ASSIGNMENT ─────────
 func _assign_unique_key() -> void:
-	var keycode : int = KeyAssigner.take_free_key()
+	var keycode: int = KeyAssigner.take_free_key()
+	_keycode = keycode
 	_action_name = "%s_%d" % [base_action, keycode]
 	if not InputMap.has_action(_action_name):
 		InputMap.add_action(_action_name)
@@ -100,6 +114,15 @@ func _assign_unique_key() -> void:
 		ev.physical_keycode = keycode
 		InputMap.action_add_event(_action_name, ev)
 	label.text = OS.get_keycode_string(keycode)
+
+
+# ───────── CLEANUP ─────────
+func _exit_tree() -> void:
+	if _keycode != -1:
+		KeyAssigner.return_key(_keycode)
+		if InputMap.has_action(_action_name):
+			InputMap.erase_action(_action_name)
+
 
 # ───────── TRIGGER ─────────
 func _trigger() -> void:
@@ -109,10 +132,11 @@ func _trigger() -> void:
 	sprite.animation_finished.connect(_on_trigger_anim_finished, CONNECT_ONE_SHOT)
 
 	if one_liner_id == "":
-		if DEBUG: print("[Critter] (no one_liner_id) – only play trigger anim")
+		if DEBUG:
+			print("[Critter] (no one_liner_id) – only play trigger anim")
 		return
 
-	var dm : Node = get_tree().get_root().get_node_or_null("DialogueManager")
+	var dm: Node = get_tree().get_root().get_node_or_null("DialogueManager")
 	if dm == null:
 		push_warning("[Critter] DialogueManager autoload not found at /root/DialogueManager")
 		return
@@ -121,29 +145,35 @@ func _trigger() -> void:
 		return
 
 	# Connect to know when dialogue ends (one-shot).
-	if DEBUG: print("[Critter] → starting one-liner id='", one_liner_id, "'")
+	if DEBUG:
+		print("[Critter] → starting one-liner id='", one_liner_id, "'")
 	dm.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
 	dm.call("start", one_liner_id)
 
-func _on_trigger_anim_finished(_anim:String) -> void:
+
+func _on_trigger_anim_finished(_anim: String) -> void:
 	# If dialogue did not run, allow movement again
 	if one_liner_id == "":
 		_triggered = false
 		sprite.play("move")
 
+
 func _on_dialogue_finished(last_id: String) -> void:
 	# Ignore unrelated dialogues if multiple critters/photos can trigger
 	if last_id != one_liner_id:
 		return
-	if DEBUG: print("[Critter] dialogue finished id='", last_id, "'")
+	if DEBUG:
+		print("[Critter] dialogue finished id='", last_id, "'")
 	_triggered = false
 	sprite.play("move")
 	emit_signal("dialogue_done")
 
+
 # ───────── DEBUG DRAW ─────────
 func _draw() -> void:
-	if not debug_bounds: return
-	var local_pos : Vector2 = to_local(_view.position)
-	var r : Rect2 = Rect2(local_pos, _view.size)
-	draw_rect(r, Color(0,1,0,0.15), true)
-	draw_rect(r, Color(0,1,0,0.9), false, 2.0)
+	if not debug_bounds:
+		return
+	var local_pos: Vector2 = to_local(_view.position)
+	var r: Rect2 = Rect2(local_pos, _view.size)
+	draw_rect(r, Color(0, 1, 0, 0.15), true)
+	draw_rect(r, Color(0, 1, 0, 0.9), false, 2.0)
