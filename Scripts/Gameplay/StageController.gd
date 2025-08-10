@@ -62,12 +62,14 @@ var _queue : Array[PackedScene] = []
 var _current_critter : Node = null
 
 # ───────── PRELOADS ─────────
+# Gameplay depends on a few key scenes. These preloads make their
+# responsibilities explicit and avoid repeated disk access during play.
 const PARENT_PANEL     := preload("res://Scenes/Overlays/ParentChoicePanel.tscn")
 const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.tscn")
 const INTRO_PANEL      := preload("res://Scenes/Overlays/IntroPanel.tscn")
-const WOMAN_SCENE      := preload("res://Scenes/WomanPhoto.tscn")
-const FETUS_SCENE      := preload("res://Scenes/FetusPhoto.tscn")
-const RIVER_SCENE      := preload("res://Scenes/River.tscn")  # Area2D with cleanup_complete
+const WOMAN_SCENE      := preload("res://Scenes/WomanPhoto.tscn")   # stage 2 photo of the mother
+const FETUS_SCENE      := preload("res://Scenes/FetusPhoto.tscn")   # stage 3 heartbeat interaction
+const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cleanup area
 
 # ───────── READY ─────────
 func _ready() -> void:
