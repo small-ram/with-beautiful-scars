@@ -182,12 +182,6 @@ func _nearest_slot() -> Area2D:
 				best   = s
 	return best
 
-func _find_slot_by_idx(idx: int) -> Area2D:
-	for s in get_tree().get_nodes_in_group("memory_slots"):
-		if s.slot_idx == idx:
-			return s
-	return null
-
 # ───────────────────────────
 #  Cleanup & seal
 # ───────────────────────────
@@ -212,7 +206,3 @@ func _attach_random_tape() -> void:
 
 	var half_h : float = sprite.texture.get_height() * sprite.scale.y * 0.5
 	tape.position = Vector2(0, -half_h)
-
-func _on_seal(_p: Photo) -> void:
-	is_sealed = true
-	_attach_random_tape()
