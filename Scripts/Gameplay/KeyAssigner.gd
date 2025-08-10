@@ -1,4 +1,4 @@
-# res://Scripts/Managers/KeyAssigner.gd
+# res://Scripts/Gameplay/KeyAssigner.gd
 extends Node
 
 var _unused_codes : Array[int] = []
