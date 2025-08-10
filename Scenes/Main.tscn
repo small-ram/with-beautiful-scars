@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=15 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://b30ch34y64a5c" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
-[ext_resource type="PackedScene" uid="uid://bddvg8vbm4gev" path="res://Scenes/Overlays/WomanLeadInPanel.tscn" id="2_frkhe"]
 [ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Assets/easy_memory_table.tres" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/crib.jpg" id="3_2e00o"]
@@ -30,10 +29,11 @@ river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
 fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
 fetus_centre_path = NodePath("../SpawnPoints/FetusCentre")
 woman_target_path = NodePath("../SpawnPoints/WomanTarget")
-woman_lead_in_scene = ExtResource("2_frkhe")
 mid_stage_panel = ExtResource("3_frkhe")
 memory_table = ExtResource("2_grg3l")
 alt_intro_scene = ExtResource("4_frkhe")
+easy_slots_json = "res://Data/SlotConfigs/easy.json"
+hard_slots_json = "res://Data/SlotConfigs/hard.json"
 
 [node name="Gameplay" type="Node2D" parent="."]
 
