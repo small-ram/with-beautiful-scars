@@ -25,8 +25,8 @@ extends Node
 @export var mid_stage_panel     : PackedScene               # “Now she is ready …”
 @export var memory_table        : MemoryTable
 @export var alt_intro_scene     : PackedScene
-@export var easy_slots_json     : String
-@export var hard_slots_json     : String
+@export var easy_slots_json     : String = "res://Data/SlotConfigs/easy.json"
+@export var hard_slots_json     : String = "res://Data/SlotConfigs/hard.json"
 @export var heartbeat_sfx       : String = "fetusHeartbeat"
 
 # ───────── ONREADY MARKERS ─────────
