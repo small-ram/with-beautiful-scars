@@ -6,7 +6,6 @@ signal dialogue_done
 @export var move_speed   : float  = 80.0     # px/s
 @export var off_margin   : float  = 64.0     # how far past the edge before flip
 @export var lane_padding : float  = 80.0     # keep lane away from perpendicular edges
-@export var debug_bounds : bool   = false    # draw detected screen rect
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var label  : Label            = $KeyLabel
@@ -16,7 +15,6 @@ var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _action_name : String
 var _triggered   : bool = false
-const DEBUG := true
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -125,11 +123,3 @@ func _on_dialogue_finished(last_id: String) -> void:
 	_triggered = false
 	sprite.play("move")
 	emit_signal("dialogue_done")
-
-# ───────── DEBUG DRAW ─────────
-func _draw() -> void:
-	if not debug_bounds: return
-	var local_pos : Vector2 = to_local(_view.position)
-	var r : Rect2 = Rect2(local_pos, _view.size)
-	draw_rect(r, Color(0,1,0,0.15), true)
-	draw_rect(r, Color(0,1,0,0.9), false, 2.0)

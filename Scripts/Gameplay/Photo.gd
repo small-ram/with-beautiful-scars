@@ -30,8 +30,6 @@ var _in_hand  : bool    = false
 static var current_drag    : Photo = null                # exclusive-drag lock
 static var _unused_tapes   : Array[Texture2D] = []       # shared between all photos
 
-const DEBUG := true
-
 # tape pool  (add the exact filenames you have in Assets/Tape/)
 const TAPE_TEXTURES : Array[Texture2D] = [
 	preload("res://Assets/Tape/tape1.png"),
@@ -138,7 +136,7 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 	_start_dialogue_if_possible()
 
 # ───────────────────────────
-#  Dialogue trigger (+ debug)
+#  Dialogue trigger
 # ───────────────────────────
 func _start_dialogue_if_possible() -> void:
 	if dialog_id == "":

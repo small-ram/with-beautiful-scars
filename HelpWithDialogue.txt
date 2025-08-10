@@ -3,33 +3,33 @@ Layer 1 — Visuals via Theme resources (no code, safe)
 Use Godot Themes for colors, fonts, sizes, and button states. This is the cleanest, most maintainable path.
 A) Typography & body text color
 
-    Create a Theme: Project > Tools > Theme Editor → “New Theme” → save e.g. res://Skins/dialogue_theme.tres.
+	Create a Theme: Project > Tools > Theme Editor → “New Theme” → save e.g. res://Skins/dialogue_theme.tres.
 
-    In the Theme panel, add type: RichTextLabel.
+	In the Theme panel, add type: RichTextLabel.
 
-    Add properties:
+	Add properties:
 
-        colors/default_color → set body text color.
+		colors/default_color → set body text color.
 
-        font_sizes/normal_font_size → set body font size.
+		font_sizes/normal_font_size → set body font size.
 
-        (Optional) fonts/normal_font → assign a DynamicFont (e.g., Inter, Noto).
+		(Optional) fonts/normal_font → assign a DynamicFont (e.g., Inter, Noto).
 
-    Assign this Theme to your Dialogue UI:
+	Assign this Theme to your Dialogue UI:
 
-        Either set DialogueUI.theme in the scene, or point your stylebook to it (see Layer 2).
+		Either set DialogueUI.theme in the scene, or point your stylebook to it (see Layer 2).
 
 B) Buttons (normal/hover/pressed)
 
-    In the same Theme, add type: Button.
+	In the same Theme, add type: Button.
 
-    Set:
+	Set:
 
-        colors/font_color, colors/font_hover_color, colors/font_pressed_color.
+		colors/font_color, colors/font_hover_color, colors/font_pressed_color.
 
-        stylebox/normal, stylebox/hover, stylebox/pressed (use StyleBoxFlat for rounded cards with subtle shadow).
+		stylebox/normal, stylebox/hover, stylebox/pressed (use StyleBoxFlat for rounded cards with subtle shadow).
 
-    Save a separate button theme if you want to swap styles per-line: res://Skins/buttons_default.tres.
+	Save a separate button theme if you want to swap styles per-line: res://Skins/buttons_default.tres.
 
 Result: You can change fonts/colors/state styles in one place without touching code or JSON.
 Layer 2 — Declarative “stylebook” (runtime switchable skins)
@@ -39,61 +39,61 @@ Suggested structure (example)
 
 {
   "default": {
-    "theme": "res://Skins/dialogue_theme.tres",
-    "button_theme": "res://Skins/buttons_default.tres",
-    "body_color": "#FFFFFF",
-    "body_font_size": 18,
-    "layout": "right_third",
-    "padding": 24,
-    "portrait_side": "left"
+	"theme": "res://Skins/dialogue_theme.tres",
+	"button_theme": "res://Skins/buttons_default.tres",
+	"body_color": "#FFFFFF",
+	"body_font_size": 18,
+	"layout": "right_third",
+	"padding": 24,
+	"portrait_side": "left"
   },
   "noir": {
-    "theme": "res://Skins/dialogue_theme_noir.tres",
-    "button_theme": "res://Skins/buttons_noir.tres",
-    "body_color": "#EDEDED",
-    "body_font_size": 20,
-    "layout": "right_third_narrow",
-    "padding": 20,
-    "portrait_side": "right"
+	"theme": "res://Skins/dialogue_theme_noir.tres",
+	"button_theme": "res://Skins/buttons_noir.tres",
+	"body_color": "#EDEDED",
+	"body_font_size": 20,
+	"layout": "right_third_narrow",
+	"padding": 20,
+	"portrait_side": "right"
   }
 }
 
 How to use it
 
-    Put this file at res://Data/Dialogue/stylebook.json.
+	Put this file at res://Data/Dialogue/stylebook.json.
 
-    In any dialogue JSON, add "style": "noir" to switch to that profile for just that line/tree.
+	In any dialogue JSON, add "style": "noir" to switch to that profile for just that line/tree.
 
-    You already have DialogueUI.gd reading stylebook_path; the fields theme, button_theme, body_color, body_font_size are applied there.
+	You already have DialogueUI.gd reading stylebook_path; the fields theme, button_theme, body_color, body_font_size are applied there.
 
 What to edit when:
 
-    Change fonts/colors for all dialogues → update the Theme .tres.
+	Change fonts/colors for all dialogues → update the Theme .tres.
 
-    Change per-scene/per-speaker style → add a style key in the stylebook and set "style": "key" in dialogue JSON.
+	Change per-scene/per-speaker style → add a style key in the stylebook and set "style": "key" in dialogue JSON.
 
-    Quick one-off override (e.g., large type for a shout) → use body_font_size in that style.
+	Quick one-off override (e.g., large type for a shout) → use body_font_size in that style.
 
 Layer 3 — Layout knobs (width/position/padding)
 
 You’ve anchored the panel to the right third. You can continue to do that in the scene, or make it data-driven:
 A) Scene-only (fastest)
 
-    Width: Select Backplate and adjust anchor_left (e.g., 0.70 for 30% width).
+	Width: Select Backplate and adjust anchor_left (e.g., 0.70 for 30% width).
 
-    Padding: Select Content MarginContainer and change theme_override_constants/margin_*.
+	Padding: Select Content MarginContainer and change theme_override_constants/margin_*.
 
-    Portrait: Keep custom_minimum_size (e.g., 96×96), stretch_mode=Keep Aspect Centered, and don’t give it expand flags so the label takes the rest.
+	Portrait: Keep custom_minimum_size (e.g., 96×96), stretch_mode=Keep Aspect Centered, and don’t give it expand flags so the label takes the rest.
 
 B) Data-driven (if you expect multiple layouts)
 
 Extend your stylebook with layout keys (e.g., right_third, bottom_banner, center_box), and in DialogueUI.gd add a tiny mapper that sets:
 
-    Backplate anchors (left/right/top/bottom),
+	Backplate anchors (left/right/top/bottom),
 
-    Content padding,
+	Content padding,
 
-    optional ChoiceBox alignment.
+	optional ChoiceBox alignment.
 
 This lets you switch a layout with "layout": "bottom_banner" in JSON without touching the scene. (If you want, I can give you that small mapper later.)
 Layer 4 — Behavior toggles (how it acts)
@@ -101,92 +101,92 @@ Layer 4 — Behavior toggles (how it acts)
 This lives in scripts and is where you decide interactions.
 Common requests & where to change them
 
-    Continue on click anywhere when no choices
-    Add in DialogueUI.gd:
+	Continue on click anywhere when no choices
+	Add in DialogueUI.gd:
 
-    @export var click_to_continue_when_no_choices := true
+	@export var click_to_continue_when_no_choices := true
 
-    In show_line, if choices_count == 0 and the flag is true, connect gui_input on Backplate/DialogueUI to call DialogueManager.advance() on left click.
+	In show_line, if choices_count == 0 and the flag is true, connect gui_input on Backplate/DialogueUI to call DialogueManager.advance() on left click.
 
-    Typewriter effect (+ skip on click)
+	Typewriter effect (+ skip on click)
 
-        Implement a typewriter for _body.text using bbcode push_text with timed yield, or a per-character timer; set @export var type_speed := 0.02.
+		Implement a typewriter for _body.text using bbcode push_text with timed yield, or a per-character timer; set @export var type_speed := 0.02.
 
-        On click, complete instantly (fill remainder), second click advances.
+		On click, complete instantly (fill remainder), second click advances.
 
-    Input mapping
+	Input mapping
 
-        Map Enter/Space to Continue if no choices; 1..9 to choose.
+		Map Enter/Space to Continue if no choices; 1..9 to choose.
 
-        In DialogueUI.gd unhandled_input(ev): if _choice_box.get_child_count()==0 and no typing in progress → advance.
+		In DialogueUI.gd unhandled_input(ev): if _choice_box.get_child_count()==0 and no typing in progress → advance.
 
-    Sound packs
+	Sound packs
 
-        Add a sfx section to stylebook (hover/click/advance), and in DialogueUI.gd set streams from those paths instead of a single exported hover_sfx.
+		Add a sfx section to stylebook (hover/click/advance), and in DialogueUI.gd set streams from those paths instead of a single exported hover_sfx.
 
-    Animations
+	Animations
 
-        All entrance/hover/exit lives in AnimationPlayer (e.g., FadeIn, ChoiceHoverPulse, FadeOut).
+		All entrance/hover/exit lives in AnimationPlayer (e.g., FadeIn, ChoiceHoverPulse, FadeOut).
 
-        On finish (DialogueManager._finish()), you can optionally await _anim.play("FadeOut") before hiding/freeing the layer.
+		On finish (DialogueManager._finish()), you can optionally await _anim.play("FadeOut") before hiding/freeing the layer.
 
-    Backlog / history
+	Backlog / history
 
-        Let DialogueManager append each shown line (id, body, time) to an array and expose a signal or a getter.
+		Let DialogueManager append each shown line (id, body, time) to an array and expose a signal or a getter.
 
-        Optional: open a simple log panel on a key to re-read text.
+		Optional: open a simple log panel on a key to re-read text.
 
-    Accessibility profiles
+	Accessibility profiles
 
-        Add separate stylebook keys: "large_text", "high_contrast", "dyslexic_font".
+		Add separate stylebook keys: "large_text", "high_contrast", "dyslexic_font".
 
-        Switch globally by setting the default style in memory, or per-line for dramatic beats.
+		Switch globally by setting the default style in memory, or per-line for dramatic beats.
 
 Layer 5 — Data-level control (put it in JSON when it belongs to content)
 
 These belong in dialogue data because writers/designers will tweak them often:
 
-    portrait: "res://Art/portraits/mother.png"
+	portrait: "res://Art/portraits/mother.png"
 
-    style: "noir" or "large_text"
+	style: "noir" or "large_text"
 
-    (Optional) portrait_side: "left"|"right" (your script can swap order in LineRow)
+	(Optional) portrait_side: "left"|"right" (your script can swap order in LineRow)
 
-    (Optional) sfx: { "hover": "...", "advance": "..." }
+	(Optional) sfx: { "hover": "...", "advance": "..." }
 
-    (Optional) anim: "fade_slow" (choose which AnimationPlayer clip to play)
+	(Optional) anim: "fade_slow" (choose which AnimationPlayer clip to play)
 
 Keep structural things (anchors, container types) in the scene or mappers; keep content presentation in JSON.
 Exactly what to edit for common tweaks
 
-    “Make the panel narrower/wider” → Backplate.anchor_left (scene) or stylebook layout + mapper.
+	“Make the panel narrower/wider” → Backplate.anchor_left (scene) or stylebook layout + mapper.
 
-    “More/less padding” → Content.margin_* (scene) or stylebook padding.
+	“More/less padding” → Content.margin_* (scene) or stylebook padding.
 
-    “Different font/color” → Theme .tres (RichTextLabel) or stylebook body_color/body_font_size.
+	“Different font/color” → Theme .tres (RichTextLabel) or stylebook body_color/body_font_size.
 
-    “Rounder buttons/hover color” → Theme .tres (Button styleboxes).
+	“Rounder buttons/hover color” → Theme .tres (Button styleboxes).
 
-    “Portrait on the right” → stylebook portrait_side="right" and swap child order in code when applying style.
+	“Portrait on the right” → stylebook portrait_side="right" and swap child order in code when applying style.
 
-    “Fade in slower” → edit AnimationPlayer’s FadeIn duration; optionally map anim names from stylebook.
+	“Fade in slower” → edit AnimationPlayer’s FadeIn duration; optionally map anim names from stylebook.
 
 Process I’d follow (so you don’t break working bits)
 
-    Duplicate your current DialogueLayer.tscn to DialogueLayer_dev.tscn for experimentation.
+	Duplicate your current DialogueLayer.tscn to DialogueLayer_dev.tscn for experimentation.
 
-    Create res://Skins/ and put your Theme(s) there. Wire them in the stylebook—not directly in the scene—so you can switch at runtime.
+	Create res://Skins/ and put your Theme(s) there. Wire them in the stylebook—not directly in the scene—so you can switch at runtime.
 
-    Keep layout edits minimal in the scene (anchors/padding). Create a small layout mapper if you need multiple layouts.
+	Keep layout edits minimal in the scene (anchors/padding). Create a small layout mapper if you need multiple layouts.
 
-    Keep behavior switches exported in DialogueUI.gd (e.g., click_to_continue_when_no_choices, type_speed, enter_advances), and set them per-project in the Inspector.
+	Keep behavior switches exported in DialogueUI.gd (e.g., click_to_continue_when_no_choices, type_speed, enter_advances), and set them per-project in the Inspector.
 
-    Add a dev hot-reload button (or console command) that re-reads the stylebook at runtime to speed iteration.
+	Add a dev hot-reload button (or console command) that re-reads the stylebook at runtime to speed iteration.
 
 If you want, I can drop in:
 
-    a tiny layout mapper (reads layout and sets anchors/padding),
+	a tiny layout mapper (reads layout and sets anchors/padding),
 
-    a click-to-continue handler,
+	a click-to-continue handler,
 
-    a simple typewriter with skip-on-click.
+	a simple typewriter with skip-on-click.
