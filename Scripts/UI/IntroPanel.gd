@@ -1,7 +1,7 @@
 # scripts/UI/IntroPanel.gd
 extends "res://Scripts/UI/TextSequencePanel.gd"
 
-const LINES : Array[String] = [
+var lines : Array[String] = [
         "She was a tough child.",
         "Now she always seems to be on the verge of ABYSS.",
         "(Or something equally dramatic to emphasize her mental instability)",
@@ -11,6 +11,3 @@ const LINES : Array[String] = [
         "The abyss has always had your voice.",
         "Hey."
 ]
-
-func _init() -> void:
-        lines = LINES
