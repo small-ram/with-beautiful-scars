@@ -16,14 +16,15 @@ var _active_photo : Node = null
 
 # ───────── life-cycle ─────────
 func _ready() -> void:
-	MemoryPool.claimed.connect(_on_memory_claimed)
-	call_deferred("_late_init")
+        MemoryPool.claimed.connect(_on_memory_claimed)
+        call_deferred("_late_init")
 
-	for p in get_tree().get_nodes_in_group("photos"):
-		p.drag_started.connect(_on_drag_started)
-		p.drag_ended  .connect(_on_drag_ended)
+       for p in get_tree().get_nodes_in_group("photos"):
+               _hook_photo_signals(p)
 
-	set_process(true)
+       get_tree().node_added.connect(_on_node_added)
+
+       set_process(true)
 
 func _late_init() -> void:
 	_cache_slots()
@@ -43,9 +44,9 @@ func _resolve_origin() -> Vector2:
 	return m.global_position if m else Vector2.ZERO
 
 func _build_icons() -> void:
-	var table := MemoryPool.table
-	if table == null:
-		push_error("CircleBank: table null"); return
+        var table := MemoryPool.table
+        if table == null:
+                push_error("CircleBank: table null"); return
 
 	var origin : Vector2 = _resolve_origin()
 	var idx   : int = 0
@@ -57,7 +58,18 @@ func _build_icons() -> void:
 		add_child(spr)
 		_icons[mem_id]   = spr
 		_base_mod[mem_id]= spr.modulate
-		idx += 1
+                idx += 1
+
+# ───────── track dynamic photos ─────────
+func _on_node_added(n: Node) -> void:
+       if n is Photo:
+               _hook_photo_signals(n)
+
+func _hook_photo_signals(p: Photo) -> void:
+       if not p.drag_started.is_connected(_on_drag_started):
+               p.drag_started.connect(_on_drag_started)
+       if not p.drag_ended.is_connected(_on_drag_ended):
+               p.drag_ended.connect(_on_drag_ended)
 
 # ───────── runtime updates ─────────
 func _on_drag_started(photo:Node) -> void:
