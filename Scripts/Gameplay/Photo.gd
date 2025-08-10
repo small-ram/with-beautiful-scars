@@ -16,7 +16,6 @@ signal drag_ended(photo)
 @export var memory_id      : String           = ""
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
-@export_node_path("Node2D") var origin_path  : NodePath
 
 # ───────────────────────────
 #  Internal state
