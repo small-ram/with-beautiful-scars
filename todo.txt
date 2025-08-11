@@ -1,9 +1,8 @@
-critters should also be possible (= they have to be) discardable during the cleanup phase, same rules apply like to the photos
 restart is currently not working properly, often crashing the game - Trying to assign invalid previously freed instance. happens for "var slot : Node2D = _mem2slot.get(mem_id)"
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 dialogue: Change every single font color, type, size etc. so that the game looks better
-After going through all snapped photos and critters dialogues, stage 2 should trigger, but that does not happen. The issue likely is  likely either in Photo.gd, stagecontroller or kind wherever it makes sense
-Critters should be on a higher layer than the dialogue visual and above circles (blueberries)
 Improve resolution responsiveness
+Critters jdou dat do reky, ale nemusi byt zlate
+konec se triggerne i bez presunutych critters

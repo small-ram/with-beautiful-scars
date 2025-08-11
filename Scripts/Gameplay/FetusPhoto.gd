@@ -1,6 +1,6 @@
 # scripts/Gameplay/FetusPhoto.gd
 extends Area2D
-signal dialog_done
+signal dialogue_done
 
 @export var dialog_id  : String = "fetus_dialog"
 @export var center_pos : Vector2                 # set by StageController
@@ -28,7 +28,7 @@ func _move_to_center_and_talk() -> void:
 	DialogueManager.dialogue_closed.connect(_on_dialogue_closed, CONNECT_ONE_SHOT)
 
 func _on_dialogue_closed(_id:String) -> void:
-	dialog_done.emit()
+	dialogue_done.emit()
 
 # ───────── gild photos on touch ─────────
 func _on_area_entered(a:Area2D) -> void:

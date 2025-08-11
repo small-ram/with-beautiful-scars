@@ -193,7 +193,7 @@ func _enter_stage3() -> void:
 	fetus.global_position = (_fetus_spawn.global_position if _fetus_spawn else Vector2.ZERO)
 	fetus.center_pos      = _fetus_centre.global_position
 	AudioManager.play_sfx(heartbeat_sfx)
-	fetus.dialog_done.connect(_enter_stage4)
+	fetus.dialogue_done.connect(_enter_stage4)
 
 # ──────── STAGE 4 (gold → river) ────────
 func _enter_stage4() -> void:

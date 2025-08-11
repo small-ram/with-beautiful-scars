@@ -11,8 +11,8 @@ scale = Vector2(0.667691, 0.667691)
 script = ExtResource("1_tc5rb")
 reveal_radius = 340.805
 hover_scale_factor = 3.475
-base_tint = Color(1, 1, 1, 1)
 hover_tint = Color(0.798321, 0.727744, 0, 1)
+transformed_tint = Color(1.10701e-06, 0.662482, 0.468824, 1)
 allowed_slots = PackedInt32Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

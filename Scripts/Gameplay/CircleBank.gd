@@ -1,5 +1,4 @@
 extends CanvasLayer
-signal bank_ready
 
 # ───────── inspector knobs ─────────
 @export_node_path("Marker2D") var origin_path : NodePath = NodePath("")
@@ -27,7 +26,6 @@ func _ready() -> void:
 func _late_init() -> void:
 	_cache_slots()
 	_build_icons()
-	emit_signal("bank_ready")
 
 # ───────── data setup ─────────
 func _cache_slots() -> void:

@@ -18,16 +18,6 @@ signal dialogue_done(photo)
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
 
-
-const DEBUG := true
-func _dbg(msg: String) -> void:
-	if DEBUG:
-		print_rich("[color=teal][Photo][/color] ", msg)
-
-
-
-
-
 # ───────────────────────────
 #  Internal state
 # ───────────────────────────

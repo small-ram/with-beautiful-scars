@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://chuke612m828x"]
+[gd_scene load_steps=2 format=3 uid="uid://chuke612m828x"]
 
 [ext_resource type="Script" uid="uid://bdahryimgainm" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
-[ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="2_c27o4"]
 
 [node name="Photo" type="Area2D" groups=["photos"]]
 z_index = 10
@@ -11,7 +10,6 @@ snap_radius = 100.0
 allowed_slots = PackedInt32Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_c27o4")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-128, -95, -128, 95, 128, 95, 128, -95)
