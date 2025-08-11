@@ -38,7 +38,7 @@ func _on_viewport_resized() -> void:
 
 # ───────── PHYSICS ─────────
 func _physics_process(delta: float) -> void:
-	if _triggered:
+	if _triggered or _dir == Vector2.ZERO:
 		return
 
 	global_position += _dir * move_speed * delta
@@ -120,13 +120,13 @@ func _on_trigger_anim_finished(_anim:String) -> void:
 		sprite.play("move")
 
 func _on_dialogue_finished(last_id: String) -> void:
-		# Ignore unrelated dialogues if multiple critters/photos can trigger
-		if last_id != one_liner_id:
-				return
-		_triggered = false
-		sprite.play("move")
-		add_to_group("gold")
-		emit_signal("dialogue_done")
+	# Ignore unrelated dialogues if multiple critters/photos can trigger
+	if last_id != one_liner_id:
+		return
+	_dir = Vector2.ZERO
+	sprite.play("trigger")
+	add_to_group("gold")
+	emit_signal("dialogue_done")
 
 # ───────── CLEANUP ─────────
 func unlock_for_cleanup() -> void:
