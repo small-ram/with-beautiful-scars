@@ -1,9 +1,8 @@
 critters should be on top of everything
 critters should stay on the screen after triggered, not disappear
 critters should also be possible (= they have to be) discardable during the cleanup phase, same rules apply like to the photos
-outro.json should only be triggered after every photo and critter dialogue ends - currently it is triggered after snapping and triggering all photos/critters
 intro ať se posouvá samo, ne klikáním
-restart is currently not working properly, often crashing the game - just make it work
+restart is currently not working properly, often crashing the game - Trying to assign invalid previously freed instance. happens for "var slot : Node2D = _mem2slot.get(mem_id)"
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
@@ -14,10 +13,6 @@ dialogue:
 3) Změnit barvu, typ, velikost fontu a cokoliv co bude mít za efekt, že dialog bude vypadat lépe
 4) Možná zobrazit v rámci dialogu fotku/critter které se to týká
 
-Restart triggeruje "func _apply_pulse(spr:Sprite2D, mem_id:String) -> void:
-	var slot : Node2D = _mem2slot.get(mem_id)"
-	
-Nedá se dostat do další stage po dialozích
-
-Critters se pohybují i po dialozích - mají zůstat, ale bez pohybu
-Critters by měly překrývat dialog
+After going through all snapped photos and critters dialogues next stage should trigger, but that does not happen.
+Critters are still moving after triggering their dialogue. They should stay on the scene, but with the "trigger" animation, not "move" and they should not move anymore
+Critters by měly překrývat dialog a circles

@@ -18,16 +18,15 @@ var _triggered   : bool = false
 
 # ───────── READY ─────────
 func _ready() -> void:
-                add_to_group("critters")
-                z_index = 10000
-                z_as_relative = false
+	add_to_group("critters")
+	z_index = 10000
+	z_as_relative = false
+	vp.size_changed.connect(_on_viewport_resized)
+	_refresh_view_rect()
 
-		vp.size_changed.connect(_on_viewport_resized)
-		_refresh_view_rect()
-
-		_assign_unique_key()
-		_spawn_at_random_edge()
-		sprite.play("move")
+	_assign_unique_key()
+	_spawn_at_random_edge()
+	sprite.play("move")
 
 # ───────── VIEW UTIL ─────────
 func _refresh_view_rect() -> void:
@@ -121,14 +120,14 @@ func _on_trigger_anim_finished(_anim:String) -> void:
 		sprite.play("move")
 
 func _on_dialogue_finished(last_id: String) -> void:
-        # Ignore unrelated dialogues if multiple critters/photos can trigger
-        if last_id != one_liner_id:
-                return
-        _triggered = false
-        sprite.play("move")
-        add_to_group("gold")
-        emit_signal("dialogue_done")
+		# Ignore unrelated dialogues if multiple critters/photos can trigger
+		if last_id != one_liner_id:
+				return
+		_triggered = false
+		sprite.play("move")
+		add_to_group("gold")
+		emit_signal("dialogue_done")
 
 # ───────── CLEANUP ─────────
 func unlock_for_cleanup() -> void:
-        pass
+		pass
