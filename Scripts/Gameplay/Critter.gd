@@ -18,12 +18,17 @@ var _triggered   : bool = false
 
 # ───────── READY ─────────
 func _ready() -> void:
-	vp.size_changed.connect(_on_viewport_resized)
-	_refresh_view_rect()
+        add_to_group("critters")
+        add_to_group("discardable")
+        z_index = 10000
+        z_as_relative = false
 
-	_assign_unique_key()
-	_spawn_at_random_edge()
-	sprite.play("move")
+        vp.size_changed.connect(_on_viewport_resized)
+        _refresh_view_rect()
+
+        _assign_unique_key()
+        _spawn_at_random_edge()
+        sprite.play("move")
 
 # ───────── VIEW UTIL ─────────
 func _refresh_view_rect() -> void:
@@ -121,5 +126,9 @@ func _on_dialogue_finished(last_id: String) -> void:
 	if last_id != one_liner_id:
 		return
 	_triggered = false
-	sprite.play("move")
-	emit_signal("dialogue_done")
+        sprite.play("move")
+        emit_signal("dialogue_done")
+
+# ───────── CLEANUP ─────────
+func unlock_for_cleanup() -> void:
+        queue_free()
