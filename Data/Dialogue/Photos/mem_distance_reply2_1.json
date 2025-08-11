@@ -1,5 +1,6 @@
 {
   "id": "mem_closure1_dialog",
   "body": 	"Where the hell is she?",
+  "portrait": "res://Assets/distance.jpg",
   "choices": []
 }

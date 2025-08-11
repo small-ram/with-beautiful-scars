@@ -1,5 +1,6 @@
 {
   "id": "mem_repair_dialog",
   "body": 	"",
+  "portrait": "res://Assets/repair.jpg",
   "choices": []
 }
