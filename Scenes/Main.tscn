@@ -38,8 +38,12 @@ hard_slots_json = "res://Data/SlotConfigs/hard.json"
 [node name="Gameplay" type="Node2D" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="Gameplay"]
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
 
@@ -180,20 +184,35 @@ layer = 5
 [node name="ButtonLayer" type="CanvasLayer" parent="UI"]
 layer = 11
 
-[node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer"]
+[node name="ButtonBarContainer" type="Control" parent="UI/ButtonLayer"]
 z_index = 19
-offset_left = 1788.0
-offset_top = 1030.0
-offset_right = 1899.0
-offset_bottom = 1061.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer/ButtonBarContainer"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
 script = ExtResource("4_0sev1")
 
-[node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+[node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBarContainer/ButtonBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Restart"
 
-[node name="QuitBtn" type="Button" parent="UI/ButtonLayer/ButtonBar"]
+[node name="QuitBtn" type="Button" parent="UI/ButtonLayer/ButtonBarContainer/ButtonBar"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Quit"
