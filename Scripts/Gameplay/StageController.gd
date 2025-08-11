@@ -3,252 +3,110 @@ extends Node
 #
 # Flow summary
 #   • parent / difficulty   (unchanged)
-#   • Stage 1	 – all photo dialogues and critter dialogues finished
-#   • Stage 2	 – mid panel → woman photo
-#   • Stage 3	 – woman shrinks to marker, fetus spawns at FetusSpawn
-#		click fetus → centre + heartbeat + dialogue
-#   • Stage 4	 – photos turn gold when dragged over fetus, then drag to river
+#   • Stage 1    – all photo dialogues and critter dialogues finished
+#   • Stage 2    – mid panel → woman photo
+#   • Stage 3    – woman shrinks to marker, fetus spawns at FetusSpawn
+#               click fetus → centre + heartbeat + dialogue
+#   • Stage 4    – photos turn gold when dragged over fetus, then drag to river
 #   • Outro
 #
-
 # ───────── EXPORTS ─────────
-@export_node_path("Node")	 var gameplay_path	: NodePath
-@export_node_path("CanvasLayer") var overlay_path	: NodePath
+@export_node_path("Node")        var gameplay_path      : NodePath
+@export_node_path("CanvasLayer") var overlay_path       : NodePath
 @export_node_path("CanvasLayer") var critter_layer_path : NodePath
-@export_node_path("Node")	 var stack_path		: NodePath
-@export_node_path("Marker2D")	 var woman_spawn_path	: NodePath
-@export_node_path("Marker2D")	 var river_spawn_path	: NodePath
-@export_node_path("Marker2D")	 var fetus_spawn_path	: NodePath
-@export_node_path("Marker2D")	var fetus_centre_path : NodePath
-@export_node_path("Marker2D")	 var woman_target_path	: NodePath
+@export_node_path("Node")        var stack_path         : NodePath
+@export_node_path("Marker2D")    var woman_spawn_path   : NodePath
+@export_node_path("Marker2D")    var river_spawn_path   : NodePath
+@export_node_path("Marker2D")    var fetus_spawn_path   : NodePath
+@export_node_path("Marker2D")   var fetus_centre_path : NodePath
+@export_node_path("Marker2D")    var woman_target_path  : NodePath
 
-@export var mid_stage_panel	: PackedScene		    # “Now she is ready …”
-@export var memory_table	: MemoryTable
-@export var alt_intro_scene	: PackedScene
+@export var mid_stage_panel     : PackedScene               # “Now she is ready …”
+@export var memory_table        : MemoryTable
+@export var alt_intro_scene     : PackedScene
 @export_file("*.json") var easy_slots_json : String
 @export_file("*.json") var hard_slots_json : String
-@export var heartbeat_sfx	: String = "fetusHeartbeat"
+@export var heartbeat_sfx       : String = "fetusHeartbeat"
 
 # ───────── ONREADY MARKERS ─────────
 @onready var _woman_spawn : Marker2D = get_node_or_null(woman_spawn_path)
-@onready var _river_pos	  : Marker2D = get_node_or_null(river_spawn_path)
+@onready var _river_pos   : Marker2D = get_node_or_null(river_spawn_path)
 @onready var _fetus_spawn : Marker2D = get_node_or_null(fetus_spawn_path)
 @onready var _fetus_centre : Marker2D = get_node_or_null(fetus_centre_path)
 @onready var _woman_target: Marker2D = get_node_or_null(woman_target_path)
 
 # ───────── STATE ─────────
-enum Stage { INTRO, STAGE1, STAGE2, STAGE3, STAGE4, END }
-var stage : Stage = Stage.INTRO
-
-var gameplay : Node	   = null
+var gameplay : Node        = null
 var overlay  : CanvasLayer = null
 var critter_layer : CanvasLayer = null
 var woman    : Node = null
 var fetus    : Node = null
 
-var photo_dialogues_done : int = 0
-var photos_total   : int = 0
-var critters_done  : int = 0
-
-
-# critter queue
-const CRITTERS : Array[PackedScene] = [
-	preload("res://Scenes/Critters/CritterJesterka.tscn"),
-	preload("res://Scenes/Critters/CritterBrouk.tscn"),
-	preload("res://Scenes/Critters/CritterList.tscn"),
-	preload("res://Scenes/Critters/CritterSklenenka.tscn"),
-	preload("res://Scenes/Critters/CritterSnek.tscn"),
-	preload("res://Scenes/Critters/CritterKliste.tscn")
-]
-var _queue : Array[PackedScene] = []
-
-# ───────── PRELOADS ─────────
-# Gameplay depends on a few key scenes. These preloads make their
-# responsibilities explicit and avoid repeated disk access during play.
-const PARENT_PANEL     := preload("res://Scenes/Overlays/ParentChoicePanel.tscn")
-const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.tscn")
-const INTRO_PANEL      := preload("res://Scenes/Overlays/IntroPanel.tscn")
-const WOMAN_SCENE      := preload("res://Scenes/WomanPhoto.tscn")   # stage 2 photo of the mother
-const FETUS_SCENE      := preload("res://Scenes/FetusPhoto.tscn")   # stage 3 heartbeat interaction
-const RIVER_SCENE      := preload("res://Scenes/River.tscn")	    # stage 4 cleanup area
+var current_state : StageState = null
 
 # ───────── READY ─────────
 func _ready() -> void:
-	MemoryPool.init_from_table(memory_table)
+    MemoryPool.init_from_table(memory_table)
 
-	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-	overlay	 = _fetch_node(overlay_path,  "OverlayLayer")
-	critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
+    gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+    overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+    critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
 
-	var parent := PARENT_PANEL.instantiate()
-	overlay.add_child(parent)
-	parent.parent_chosen.connect(_on_parent_decided)
+    for ph in get_tree().get_nodes_in_group("photos"):
+        var pid: String = ph.dialog_id
+        if pid != "":
+            ph.dialogue_done.connect(_on_photo_dialogue_done)
 
-	photos_total = 0
-	for ph in get_tree().get_nodes_in_group("photos"):
-		var pid: String = ph.dialog_id
-		if pid != "":
-			photos_total += 1
-			ph.dialogue_done.connect(_on_photo_dialogue_done)
+    change_state(IntroState.new())
 
-# ──────── PARENT / DIFFICULTY ────────
-func _on_parent_decided(is_parent:bool) -> void:
-	_clear_overlay()
-	if is_parent: _show_alt_intro() 
-	else: _show_difficulty()
+# ───────── STATE HELPERS ─────────
+func change_state(new_state: StageState) -> void:
+    if current_state:
+        current_state.finished.disconnect(change_state)
+        current_state.exit(self)
+    current_state = new_state
+    if current_state:
+        current_state.finished.connect(change_state)
+        current_state.enter(self)
 
-func _show_alt_intro() -> void:
-	var alt := alt_intro_scene.instantiate()
-	overlay.add_child(alt)
-	alt.intro_finished.connect(func(): get_tree().quit())
-
-func _show_difficulty() -> void:
-	var d := DIFFICULTY_PANEL.instantiate()
-	overlay.add_child(d)
-	d.difficulty_chosen.connect(_on_diff_selected)
-
-func _on_diff_selected(easy:bool) -> void:
-	_apply_slot_cfg(easy_slots_json if easy else hard_slots_json)
-	_clear_overlay()
-	var intro := INTRO_PANEL.instantiate()
-	overlay.add_child(intro)
-	intro.intro_finished.connect(_enter_stage1)
-
-func _apply_slot_cfg(path:String) -> void:
-		if path.is_empty() or not FileAccess.file_exists(path):
-				return
-		var j := JSON.new()
-		if j.parse(FileAccess.get_file_as_string(path)) != OK:
-				return
-		for n in j.data:
-				var ph := get_tree().current_scene.find_child(n, true, false)
-				if ph:
-					ph.allowed_slots = PackedInt32Array(j.data[n])
-
-# ──────── STAGE 1 ────────
-func _enter_stage1() -> void:
-		stage = Stage.STAGE1
-		gameplay.visible = true
-		CircleBank.reset_all(); CircleBank.show_bank()
-		photo_dialogues_done = 0; critters_done = 0
-		_queue = CRITTERS.duplicate(); _queue.shuffle()
-		_spawn_next_critter()
-
-func _spawn_next_critter() -> void:
-		if _queue.is_empty():
-			_check_stage1_done()
-			return
-		var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
-		if critter_layer:
-			critter_layer.add_child(cr)
-		else:
-			get_tree().current_scene.add_child(cr)
-		cr.dialogue_done.connect(_on_critter_dialogue_done.bind(cr))
-
-func _on_photo_dialogue_done(_photo) -> void:
-		if stage != Stage.STAGE1:
-			return
-		photo_dialogues_done += 1
-		_check_stage1_done()
+func _on_photo_dialogue_done(photo) -> void:
+    if current_state:
+        current_state.on_photo_dialogue_done(self, photo)
 
 func _on_critter_dialogue_done(critter) -> void:
-		if stage != Stage.STAGE1:
-			return
-		critters_done += 1
-		if is_instance_valid(critter):
-			critter.add_to_group("discardable")
-		_spawn_next_critter()   # continue queue
-		_check_stage1_done()
+    if current_state:
+        current_state.on_critter_dialogue_done(self, critter)
 
-func _check_stage1_done() -> void:
-	if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
-		_enter_stage2()
-
-# ──────── STAGE 2 (mid panel → woman) ────────
-func _enter_stage2() -> void:
-	stage = Stage.STAGE2
-	_clear_overlay()
-	var mid := mid_stage_panel.instantiate()
-	overlay.add_child(mid)
-	mid.intro_finished.connect(_spawn_woman)
-
-func _spawn_woman() -> void:
-	_clear_overlay()
-	var stack := _fetch_node(stack_path, "PhotoStack")
-	woman = WOMAN_SCENE.instantiate()
-	stack.add_child(woman)
-	woman.global_position = (_woman_spawn.global_position if _woman_spawn else Vector2(150,150))
-	woman.all_words_transformed.connect(_enter_stage3)
-
-# ──────── STAGE 3 (woman shrinks → fetus) ────────
-func _enter_stage3() -> void:
-	stage = Stage.STAGE3
-	var dest := _woman_target.global_position if _woman_target else Vector2(100,100)
-	woman.create_tween().tween_property(woman,"global_position",dest,0.8).set_trans(Tween.TRANS_SINE)
-	woman.create_tween().tween_property(woman,"scale",Vector2.ONE*0.3,0.8)
-
-	await get_tree().create_timer(0.8).timeout
-	fetus = FETUS_SCENE.instantiate()
-	get_tree().current_scene.add_child(fetus)
-	fetus.global_position = (_fetus_spawn.global_position if _fetus_spawn else Vector2.ZERO)
-	fetus.center_pos      = _fetus_centre.global_position
-	AudioManager.play_sfx(heartbeat_sfx)
-	fetus.dialogue_done.connect(_enter_stage4)
-
-# ──────── STAGE 4 (gold → river) ────────
-func _enter_stage4() -> void:
-	stage = Stage.STAGE4
-	CircleBank.hide_bank()
-	for ph in get_tree().get_nodes_in_group("photos"):
-		if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
-
-	for cr in get_tree().get_nodes_in_group("critters"):
-		if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
-
-	var river := RIVER_SCENE.instantiate()
-	get_tree().current_scene.add_child(river)
-	river.global_position = (_river_pos.global_position if _river_pos else Vector2(640,720))
-	river.cleanup_complete.connect(_enter_end)
-
-# ──────── OUTRO ────────
-func _enter_end() -> void:
-		stage = Stage.END
-		if DialogueManager.is_active():
-			await DialogueManager.dialogue_finished
-		DialogueManager.start("outro")
-
-# ──────── RESET ────────
+# ───────── RESET ─────────
 func reset() -> void:
-	stage = Stage.INTRO
-	photo_dialogues_done = 0
-	photos_total = 0
-	critters_done = 0
+    if current_state:
+        current_state.exit(self)
+        current_state = null
 
-	_queue.clear()
-	if woman:
-			woman.queue_free()
-			woman = null
-	if fetus:
-			fetus.queue_free()
-			fetus = null
+    if woman:
+        woman.queue_free()
+        woman = null
+    if fetus:
+        fetus.queue_free()
+        fetus = null
 
-	gameplay = null
-	overlay = null
+    gameplay = null
+    overlay = null
 
-	MemoryPool.init_from_table(memory_table)
-	CircleBank.reset_all()
+    MemoryPool.init_from_table(memory_table)
+    CircleBank.reset_all()
 
-	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
-	await get_tree().process_frame
-	CircleBank.reload()
+    get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+    await get_tree().process_frame
+    CircleBank.reload()
 
-# ──────── helpers ────────
+# ───────── helpers ─────────
 func _clear_overlay() -> void:
-		if overlay == null: return
-		for c in overlay.get_children(): c.queue_free()
+    if overlay == null: return
+    for c in overlay.get_children(): c.queue_free()
 
 func _fetch_node(path:NodePath, fallback:String) -> Node:
-	if path != NodePath(""):
-		var n := get_node_or_null(path)
-		if n: return n
-	return get_tree().current_scene.find_child(fallback, true, false)
+    if path != NodePath(""):
+        var n := get_node_or_null(path)
+        if n: return n
+    return get_tree().current_scene.find_child(fallback, true, false)
