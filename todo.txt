@@ -18,3 +18,6 @@ Restart triggeruje "func _apply_pulse(spr:Sprite2D, mem_id:String) -> void:
 	var slot : Node2D = _mem2slot.get(mem_id)"
 	
 Nedá se dostat do další stage po dialozích
+
+Critters se pohybují i po dialozích - mají zůstat, ale bez pohybu
+Critters by měly překrývat dialog

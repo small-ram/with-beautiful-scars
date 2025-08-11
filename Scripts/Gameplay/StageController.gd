@@ -124,16 +124,16 @@ func _enter_stage1() -> void:
 		gameplay.visible = true
 		CircleBank.reset_all(); CircleBank.show_bank()
 		photo_dialogues_done = 0; critters_done = 0
-                _queue = CRITTERS.duplicate(); _queue.shuffle()
-                _spawn_next_critter()
+		_queue = CRITTERS.duplicate(); _queue.shuffle()
+		_spawn_next_critter()
 
 func _spawn_next_critter() -> void:
-        if _queue.is_empty():
-                _check_stage1_done()
-                return
-        var cr := _queue.pop_back().instantiate()
-        get_tree().current_scene.add_child(cr)
-        cr.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
+	if _queue.is_empty():
+		_check_stage1_done()
+		return
+	var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
+	get_tree().current_scene.add_child(cr)
+	cr.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
 
 func _on_critter_done() -> void:
 	critters_done += 1
@@ -146,8 +146,8 @@ func _on_photo_dialogue_done(_p) -> void:
 		_check_stage1_done()
 
 func _check_stage1_done() -> void:
-                if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
-                                _enter_stage2()
+				if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
+								_enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:
@@ -182,14 +182,13 @@ func _enter_stage3() -> void:
 
 # ──────── STAGE 4 (gold → river) ────────
 func _enter_stage4() -> void:
-        stage = Stage.STAGE4
-        CircleBank.hide_bank()
+	stage = Stage.STAGE4
+	CircleBank.hide_bank()
+	for ph in get_tree().get_nodes_in_group("photos"):
+		if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
 
-        for ph in get_tree().get_nodes_in_group("photos"):
-                if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
-
-        for cr in get_tree().get_nodes_in_group("critters"):
-                if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
+	for cr in get_tree().get_nodes_in_group("critters"):
+		if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
 
 	var river := RIVER_SCENE.instantiate()
 	get_tree().current_scene.add_child(river)
@@ -209,10 +208,6 @@ func reset() -> void:
 		critters_done = 0
 
 		_queue.clear()
-		if _current_critter:
-				_current_critter.queue_free()
-				_current_critter = null
-
 		if woman:
 				woman.queue_free()
 				woman = null

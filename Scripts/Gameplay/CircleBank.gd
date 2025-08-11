@@ -101,7 +101,6 @@ func _mems_for_photo(p:Node) -> Array[String]:
 func _apply_pulse(spr:Sprite2D, mem_id:String) -> void:
 	var slot : Node2D = _mem2slot.get(mem_id)
 	if slot == null: return
-
 	var dist : float = _active_photo.global_position.distance_to(slot.global_position)
 	var t    : float = clamp(1.0 - dist / max_dist, 0.0, 1.0)
 

@@ -98,14 +98,14 @@ func show_line(data: Dictionary) -> void:
 	if _body != null:
 		_body.text = body_text
 
-        var portrait_path_s: String = str(data.get("portrait", ""))
-        if _portrait != null:
-                if portrait_path_s != "":
-                        _portrait.texture = load(portrait_path_s) as Texture2D
-                        _portrait.visible = true
-                else:
-                        _portrait.texture = null
-                        _portrait.visible = false
+		var portrait_path_s: String = str(data.get("portrait", ""))
+		if _portrait != null:
+				if portrait_path_s != "":
+						_portrait.texture = load(portrait_path_s) as Texture2D
+						_portrait.visible = true
+				else:
+						_portrait.texture = null
+						_portrait.visible = false
 
 	# Choices
 	_clear_choices()
