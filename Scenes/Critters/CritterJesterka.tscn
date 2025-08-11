@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ch21v4lrv1m6t"]
+[gd_scene load_steps=7 format=3 uid="uid://ch21v4lrv1m6t"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
 [ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/Critters/jesterka2.png" id="2_ywtd5"]
@@ -26,6 +26,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sprtf"]
+size = Vector2(103, 202)
+
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
 light_mask = 0
@@ -50,3 +53,7 @@ z_as_relative = false
 scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -1)
+shape = SubResource("RectangleShape2D_sprtf")

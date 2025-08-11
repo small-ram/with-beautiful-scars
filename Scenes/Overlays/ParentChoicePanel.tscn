@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlfjmnwyap55e"]
 
-[ext_resource type="PackedScene" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
 [ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="2"]
 
 [node name="ParentChoicePanel" instance=ExtResource("1")]

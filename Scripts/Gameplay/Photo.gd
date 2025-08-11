@@ -150,6 +150,8 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 # ───────────────────────────
 #  Dialogue trigger
 # ───────────────────────────
+var _my_run_active: bool = false
+
 func _start_dialogue_if_possible() -> void:
 	if _dialogue_complete:
 		return
@@ -163,17 +165,41 @@ func _start_dialogue_if_possible() -> void:
 		emit_signal("dialogue_done", self)
 		return
 
-	# Pass the flag positionally and qualify it (safer across 4.x)
-	DialogueManager.dialogue_finished.connect(_on_dialogue_finished, Object.CONNECT_ONE_SHOT)
+	# Mark runs that start with *this* dialog_id
+	if DialogueManager.has_signal("dialogue_started"):
+		DialogueManager.dialogue_started.connect(
+			func(id: String) -> void:
+				_my_run_active = (id == dialog_id),
+			Object.CONNECT_ONE_SHOT
+		)
+	else:
+		# If no 'dialogue_started', assume single-run and mark as ours.
+		_my_run_active = true
+
+	# Finish when the run ends (regardless of last_id)
+	DialogueManager.dialogue_finished.connect(
+		func(_last_id: String) -> void:
+			_finish_if_mine(),
+		Object.CONNECT_ONE_SHOT
+	)
+
+	# (Optional, if your DM emits it)
+	if DialogueManager.has_signal("dialogue_closed"):
+		DialogueManager.dialogue_closed.connect(
+			func(id: String) -> void:
+				if id == dialog_id: _finish_if_mine(),
+			Object.CONNECT_ONE_SHOT
+		)
+
 	DialogueManager.start(dialog_id)
 
-func _on_dialogue_finished(last_id: String) -> void:
-	if last_id != dialog_id:
-		return
-	if _dialogue_complete:
+func _finish_if_mine() -> void:
+	if _dialogue_complete or not _my_run_active:
 		return
 	_dialogue_complete = true
+	_my_run_active = false
 	emit_signal("dialogue_done", self)
+
 
 # ───────────────────────────
 #  Helpers

@@ -161,8 +161,8 @@ func _on_critter_dialogue_done(critter) -> void:
 		_check_stage1_done()
 
 func _check_stage1_done() -> void:
-				if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
-					_enter_stage2()
+	if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
+		_enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:

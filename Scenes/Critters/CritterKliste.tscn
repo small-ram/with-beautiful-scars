@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cdgdiob428etg"]
+[gd_scene load_steps=15 format=3 uid="uid://cdgdiob428etg"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_dq6pa"]
 [ext_resource type="Texture2D" uid="uid://dvwff1j1wucqg" path="res://Assets/Critters/spritesheets/sprite_kliste.png" id="2_vd6uq"]
@@ -79,6 +79,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnhui"]
+size = Vector2(103, 152)
+
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
 light_mask = 0
@@ -103,3 +106,7 @@ z_as_relative = false
 scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"trigger"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 2)
+shape = SubResource("RectangleShape2D_cnhui")

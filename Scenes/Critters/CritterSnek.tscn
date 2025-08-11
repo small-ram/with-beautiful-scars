@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhs0511407c3h"]
+[gd_scene load_steps=6 format=3 uid="uid://bhs0511407c3h"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_v487x"]
 [ext_resource type="Texture2D" uid="uid://c2vtwbmilmjtm" path="res://Assets/Critters/snek.png" id="2_hkuhv"]
@@ -25,6 +25,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hkuhv"]
+size = Vector2(67, 115)
+
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
 light_mask = 0
@@ -49,3 +52,7 @@ z_as_relative = false
 scale = Vector2(0.393, 0.407)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, 1.5)
+shape = SubResource("RectangleShape2D_hkuhv")

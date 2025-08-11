@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b02saw60yhi3i"]
+[gd_scene load_steps=13 format=3 uid="uid://b02saw60yhi3i"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
 [ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
@@ -65,6 +65,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qv3e0"]
+size = Vector2(103, 118)
+
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
 light_mask = 0
@@ -89,3 +92,7 @@ z_as_relative = false
 scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 19)
+shape = SubResource("RectangleShape2D_qv3e0")

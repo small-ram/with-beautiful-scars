@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://54ccmuxuohxe"]
+[gd_scene load_steps=5 format=3 uid="uid://54ccmuxuohxe"]
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
 [ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
@@ -21,6 +21,9 @@ animations = [{
 "name": &"trigger",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irxac"]
+size = Vector2(103, 152)
 
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
@@ -46,3 +49,7 @@ z_as_relative = false
 scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 2)
+shape = SubResource("RectangleShape2D_irxac")

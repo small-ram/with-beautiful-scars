@@ -15,6 +15,11 @@ var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _action_name : String
 var _triggered   : bool = false
+var _my_run_active: bool = false
+var _cleanup_mode: bool = false
+var _dragging: bool = false
+var _drag_off: Vector2 = Vector2.ZERO
+
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -59,6 +64,10 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed(_action_name):
 		_trigger()
+	if _cleanup_mode:
+		return
+	if _triggered or _dir == Vector2.ZERO:
+		return
 
 # ───────── SPAWN HELPERS ─────────
 func _spawn_at_random_edge() -> void:
@@ -107,22 +116,40 @@ func _trigger() -> void:
 	_triggered = true
 	sprite.play("trigger")
 	label.hide()
-	sprite.animation_finished.connect(_on_trigger_anim_finished, CONNECT_ONE_SHOT)
+	sprite.animation_finished.connect(_on_trigger_anim_finished, Object.CONNECT_ONE_SHOT)
 
-	# Connect to know when dialogue ends (one-shot).
-	DialogueManager.connect("dialogue_finished", Callable(self, "_on_dialogue_finished"), CONNECT_ONE_SHOT)
+	# Mark runs that start with *this* one_liner_id
+	if DialogueManager.has_signal("dialogue_started"):
+		DialogueManager.dialogue_started.connect(
+			func(id: String) -> void:
+				_my_run_active = (id == one_liner_id),
+			Object.CONNECT_ONE_SHOT
+		)
+	else:
+		# If your DM lacks 'dialogue_started', assume single-run and mark as ours.
+		_my_run_active = true
+
+	# Finish when the run ends (don't rely on last_id matching)
+	DialogueManager.dialogue_finished.connect(
+		func(_last_id: String) -> void:
+			_finish_if_mine(),
+		Object.CONNECT_ONE_SHOT
+	)
+
 	DialogueManager.start(one_liner_id)
 
-func _on_trigger_anim_finished(_anim:String) -> void:
+func _on_trigger_anim_finished(_anim: String) -> void:
 	# If dialogue did not run, allow movement again
 	if one_liner_id == "":
 		_triggered = false
 		sprite.play("move")
 
-func _on_dialogue_finished(last_id: String) -> void:
-	# Ignore unrelated dialogues if multiple critters/photos can trigger
-	if last_id != one_liner_id:
+func _finish_if_mine() -> void:
+	if not _my_run_active:
 		return
+	_my_run_active = false
+
+	# Lock the critter and signal completion exactly once
 	_dir = Vector2.ZERO
 	sprite.play("trigger")
 	add_to_group("gold")
@@ -130,4 +157,32 @@ func _on_dialogue_finished(last_id: String) -> void:
 
 # ───────── CLEANUP ─────────
 func unlock_for_cleanup() -> void:
-		pass
+	_cleanup_mode = true
+	_triggered = true          # disable key-trigger path
+	_dir = Vector2.ZERO        # stop motion
+	set_pickable(true)         # allow _input_event on Area2D
+	label.hide()
+
+	var frames := sprite.sprite_frames
+	if frames != null and frames.has_animation("trigger"):
+		sprite.play("trigger")
+	else:
+		# Fallback: just stop on current frame if "trigger" doesn't exist
+		sprite.stop()
+
+		
+# ───────── DRAG HANDLERS ─────────
+func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
+	if not _cleanup_mode:
+		return
+	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+		if ev.pressed:
+			_dragging = true
+			_drag_off = global_position - ev.position
+			move_to_front()
+		else:
+			_dragging = false
+
+func _input(ev: InputEvent) -> void:
+	if _cleanup_mode and _dragging and ev is InputEventMouseMotion:
+		global_position = ev.position + _drag_off
