@@ -15,6 +15,10 @@ var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _action_name : String
 var _triggered   : bool = false
+var _dragging    : bool = false
+var _drag_off    : Vector2
+var _in_hand     : bool = false
+var _cleanup     : bool = false
 
 # ───────── READY ─────────
 func _ready() -> void:
@@ -117,9 +121,39 @@ func _on_trigger_anim_finished(_anim:String) -> void:
 		sprite.play("move")
 
 func _on_dialogue_finished(last_id: String) -> void:
-	# Ignore unrelated dialogues if multiple critters/photos can trigger
-	if last_id != one_liner_id:
-		return
-	_triggered = false
-	sprite.play("move")
-	emit_signal("dialogue_done")
+        # Ignore unrelated dialogues if multiple critters/photos can trigger
+        if last_id != one_liner_id:
+                return
+        _triggered = false
+        sprite.play("move")
+        emit_signal("dialogue_done")
+
+# ───────── CLEANUP DRAG ─────────
+func _input_event(_vp: Viewport, ev: InputEvent, _idx: int) -> void:
+        if not _cleanup:
+                return
+        if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+                if ev.pressed:
+                        _dragging = true
+                        _in_hand  = true
+                        _drag_off = global_position - ev.position
+                        move_to_front()
+                else:
+                        _dragging = false
+                        _in_hand  = false
+
+func _input(ev: InputEvent) -> void:
+        if _dragging and ev is InputEventMouseMotion:
+                global_position = ev.position + _drag_off
+
+func is_in_hand() -> bool:
+        return _in_hand
+
+func unlock_for_cleanup() -> void:
+        _cleanup = true
+        _triggered = true
+        _dir = Vector2.ZERO
+        label.hide()
+        add_to_group("discardable")
+        add_to_group("gold")
+        set_pickable(true)

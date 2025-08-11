@@ -48,6 +48,9 @@ var photo_dialogues_done : int = 0
 var photos_total   : int = 0
 var critters_done  : int = 0
 
+var active_critters : Array[Node] = []
+var critter_layer   : CanvasLayer = null
+
 # critter queue
 const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterJesterka.tscn"),
@@ -72,10 +75,14 @@ const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cl
 
 # ───────── READY ─────────
 func _ready() -> void:
-	MemoryPool.init_from_table(memory_table)
+        MemoryPool.init_from_table(memory_table)
 
-	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+        gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+        overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+
+        critter_layer = CanvasLayer.new()
+        critter_layer.layer = 20
+        get_tree().current_scene.add_child(critter_layer)
 
 	var parent := PARENT_PANEL.instantiate()
 	overlay.add_child(parent)
@@ -121,22 +128,24 @@ func _apply_slot_cfg(path:String) -> void:
 
 # ──────── STAGE 1 ────────
 func _enter_stage1() -> void:
-		stage = Stage.STAGE1
-		gameplay.visible = true
-		CircleBank.reset_all(); CircleBank.show_bank()
-		photo_dialogues_done = 0; critters_done = 0
-		_queue = CRITTERS.duplicate(); _queue.shuffle()
-		_spawn_next_critter()
+                stage = Stage.STAGE1
+                gameplay.visible = true
+                CircleBank.reset_all(); CircleBank.show_bank()
+                photo_dialogues_done = 0; critters_done = 0
+                active_critters.clear()
+                _queue = CRITTERS.duplicate(); _queue.shuffle()
+                _spawn_next_critter()
 
 func _spawn_next_critter() -> void:
-	if _current_critter: _current_critter.queue_free()
-	if _queue.is_empty():
-		_current_critter = null
-		_check_stage1_done()
-		return
-	_current_critter = _queue.pop_back().instantiate()
-	get_tree().current_scene.add_child(_current_critter)
-	_current_critter.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
+        if _queue.is_empty():
+                _current_critter = null
+                _check_stage1_done()
+                return
+        _current_critter = _queue.pop_back().instantiate()
+        critter_layer.add_child(_current_critter)
+        _current_critter.add_to_group("critters")
+        active_critters.append(_current_critter)
+        _current_critter.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
 
 func _on_critter_done() -> void:
 	critters_done += 1
@@ -185,16 +194,19 @@ func _enter_stage3() -> void:
 
 # ──────── STAGE 4 (gold → river) ────────
 func _enter_stage4() -> void:
-	stage = Stage.STAGE4
-	CircleBank.hide_bank()
+        stage = Stage.STAGE4
+        CircleBank.hide_bank()
 
-	for ph in get_tree().get_nodes_in_group("photos"):
-		if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
+        for ph in get_tree().get_nodes_in_group("photos"):
+                if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
 
-	var river := RIVER_SCENE.instantiate()
-	get_tree().current_scene.add_child(river)
-	river.global_position = (_river_pos.global_position if _river_pos else Vector2(640,720))
-	river.cleanup_complete.connect(_enter_end)
+        for cr in get_tree().get_nodes_in_group("critters"):
+                if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
+
+        var river := RIVER_SCENE.instantiate()
+        get_tree().current_scene.add_child(river)
+        river.global_position = (_river_pos.global_position if _river_pos else Vector2(640,720))
+        river.cleanup_complete.connect(_enter_end)
 
 # ──────── OUTRO ────────
 func _enter_end() -> void:
