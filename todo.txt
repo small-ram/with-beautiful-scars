@@ -1,12 +1,20 @@
+critters should be on top of everything
+critters should stay on the screen after triggered, not disappear
+critters should also be possible (= they have to be) discardable during the cleanup phase, same rules apply like to the photos
+outro.json should only be triggered after every photo and critter dialogue ends - currently it is triggered after snapping and triggering all photos/critters
 intro ať se posouvá samo, ne klikáním
-restart restartuje od puzzlu, ne od intra
+restart is currently not working properly, often crashing the game - just make it work
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 lepší responzivita rozlišení
 dialogue: 
 1) Když je text odpovědi dlouhý, tlačítko by se mělo zvýšit, ne rozšířit
-2) Odpovědi by měly být ukotveny na jednom místě a ne dynamické podle délky dialogu
-3) Změnit barvu, velikost etc. fontu
-4) Možná zobrazit fotku které se to týká
-sjednotit intro/difficulty/outro etc design
+2) Odpovědi(=choices) a Continue by měly být ukotveny dole na jednom místě a ne dynamicky podle délky dialogu
+3) Změnit barvu, typ, velikost fontu a cokoliv co bude mít za efekt, že dialog bude vypadat lépe
+4) Možná zobrazit v rámci dialogu fotku/critter které se to týká
+
+Restart triggeruje "func _apply_pulse(spr:Sprite2D, mem_id:String) -> void:
+	var slot : Node2D = _mem2slot.get(mem_id)"
+	
+Nedá se dostat do další stage po dialozích
