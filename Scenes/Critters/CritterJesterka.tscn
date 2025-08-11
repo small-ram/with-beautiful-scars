@@ -14,7 +14,7 @@ animations = [{
 "texture": ExtResource("2_ywtd5")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"move",
 "speed": 5.0
 }, {
 "frames": [{
@@ -48,10 +48,9 @@ theme_override_font_sizes/font_size = 72
 text = "E"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 27
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"idle"
+animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.5, -1)
