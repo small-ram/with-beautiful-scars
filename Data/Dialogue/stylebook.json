@@ -1,13 +1,29 @@
 {
   "default": {
-	"theme": "res://Scenes/Overlays/dialogue_default.tres"
+        "theme": "res://Scenes/Overlays/dialogue_default.tres",
+        "body_color": "#ffffff",
+        "body_font": "res://Fonts/default_font.tres",
+        "body_font_size": 18,
+        "content_margin": 24,
+        "background_texture": "res://Assets/dark-texture-background.jpg",
+        "corner_radius": 0
   },
   "angry": {
-	"theme": "res://themes/dialogue_angry.tres",
-	"body_color": "#ff5050"
+        "theme": "res://themes/dialogue_angry.tres",
+        "body_color": "#ff5050",
+        "body_font": "res://Fonts/angry_font.tres",
+        "body_font_size": 24,
+        "content_margin": 32,
+        "background_texture": "res://Assets/dark-texture-background.jpg",
+        "corner_radius": 4
   },
   "quiet": {
-	"theme": "res://themes/dialogue_quiet.tres",
-	"body_font_size": 18
+        "theme": "res://themes/dialogue_quiet.tres",
+        "body_color": "#ccccff",
+        "body_font": "res://Fonts/quiet_font.tres",
+        "body_font_size": 18,
+        "content_margin": 16,
+        "background_texture": "res://Assets/soft glow.png",
+        "corner_radius": 8
   }
 }
