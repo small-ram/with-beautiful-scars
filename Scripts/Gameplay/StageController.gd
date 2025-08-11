@@ -48,6 +48,10 @@ var photo_dialogues_done : int = 0
 var photos_total   : int = 0
 var critters_done  : int = 0
 
+# Track dialogue IDs that are currently relevant for stage 1.
+var _pending_photo_ids : Dictionary = {}
+var _current_critter_id : String = ""
+
 # critter queue
 const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterJesterka.tscn"),
@@ -72,7 +76,7 @@ const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cl
 
 # ───────── READY ─────────
 func _ready() -> void:
-	MemoryPool.init_from_table(memory_table)
+        MemoryPool.init_from_table(memory_table)
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
@@ -82,8 +86,11 @@ func _ready() -> void:
 	parent.parent_chosen.connect(_on_parent_decided)
 
         for ph in get_tree().get_nodes_in_group("photos"):
-                photos_total += 1
-                ph.dialogue_done.connect(_on_photo_dialogue_done)
+                if ph.dialog_id != "":
+                        _pending_photo_ids[ph.dialog_id] = true
+        photos_total = _pending_photo_ids.size()
+
+        DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
 
 # ──────── PARENT / DIFFICULTY ────────
 func _on_parent_decided(is_parent:bool) -> void:
@@ -129,28 +136,31 @@ func _enter_stage1() -> void:
         _spawn_next_critter()
 
 func _spawn_next_critter() -> void:
-	if _current_critter: _current_critter.queue_free()
-	if _queue.is_empty():
-		_current_critter = null
-		_check_stage1_done()
-		return
-	_current_critter = _queue.pop_back().instantiate()
-	get_tree().current_scene.add_child(_current_critter)
-	_current_critter.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
+        if _current_critter: _current_critter.queue_free()
+        if _queue.is_empty():
+                _current_critter = null
+                _current_critter_id = ""
+                _check_stage1_done()
+                return
+        _current_critter = _queue.pop_back().instantiate()
+        get_tree().current_scene.add_child(_current_critter)
+        if _current_critter.has_variable("one_liner_id"):
+                _current_critter_id = _current_critter.one_liner_id
 
-func _on_critter_done() -> void:
-	critters_done += 1
-	_spawn_next_critter()        # continue queue
-	_check_stage1_done()
-
-func _on_photo_dialogue_done(_p) -> void:
-        if stage != Stage.STAGE1: return
-        photo_dialogues_done += 1
-        _check_stage1_done()
 
 func _check_stage1_done() -> void:
         if photo_dialogues_done == photos_total and critters_done == CRITTERS.size() and _current_critter == null:
                 _enter_stage2()
+
+func _on_dialogue_finished(last_id: String) -> void:
+        if _pending_photo_ids.has(last_id):
+                _pending_photo_ids.erase(last_id)
+                photo_dialogues_done += 1
+                _check_stage1_done()
+        elif last_id == _current_critter_id:
+                critters_done += 1
+                _spawn_next_critter()
+                _check_stage1_done()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:
@@ -198,8 +208,10 @@ func _enter_stage4() -> void:
 
 # ──────── OUTRO ────────
 func _enter_end() -> void:
-	stage = Stage.END
-	DialogueManager.start("outro")
+        stage = Stage.END
+        if DialogueManager.is_active():
+                await DialogueManager.dialogue_finished
+        DialogueManager.start("outro")
 
 # ──────── helpers ────────
 func _clear_overlay() -> void:
