@@ -1,0 +1,18 @@
+extends StageState
+class_name Stage4State
+
+const RIVER_SCENE := preload("res://Scenes/River.tscn")
+
+func enter(controller) -> void:
+    CircleBank.hide_bank()
+    for ph in get_tree().get_nodes_in_group("photos"):
+        if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
+    for cr in get_tree().get_nodes_in_group("critters"):
+        if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
+    var river := RIVER_SCENE.instantiate()
+    get_tree().current_scene.add_child(river)
+    river.global_position = (controller._river_pos.global_position if controller._river_pos else Vector2(640,720))
+    river.cleanup_complete.connect(func(): finished.emit(OutroState.new()))
+
+func exit(controller) -> void:
+    pass
