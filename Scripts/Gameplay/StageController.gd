@@ -48,6 +48,10 @@ var photo_dialogues_done : int = 0
 var photos_total   : int = 0
 var critters_done  : int = 0
 
+var _pending_photo_ids : Array[String] = []
+var _current_critter_id : String = ""
+var _current_critter_node : Node = null
+
 # critter queue
 const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterJesterka.tscn"),
@@ -71,18 +75,24 @@ const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cl
 
 # ───────── READY ─────────
 func _ready() -> void:
-	MemoryPool.init_from_table(memory_table)
+MemoryPool.init_from_table(memory_table)
 
-	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+overlay  = _fetch_node(overlay_path,  "OverlayLayer")
 
-	var parent := PARENT_PANEL.instantiate()
-	overlay.add_child(parent)
-	parent.parent_chosen.connect(_on_parent_decided)
+var parent := PARENT_PANEL.instantiate()
+overlay.add_child(parent)
+parent.parent_chosen.connect(_on_parent_decided)
 
-	for ph in get_tree().get_nodes_in_group("photos"):
-		photos_total += 1
-		ph.dialogue_done.connect(_on_photo_dialogue_done)
+photos_total = 0
+_pending_photo_ids.clear()
+for ph in get_tree().get_nodes_in_group("photos"):
+var pid: String = ph.dialog_id
+if pid != "":
+photos_total += 1
+_pending_photo_ids.append(pid)
+
+DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
 
 # ──────── PARENT / DIFFICULTY ────────
 func _on_parent_decided(is_parent:bool) -> void:
@@ -129,22 +139,28 @@ func _enter_stage1() -> void:
 
 func _spawn_next_critter() -> void:
 		if _queue.is_empty():
-				_check_stage1_done()
-				return
+			_current_critter_id = ""
+			_current_critter_node = null
+			_check_stage1_done()
+			return
 		var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
 		get_tree().current_scene.add_child(cr)
-		cr.dialogue_done.connect(Callable(self, "_on_critter_done").bind(cr), CONNECT_ONE_SHOT)
+		_current_critter_node = cr
+		_current_critter_id = cr.one_liner_id
 
-func _on_critter_done(cr: Node) -> void:
-		critters_done += 1
-		cr.add_to_group("discardable")
-		_spawn_next_critter()        # continue queue
-		_check_stage1_done()
-
-func _on_photo_dialogue_done(_p) -> void:
-		if stage != Stage.STAGE1: return
-		photo_dialogues_done += 1
-		_check_stage1_done()
+func _on_dialogue_finished(last_id: String) -> void:
+		if stage != Stage.STAGE1:
+			return
+		if _pending_photo_ids.has(last_id):
+			photo_dialogues_done += 1
+			_pending_photo_ids.erase(last_id)
+			_check_stage1_done()
+		elif last_id == _current_critter_id:
+			critters_done += 1
+			if is_instance_valid(_current_critter_node):
+				_current_critter_node.add_to_group("discardable")
+			_spawn_next_critter()	# continue queue
+			_check_stage1_done()
 
 func _check_stage1_done() -> void:
 				if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
@@ -199,6 +215,8 @@ func _enter_stage4() -> void:
 # ──────── OUTRO ────────
 func _enter_end() -> void:
 		stage = Stage.END
+		if DialogueManager.is_active():
+			await DialogueManager.dialogue_finished
 		DialogueManager.start("outro")
 
 # ──────── RESET ────────
