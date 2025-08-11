@@ -145,7 +145,6 @@ func _start_dialogue_if_possible() -> void:
 				return
 		if dialog_id == "":
 				_dialogue_complete = true
-				emit_signal("dialogue_done", self)
 				return
 		if Engine.is_editor_hint():
 				return
@@ -157,14 +156,22 @@ func _start_dialogue_if_possible() -> void:
 		DialogueManager.start(dialog_id)
 
 func _on_dialogue_finished(last_id: String) -> void:
-				if last_id != dialog_id:
-								return
-				if DialogueManager.dialogue_finished.is_connected(_on_dialogue_finished):
-								DialogueManager.dialogue_finished.disconnect(_on_dialogue_finished)
-				if _dialogue_complete:
-						return
-				_dialogue_complete = true
-				emit_signal("dialogue_done", self)
+	if last_id != dialog_id:
+		return
+	if DialogueManager.dialogue_finished.is_connected(_on_dialogue_finished):
+		DialogueManager.dialogue_finished.disconnect(_on_dialogue_finished)
+	if _dialogue_complete:
+		return
+	_dialogue_complete = true
+	emit_signal("dialogue_done", self)
+	if dialog_id == "":
+			return
+	if Engine.is_editor_hint():
+			return
+	if not DialogueManager.has_method("start"):
+					return
+	DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
+	DialogueManager.start(dialog_id)
 # ───────────────────────────
 #  Helpers
 # ───────────────────────────
