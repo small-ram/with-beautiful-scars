@@ -1,5 +1,6 @@
 {
   "id": "mem_distance_dialog",
   "body": 	"You will tell me that later, when I am sixteen.",
+  "portrait": "res://Assets/distance.jpg",
   "choices": []
 }

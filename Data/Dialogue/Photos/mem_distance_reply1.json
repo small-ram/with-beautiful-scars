@@ -1,5 +1,6 @@
 {
   "id": "mem_distance_dialog",
   "body": 	"No, she’s not there. Where is the damn girl?",
+  "portrait": "res://Assets/distance.jpg",
   "choices": []
 }

@@ -2,6 +2,7 @@
   "id": "mem_crib_dialog",
   "body": 	"The baby’s crying. Screaming in her crib. She’s so small. You have just fed her with a precisely measured dose of formula and changed her diaper. What more does she want? \n\n
 			What should you do?",
+  "portrait": "res://Assets/crib.jpg",
   "choices": [
 	{ "label": "1) Nothing", "next": "mem_crib_reply1" },
 	{ "label": "2) Something", "next": "mem_crib_reply2" }

@@ -4,6 +4,7 @@
 	then:  \n\n
 	you = good enough parent\n\n
 Fact: She learned very soon to hide all her needs for fear of upsetting you.",
+  "portrait": "res://Assets/concept.jpg",
   "choices": [
 	{ "label": "1) You can just say it out loud, that I was a terrible mother.", "next": "mem_concept_reply1_1AND2_1" },
 	{ "label": "2) This is not useful for either of us. Are you aware of that?", "next": "" }
