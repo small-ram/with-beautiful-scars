@@ -1,18 +1,11 @@
 critters should be on top of everything
-critters should stay on the screen after triggered, not disappear
 critters should also be possible (= they have to be) discardable during the cleanup phase, same rules apply like to the photos
-intro ať se posouvá samo, ne klikáním
 restart is currently not working properly, often crashing the game - Trying to assign invalid previously freed instance. happens for "var slot : Node2D = _mem2slot.get(mem_id)"
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
-lepší responzivita rozlišení
-dialogue: 
-1) Když je text odpovědi dlouhý, tlačítko by se mělo zvýšit, ne rozšířit
-2) Odpovědi(=choices) a Continue by měly být ukotveny dole na jednom místě a ne dynamicky podle délky dialogu
-3) Změnit barvu, typ, velikost fontu a cokoliv co bude mít za efekt, že dialog bude vypadat lépe
-4) Možná zobrazit v rámci dialogu fotku/critter které se to týká
-
+dialogue: Change every single font color, type, size etc. so that the game looks better
 After going through all snapped photos and critters dialogues next stage should trigger, but that does not happen.
 Critters are still moving after triggering their dialogue. They should stay on the scene, but with the "trigger" animation, not "move" and they should not move anymore
-Critters by měly překrývat dialog a circles
+Critters should be on a higher layer than the dialogue visual and above circles (blueberries)
+Improve resolution responsiveness
