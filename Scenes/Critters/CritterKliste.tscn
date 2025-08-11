@@ -83,7 +83,7 @@ animations = [{
 top_level = true
 light_mask = 0
 visibility_layer = 2
-z_index = 90
+z_index = 1000
 script = ExtResource("1_dq6pa")
 one_liner_id = "Critters/kliste"
 

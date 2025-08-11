@@ -128,17 +128,18 @@ func _enter_stage1() -> void:
 		_spawn_next_critter()
 
 func _spawn_next_critter() -> void:
-	if _queue.is_empty():
-		_check_stage1_done()
-		return
-	var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
-	get_tree().current_scene.add_child(cr)
-	cr.dialogue_done.connect(_on_critter_done, CONNECT_ONE_SHOT)
+        if _queue.is_empty():
+                _check_stage1_done()
+                return
+        var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
+        get_tree().current_scene.add_child(cr)
+        cr.dialogue_done.connect(Callable(self, "_on_critter_done").bind(cr), CONNECT_ONE_SHOT)
 
-func _on_critter_done() -> void:
-	critters_done += 1
-	_spawn_next_critter()        # continue queue
-	_check_stage1_done()
+func _on_critter_done(cr: Node) -> void:
+        critters_done += 1
+        cr.add_to_group("discardable")
+        _spawn_next_critter()        # continue queue
+        _check_stage1_done()
 
 func _on_photo_dialogue_done(_p) -> void:
 		if stage != Stage.STAGE1: return
