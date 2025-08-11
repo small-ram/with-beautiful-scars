@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cadm7kis5hmix"
-path="res://.godot/imported/sklenenka.jpg-be2c93d7a7a7b3f744650705c04de90c.ctex"
+uid="uid://ri8ahq7f2mtv"
+path="res://.godot/imported/kliste.png-71dcedd76d9f5f42b5b6db2f3fd2c972.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Critters/sklenenka.jpg"
-dest_files=["res://.godot/imported/sklenenka.jpg-be2c93d7a7a7b3f744650705c04de90c.ctex"]
+source_file="res://Assets/Critters/kliste.png"
+dest_files=["res://.godot/imported/kliste.png-71dcedd76d9f5f42b5b6db2f3fd2c972.ctex"]
 
 [params]
 
@@ -30,5 +30,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=128
+process/size_limit=256
 detect_3d/compress_to=1

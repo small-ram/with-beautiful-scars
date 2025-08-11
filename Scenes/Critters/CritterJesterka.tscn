@@ -27,7 +27,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sprtf"]
-size = Vector2(103, 202)
+size = Vector2(103, 244)
 
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
@@ -50,7 +50,6 @@ text = "E"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 27
 z_as_relative = false
-scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"idle"
 

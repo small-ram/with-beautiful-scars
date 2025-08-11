@@ -2,55 +2,55 @@
 
 [ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
 [ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
-[ext_resource type="Texture2D" uid="uid://c3l0356l88lh3" path="res://Assets/Critters/sklenenka2.png" id="3_qv3e0"]
+[ext_resource type="Texture2D" uid="uid://c3l0356l88lh3" path="res://Assets/Critters/sklenenka.png" id="3_qv3e0"]
 
 [sub_resource type="Theme" id="Theme_mulg6"]
 default_font_size = 50
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ldw5y"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv3e0"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(0, 0, 512, 476)
+region = Rect2(0, 0, 348, 332)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_shv6o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jt6qv"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(512, 0, 512, 476)
+region = Rect2(348, 0, 348, 332)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5snik"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8ck3"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(0, 476, 512, 476)
+region = Rect2(0, 452, 348, 332)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qsdvj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6fid"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(512, 476, 512, 476)
+region = Rect2(348, 452, 348, 332)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y1ih2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7g07"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(0, 952, 512, 476)
+region = Rect2(0, 904, 348, 332)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eqd2c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_36w3i"]
 atlas = ExtResource("2_g87b1")
-region = Rect2(512, 952, 512, 476)
+region = Rect2(348, 904, 348, 332)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ldw5y")
+"texture": SubResource("AtlasTexture_qv3e0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_shv6o")
+"texture": SubResource("AtlasTexture_jt6qv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5snik")
+"texture": SubResource("AtlasTexture_k8ck3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qsdvj")
+"texture": SubResource("AtlasTexture_v6fid")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_y1ih2")
+"texture": SubResource("AtlasTexture_o7g07")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_eqd2c")
+"texture": SubResource("AtlasTexture_36w3i")
 }],
 "loop": true,
 "name": &"move",
@@ -89,7 +89,6 @@ text = "E"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 27
 z_as_relative = false
-scale = Vector2(0.303272, 0.313652)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
 

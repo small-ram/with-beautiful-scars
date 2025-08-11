@@ -1,8 +1,26 @@
-restart is currently not working properly, often crashing the game - Trying to assign invalid previously freed instance. happens for "var slot : Node2D = _mem2slot.get(mem_id)"
-animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
-hudba
-zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
-dialogue: Change every single font color, type, size etc. so that the game looks better
-Improve resolution responsiveness
+
+
+Gameplay
 Critters jdou dat do reky, ale nemusi byt zlate
 konec se triggerne i bez presunutych critters
+critters by meli chodit nahodile - z bodu do bodu, ale ne v prime linii
+
+
+Vizuál
+dodělat animaci a obrazky critters
+upravit jak/jestli se v dialogu zobrazi obrazek
+animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
+dialogue: Change every single font color, type, size etc. so that the game looks better
+na critters místo písmena možná dát obrázek klávesy s písmenem
+dialog by měl být lehce průhledný
+
+
+Zvuk/hudba
+-hudba
+-zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
+-zvuk trigger critterů
+
+
+Technical
+Improve resolution responsiveness
+restart is currently not working properly, often crashing the game
