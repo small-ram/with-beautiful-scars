@@ -41,72 +41,64 @@ var overlay  : CanvasLayer = null
 var critter_layer : CanvasLayer = null
 var woman    : Node = null
 var fetus    : Node = null
-
 var current_state : StageState = null
 
 # ───────── READY ─────────
 func _ready() -> void:
-    MemoryPool.init_from_table(memory_table)
-
-    gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-    overlay  = _fetch_node(overlay_path,  "OverlayLayer")
-    critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
-
-    for ph in get_tree().get_nodes_in_group("photos"):
-        var pid: String = ph.dialog_id
-        if pid != "":
-            ph.dialogue_done.connect(_on_photo_dialogue_done)
-
-    change_state(IntroState.new())
+	MemoryPool.init_from_table(memory_table)
+	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+	critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
+	for ph in get_tree().get_nodes_in_group("photos"):
+		var pid: String = ph.dialog_id
+		if pid != "":
+			ph.dialogue_done.connect(_on_photo_dialogue_done)
+	change_state(IntroState.new())
 
 # ───────── STATE HELPERS ─────────
 func change_state(new_state: StageState) -> void:
-    if current_state:
-        current_state.finished.disconnect(change_state)
-        current_state.exit(self)
-    current_state = new_state
-    if current_state:
-        current_state.finished.connect(change_state)
-        current_state.enter(self)
+	if current_state:
+		current_state.finished.disconnect(change_state)
+		current_state.exit(self)
+	current_state = new_state
+	if current_state:
+		current_state.finished.connect(change_state)
+		current_state.enter(self)
 
 func _on_photo_dialogue_done(photo) -> void:
-    if current_state:
-        current_state.on_photo_dialogue_done(self, photo)
+	if current_state:
+		current_state.on_photo_dialogue_done(self, photo)
 
 func _on_critter_dialogue_done(critter) -> void:
-    if current_state:
-        current_state.on_critter_dialogue_done(self, critter)
+	if current_state:
+		current_state.on_critter_dialogue_done(self, critter)
 
 # ───────── RESET ─────────
 func reset() -> void:
-    if current_state:
-        current_state.exit(self)
-        current_state = null
-
-    if woman:
-        woman.queue_free()
-        woman = null
-    if fetus:
-        fetus.queue_free()
-        fetus = null
-
-    gameplay = null
-    overlay = null
-
-    MemoryPool.init_from_table(memory_table)
-    CircleBank.reset_all()
-
-    get_tree().change_scene_to_file("res://Scenes/Main.tscn")
-    await get_tree().process_frame
-    CircleBank.reload()
+	if current_state:
+		current_state.exit(self)
+		current_state = null
+	if woman:
+		woman.queue_free()
+		woman = null
+	if fetus:
+		fetus.queue_free()
+		fetus = null
+	gameplay = null
+	overlay = null
+	MemoryPool.init_from_table(memory_table)
+	CircleBank.reset_all()
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+	await get_tree().process_frame
+	CircleBank.reload()
 
 # ───────── helpers ─────────
 func _clear_overlay() -> void:
-    if overlay == null: return
-    for c in overlay.get_children(): c.queue_free()
+	if overlay == null: return
+	for c in overlay.get_children(): c.queue_free()
 
 func _fetch_node(path:NodePath, fallback:String) -> Node:
-    if path != NodePath(""):
-        var n := get_node_or_null(path)
-        if n: return n
-    return get_tree().current_scene.find_child(fallback, true, false)
+	if path != NodePath(""):
+		var n := get_node_or_null(path)
+		if n: return n
+	return get_tree().current_scene.find_child(fallback, true, false)
