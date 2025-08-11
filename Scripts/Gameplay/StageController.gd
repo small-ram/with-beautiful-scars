@@ -3,34 +3,35 @@ extends Node
 #
 # Flow summary
 #   • parent / difficulty   (unchanged)
-#   • Stage 1  – all photo dialogues and critter dialogues finished
-#   • Stage 2  – mid panel → woman photo
-#   • Stage 3  – woman shrinks to marker, fetus spawns at FetusSpawn
-#               click fetus → centre + heartbeat + dialogue
-#   • Stage 4  – photos turn gold when dragged over fetus, then drag to river
+#   • Stage 1	 – all photo dialogues and critter dialogues finished
+#   • Stage 2	 – mid panel → woman photo
+#   • Stage 3	 – woman shrinks to marker, fetus spawns at FetusSpawn
+#		click fetus → centre + heartbeat + dialogue
+#   • Stage 4	 – photos turn gold when dragged over fetus, then drag to river
 #   • Outro
 #
 
 # ───────── EXPORTS ─────────
-@export_node_path("Node")        var gameplay_path      : NodePath
-@export_node_path("CanvasLayer") var overlay_path       : NodePath
-@export_node_path("Node")        var stack_path         : NodePath
-@export_node_path("Marker2D")    var woman_spawn_path   : NodePath
-@export_node_path("Marker2D")    var river_spawn_path   : NodePath
-@export_node_path("Marker2D")    var fetus_spawn_path   : NodePath
-@export_node_path("Marker2D") 	var fetus_centre_path : NodePath
-@export_node_path("Marker2D")    var woman_target_path  : NodePath
+@export_node_path("Node")	 var gameplay_path	: NodePath
+@export_node_path("CanvasLayer") var overlay_path	: NodePath
+@export_node_path("CanvasLayer") var critter_layer_path : NodePath
+@export_node_path("Node")	 var stack_path		: NodePath
+@export_node_path("Marker2D")	 var woman_spawn_path	: NodePath
+@export_node_path("Marker2D")	 var river_spawn_path	: NodePath
+@export_node_path("Marker2D")	 var fetus_spawn_path	: NodePath
+@export_node_path("Marker2D")	var fetus_centre_path : NodePath
+@export_node_path("Marker2D")	 var woman_target_path	: NodePath
 
-@export var mid_stage_panel     : PackedScene               # “Now she is ready …”
-@export var memory_table        : MemoryTable
-@export var alt_intro_scene     : PackedScene
+@export var mid_stage_panel	: PackedScene		    # “Now she is ready …”
+@export var memory_table	: MemoryTable
+@export var alt_intro_scene	: PackedScene
 @export_file("*.json") var easy_slots_json : String
 @export_file("*.json") var hard_slots_json : String
-@export var heartbeat_sfx       : String = "fetusHeartbeat"
+@export var heartbeat_sfx	: String = "fetusHeartbeat"
 
 # ───────── ONREADY MARKERS ─────────
 @onready var _woman_spawn : Marker2D = get_node_or_null(woman_spawn_path)
-@onready var _river_pos   : Marker2D = get_node_or_null(river_spawn_path)
+@onready var _river_pos	  : Marker2D = get_node_or_null(river_spawn_path)
 @onready var _fetus_spawn : Marker2D = get_node_or_null(fetus_spawn_path)
 @onready var _fetus_centre : Marker2D = get_node_or_null(fetus_centre_path)
 @onready var _woman_target: Marker2D = get_node_or_null(woman_target_path)
@@ -39,8 +40,9 @@ extends Node
 enum Stage { INTRO, STAGE1, STAGE2, STAGE3, STAGE4, END }
 var stage : Stage = Stage.INTRO
 
-var gameplay : Node        = null
+var gameplay : Node	   = null
 var overlay  : CanvasLayer = null
+var critter_layer : CanvasLayer = null
 var woman    : Node = null
 var fetus    : Node = null
 
@@ -71,14 +73,15 @@ const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.t
 const INTRO_PANEL      := preload("res://Scenes/Overlays/IntroPanel.tscn")
 const WOMAN_SCENE      := preload("res://Scenes/WomanPhoto.tscn")   # stage 2 photo of the mother
 const FETUS_SCENE      := preload("res://Scenes/FetusPhoto.tscn")   # stage 3 heartbeat interaction
-const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cleanup area
+const RIVER_SCENE      := preload("res://Scenes/River.tscn")	    # stage 4 cleanup area
 
 # ───────── READY ─────────
 func _ready() -> void:
 	MemoryPool.init_from_table(memory_table)
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+	overlay	 = _fetch_node(overlay_path,  "OverlayLayer")
+	critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
 
 	var parent := PARENT_PANEL.instantiate()
 	overlay.add_child(parent)
@@ -143,7 +146,10 @@ func _spawn_next_critter() -> void:
 			_check_stage1_done()
 			return
 		var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
-		get_tree().current_scene.add_child(cr)
+		if critter_layer:
+			critter_layer.add_child(cr)
+		else:
+			get_tree().current_scene.add_child(cr)
 		_current_critter_node = cr
 		_current_critter_id = cr.one_liner_id
 

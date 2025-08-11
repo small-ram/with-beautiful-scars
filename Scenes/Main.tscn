@@ -23,6 +23,7 @@ texture = ExtResource("13_1p5hy")
 script = ExtResource("1_fwmen")
 gameplay_path = NodePath("../Gameplay")
 overlay_path = NodePath("../UI/OverlayLayer")
+critter_layer_path = NodePath("../CritterLayer")
 stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
 woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
 river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
@@ -34,6 +35,9 @@ memory_table = ExtResource("2_grg3l")
 alt_intro_scene = ExtResource("4_frkhe")
 easy_slots_json = "res://Data/SlotConfigs/easy.json"
 hard_slots_json = "res://Data/SlotConfigs/hard.json"
+
+[node name="CritterLayer" type="CanvasLayer" parent="."]
+layer = 200
 
 [node name="Gameplay" type="Node2D" parent="."]
 
