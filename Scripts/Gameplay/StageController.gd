@@ -136,16 +136,15 @@ func _enter_stage1() -> void:
         _spawn_next_critter()
 
 func _spawn_next_critter() -> void:
-        if _current_critter: _current_critter.queue_free()
-        if _queue.is_empty():
-                _current_critter = null
-                _current_critter_id = ""
-                _check_stage1_done()
-                return
-        _current_critter = _queue.pop_back().instantiate()
-        get_tree().current_scene.add_child(_current_critter)
-        if _current_critter.has_variable("one_liner_id"):
-                _current_critter_id = _current_critter.one_liner_id
+       if _current_critter: _current_critter.queue_free()
+       if _queue.is_empty():
+               _current_critter = null
+               _current_critter_id = ""
+               _check_stage1_done()
+               return
+       _current_critter = _queue.pop_back().instantiate()
+       get_tree().current_scene.add_child(_current_critter)
+       _current_critter_id = _current_critter.one_liner_id if _current_critter.has_variable("one_liner_id") else ""
 
 
 func _check_stage1_done() -> void:
