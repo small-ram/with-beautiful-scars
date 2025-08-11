@@ -1,4 +1,3 @@
-critters should be on top of everything
 critters should also be possible (= they have to be) discardable during the cleanup phase, same rules apply like to the photos
 restart is currently not working properly, often crashing the game - Trying to assign invalid previously freed instance. happens for "var slot : Node2D = _mem2slot.get(mem_id)"
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou

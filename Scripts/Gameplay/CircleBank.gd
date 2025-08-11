@@ -31,9 +31,9 @@ func _late_init() -> void:
 
 # ───────── data setup ─────────
 func _cache_slots() -> void:
-        _mem2slot.clear()
-        for s : Node in get_tree().get_nodes_in_group("memory_slots"):
-                _mem2slot[s.memory_id] = s
+		_mem2slot.clear()
+		for s : Node in get_tree().get_nodes_in_group("memory_slots"):
+				_mem2slot[s.memory_id] = s
 
 func _resolve_origin() -> Vector2:
 	if origin_path != NodePath(""):
@@ -100,11 +100,11 @@ func _mems_for_photo(p:Node) -> Array[String]:
 	return out
 
 func _apply_pulse(spr:Sprite2D, mem_id:String) -> void:
-        var slot : Node2D = _mem2slot.get(mem_id)
-        if slot == null or not is_instance_valid(slot):
-                return
-        var dist : float = _active_photo.global_position.distance_to(slot.global_position)
-        var t    : float = clamp(1.0 - dist / max_dist, 0.0, 1.0)
+	var slot : Node2D = _mem2slot.get(mem_id)
+	if slot == null or not is_instance_valid(slot):
+			return
+	var dist : float = _active_photo.global_position.distance_to(slot.global_position)
+	var t    : float = clamp(1.0 - dist / max_dist, 0.0, 1.0)
 
 	spr.scale    = Vector2.ONE * lerp(1.0, max_scale, t)
 	spr.modulate = _base_mod[mem_id].lerp(pulse_tint, t)
@@ -121,10 +121,10 @@ func _reset_all() -> void:
 func show_bank():  visible = true
 func hide_bank():  visible = false
 func reset_all() -> void:
-        for spr : Sprite2D in _icons.values():
-                spr.visible = true
-        _reset_all()
+		for spr : Sprite2D in _icons.values():
+				spr.visible = true
+		_reset_all()
 
 func reload() -> void:
-        _cache_slots()
-        _build_icons()
+		_cache_slots()
+		_build_icons()
