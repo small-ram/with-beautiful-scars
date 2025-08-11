@@ -50,9 +50,6 @@ var photo_dialogues_done : int = 0
 var photos_total   : int = 0
 var critters_done  : int = 0
 
-var _pending_photo_ids : Array[String] = []
-var _current_critter_id : String = ""
-var _current_critter_node : Node = null
 
 # critter queue
 const CRITTERS : Array[PackedScene] = [
@@ -88,13 +85,11 @@ func _ready() -> void:
 	parent.parent_chosen.connect(_on_parent_decided)
 
 	photos_total = 0
-	_pending_photo_ids.clear()
 	for ph in get_tree().get_nodes_in_group("photos"):
 		var pid: String = ph.dialog_id
 		if pid != "":
 			photos_total += 1
-			_pending_photo_ids.append(pid)
-	DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
+			ph.dialogue_done.connect(_on_photo_dialogue_done)
 
 # ──────── PARENT / DIFFICULTY ────────
 func _on_parent_decided(is_parent:bool) -> void:
@@ -141,8 +136,6 @@ func _enter_stage1() -> void:
 
 func _spawn_next_critter() -> void:
 		if _queue.is_empty():
-			_current_critter_id = ""
-			_current_critter_node = null
 			_check_stage1_done()
 			return
 		var cr: Node = (_queue.pop_back() as PackedScene).instantiate()
@@ -150,22 +143,22 @@ func _spawn_next_critter() -> void:
 			critter_layer.add_child(cr)
 		else:
 			get_tree().current_scene.add_child(cr)
-		_current_critter_node = cr
-		_current_critter_id = cr.one_liner_id
+		cr.dialogue_done.connect(_on_critter_dialogue_done.bind(cr))
 
-func _on_dialogue_finished(last_id: String) -> void:
+func _on_photo_dialogue_done(_photo) -> void:
 		if stage != Stage.STAGE1:
 			return
-		if _pending_photo_ids.has(last_id):
-			photo_dialogues_done += 1
-			_pending_photo_ids.erase(last_id)
-			_check_stage1_done()
-		elif last_id == _current_critter_id:
-			critters_done += 1
-			if is_instance_valid(_current_critter_node):
-				_current_critter_node.add_to_group("discardable")
-			_spawn_next_critter()	# continue queue
-			_check_stage1_done()
+		photo_dialogues_done += 1
+		_check_stage1_done()
+
+func _on_critter_dialogue_done(critter) -> void:
+		if stage != Stage.STAGE1:
+			return
+		critters_done += 1
+		if is_instance_valid(critter):
+			critter.add_to_group("discardable")
+		_spawn_next_critter()   # continue queue
+		_check_stage1_done()
 
 func _check_stage1_done() -> void:
 				if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
