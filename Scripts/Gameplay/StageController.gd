@@ -198,13 +198,40 @@ func _enter_stage4() -> void:
 
 # ──────── OUTRO ────────
 func _enter_end() -> void:
-	stage = Stage.END
-	DialogueManager.start("outro")
+        stage = Stage.END
+        DialogueManager.start("outro")
+
+# ──────── RESET ────────
+func reset() -> void:
+        stage = Stage.INTRO
+        photo_dialogues_done = 0
+        photos_total = 0
+        critters_done = 0
+
+        _queue.clear()
+        if _current_critter:
+                _current_critter.queue_free()
+                _current_critter = null
+
+        if woman:
+                woman.queue_free()
+                woman = null
+        if fetus:
+                fetus.queue_free()
+                fetus = null
+
+        gameplay = null
+        overlay = null
+
+        MemoryPool.init_from_table(memory_table)
+        CircleBank.reset_all()
+
+        get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
 # ──────── helpers ────────
 func _clear_overlay() -> void:
-	if overlay == null: return
-	for c in overlay.get_children(): c.queue_free()
+        if overlay == null: return
+        for c in overlay.get_children(): c.queue_free()
 
 func _fetch_node(path:NodePath, fallback:String) -> Node:
 	if path != NodePath(""):
