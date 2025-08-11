@@ -33,54 +33,54 @@ func _ready() -> void:
 
 # ---------- Node wiring ----------
 func _autowire_nodes() -> void:
-        if body_path != NodePath():      _body       = get_node_or_null(body_path) as RichTextLabel
-        if choice_path != NodePath():    _choice_box = get_node_or_null(choice_path) as VBoxContainer
-        if portrait_path != NodePath():  _portrait   = get_node_or_null(portrait_path) as TextureRect
-        if anim_path != NodePath():      _anim       = get_node_or_null(anim_path) as AnimationPlayer
-        if hover_path != NodePath():     _hover_snd  = get_node_or_null(hover_path)
-        if backplate_path != NodePath(): _backplate  = get_node_or_null(backplate_path) as Control
-        if content_path != NodePath():   _content    = get_node_or_null(content_path) as MarginContainer
+	if body_path != NodePath():      _body       = get_node_or_null(body_path) as RichTextLabel
+	if choice_path != NodePath():    _choice_box = get_node_or_null(choice_path) as VBoxContainer
+	if portrait_path != NodePath():  _portrait   = get_node_or_null(portrait_path) as TextureRect
+	if anim_path != NodePath():      _anim       = get_node_or_null(anim_path) as AnimationPlayer
+	if hover_path != NodePath():     _hover_snd  = get_node_or_null(hover_path)
+	if backplate_path != NodePath(): _backplate  = get_node_or_null(backplate_path) as Control
+	if content_path != NodePath():   _content    = get_node_or_null(content_path) as MarginContainer
 
-        if _body == null:
-                _body = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/BodyLabel") as RichTextLabel
-        if _choice_box == null:
-                _choice_box = get_node_or_null("Backplate/Content/BodyAndChoices/Choices/ChoiceBox") as VBoxContainer
-        if _portrait == null:
-                _portrait = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/Portrait") as TextureRect
-        if _anim == null:
-                _anim = get_node_or_null("../AnimationPlayer") as AnimationPlayer
-        if _hover_snd == null:
-                _hover_snd = get_node_or_null("../sfxHover")
-        if _backplate == null:
-                _backplate = get_node_or_null("Backplate") as Control
-        if _content == null:
-                _content = get_node_or_null("Backplate/Content") as MarginContainer
+	if _body == null:
+			_body = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/BodyLabel") as RichTextLabel
+	if _choice_box == null:
+			_choice_box = get_node_or_null("Backplate/Content/BodyAndChoices/Choices/ChoiceBox") as VBoxContainer
+	if _portrait == null:
+			_portrait = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/Portrait") as TextureRect
+	if _anim == null:
+			_anim = get_node_or_null("../AnimationPlayer") as AnimationPlayer
+	if _hover_snd == null:
+			_hover_snd = get_node_or_null("../sfxHover")
+	if _backplate == null:
+			_backplate = get_node_or_null("Backplate") as Control
+	if _content == null:
+			_content = get_node_or_null("Backplate/Content") as MarginContainer
 
-        if _body == null:
-                _body = find_child("BodyLabel", true, false) as RichTextLabel
-        if _choice_box == null:
-                _choice_box = find_child("ChoiceBox", true, false) as VBoxContainer
-        if _portrait == null:
-                _portrait = find_child("Portrait", true, false) as TextureRect
-        if _anim == null:
-                _anim = find_child("AnimationPlayer", true, false) as AnimationPlayer
-        if _hover_snd == null:
-                _hover_snd = find_child("sfxHover", true, false)
-        if _backplate == null:
-                _backplate = find_child("Backplate", true, false) as Control
-        if _content == null:
-                _content = find_child("Content", true, false) as MarginContainer
+	if _body == null:
+			_body = find_child("BodyLabel", true, false) as RichTextLabel
+	if _choice_box == null:
+			_choice_box = find_child("ChoiceBox", true, false) as VBoxContainer
+	if _portrait == null:
+			_portrait = find_child("Portrait", true, false) as TextureRect
+	if _anim == null:
+			_anim = find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if _hover_snd == null:
+			_hover_snd = find_child("sfxHover", true, false)
+	if _backplate == null:
+			_backplate = find_child("Backplate", true, false) as Control
+	if _content == null:
+			_content = find_child("Content", true, false) as MarginContainer
 
-        if _body == null:
-                _body = _find_first_of_type(self, "RichTextLabel") as RichTextLabel
-        if _choice_box == null:
-                _choice_box = _find_first_of_type(self, "VBoxContainer") as VBoxContainer
-        if _portrait == null:
-                _portrait = _find_first_of_type(self, "TextureRect") as TextureRect
-        if _backplate == null:
-                _backplate = _find_first_of_type(self, "NinePatchRect") as Control
-        if _content == null:
-                _content = _find_first_of_type(self, "MarginContainer") as MarginContainer
+	if _body == null:
+			_body = _find_first_of_type(self, "RichTextLabel") as RichTextLabel
+	if _choice_box == null:
+			_choice_box = _find_first_of_type(self, "VBoxContainer") as VBoxContainer
+	if _portrait == null:
+			_portrait = _find_first_of_type(self, "TextureRect") as TextureRect
+	if _backplate == null:
+			_backplate = _find_first_of_type(self, "NinePatchRect") as Control
+	if _content == null:
+			_content = _find_first_of_type(self, "MarginContainer") as MarginContainer
 
 func _find_first_of_type(root: Node, type_name: String) -> Node:
 	for c: Node in root.get_children():
@@ -222,57 +222,57 @@ func _resolve_style(line: Dictionary) -> Dictionary:
 	return (st_any as Dictionary) if (st_any is Dictionary) else {}
 
 func _apply_style(style: Dictionary) -> void:
-        var theme_path_s: String = str(style.get("theme", ""))
-        if theme_path_s != "":
-                var th: Theme = _get_theme(theme_path_s)
-                if th != null:
-                        theme = th
+		var theme_path_s: String = str(style.get("theme", ""))
+		if theme_path_s != "":
+				var th: Theme = _get_theme(theme_path_s)
+				if th != null:
+						theme = th
 
-        var col: Color = Color(1, 1, 1, 1)
-        if style.has("body_color"):
-                col = Color(str(style["body_color"]))
-        var fs: int = 18
-        if style.has("body_font_size"):
-                fs = int(style["body_font_size"])
-        var font_path_s: String = str(style.get("body_font", ""))
-        var font_res: Font = null
-        if font_path_s != "":
-                var res: Resource = load(font_path_s)
-                font_res = res as Font
+		var col: Color = Color(1, 1, 1, 1)
+		if style.has("body_color"):
+				col = Color(str(style["body_color"]))
+		var fs: int = 18
+		if style.has("body_font_size"):
+				fs = int(style["body_font_size"])
+		var font_path_s: String = str(style.get("body_font", ""))
+		var font_res: Font = null
+		if font_path_s != "":
+				var res: Resource = load(font_path_s)
+				font_res = res as Font
 
-        if _body != null:
-                _body.add_theme_color_override("default_color", col)
-                _body.add_theme_font_size_override("normal_font_size", fs)
-                if font_res != null:
-                        _body.add_theme_font_override("normal_font", font_res)
+		if _body != null:
+				_body.add_theme_color_override("default_color", col)
+				_body.add_theme_font_size_override("normal_font_size", fs)
+				if font_res != null:
+						_body.add_theme_font_override("normal_font", font_res)
 
-        if _content != null and style.has("content_margin"):
-                var m_any: Variant = style["content_margin"]
-                var m: int = int(m_any)
-                _content.add_theme_constant_override("margin_left", m)
-                _content.add_theme_constant_override("margin_top", m)
-                _content.add_theme_constant_override("margin_right", m)
-                _content.add_theme_constant_override("margin_bottom", m)
+		if _content != null and style.has("content_margin"):
+				var m_any: Variant = style["content_margin"]
+				var m: int = int(m_any)
+				_content.add_theme_constant_override("margin_left", m)
+				_content.add_theme_constant_override("margin_top", m)
+				_content.add_theme_constant_override("margin_right", m)
+				_content.add_theme_constant_override("margin_bottom", m)
 
-        if _backplate != null and style.has("background_texture"):
-                var tex_path: String = str(style["background_texture"])
-                if tex_path != "":
-                        var tex_res: Resource = load(tex_path)
-                        var tex: Texture2D = tex_res as Texture2D
-                        if _backplate.has_method("set_texture"):
-                                _backplate.call("set_texture", tex)
+		if _backplate != null and style.has("background_texture"):
+				var tex_path: String = str(style["background_texture"])
+				if tex_path != "":
+						var tex_res: Resource = load(tex_path)
+						var tex: Texture2D = tex_res as Texture2D
+						if _backplate.has_method("set_texture"):
+								_backplate.call("set_texture", tex)
 
-        if _backplate != null and style.has("corner_radius"):
-                var radius: int = int(style["corner_radius"])
-                var sb: StyleBoxFlat = StyleBoxFlat.new()
-                sb.bg_color = Color(1, 1, 1, 0)
-                sb.corner_radius_top_left = radius
-                sb.corner_radius_top_right = radius
-                sb.corner_radius_bottom_left = radius
-                sb.corner_radius_bottom_right = radius
-                _backplate.add_theme_stylebox_override("panel", sb)
+		if _backplate != null and style.has("corner_radius"):
+				var radius: int = int(style["corner_radius"])
+				var sb: StyleBoxFlat = StyleBoxFlat.new()
+				sb.bg_color = Color(1, 1, 1, 0)
+				sb.corner_radius_top_left = radius
+				sb.corner_radius_top_right = radius
+				sb.corner_radius_bottom_left = radius
+				sb.corner_radius_bottom_right = radius
+				_backplate.add_theme_stylebox_override("panel", sb)
 
-        _button_theme_path = str(style.get("button_theme", ""))
+		_button_theme_path = str(style.get("button_theme", ""))
 
 func _get_theme(path: String) -> Theme:
 	if path == "":
