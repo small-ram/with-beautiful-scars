@@ -1,5 +1,5 @@
-extends StageState
 class_name IntroState
+extends StageState
 
 const PARENT_PANEL     := preload("res://Scenes/Overlays/ParentChoicePanel.tscn")
 const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.tscn")
@@ -16,9 +16,9 @@ func exit(controller) -> void:
 func _on_parent_decided(is_parent: bool, controller) -> void:
     controller._clear_overlay()
     if is_parent:
-        var alt := controller.alt_intro_scene.instantiate()
+        var alt: Node = controller.alt_intro_scene.instantiate()
         controller.overlay.add_child(alt)
-        alt.intro_finished.connect(func(): get_tree().quit())
+        alt.intro_finished.connect(func(): controller.get_tree().quit())
     else:
         _show_difficulty(controller)
 
@@ -41,6 +41,6 @@ func _apply_slot_cfg(controller, path: String) -> void:
     if j.parse(FileAccess.get_file_as_string(path)) != OK:
         return
     for n in j.data:
-        var ph := get_tree().current_scene.find_child(n, true, false)
+        var ph: Photo = controller.get_tree().current_scene.find_child(n, true, false)
         if ph:
             ph.allowed_slots = PackedInt32Array(j.data[n])
