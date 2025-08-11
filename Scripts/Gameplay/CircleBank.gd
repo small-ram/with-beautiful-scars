@@ -125,6 +125,16 @@ func reset_all() -> void:
                 spr.visible = true
         _reset_all()
 
+func clear() -> void:
+        for spr : Sprite2D in _icons.values():
+                if is_instance_valid(spr):
+                        spr.queue_free()
+        _icons.clear()
+        _base_mod.clear()
+        _mem2slot.clear()
+        _active_photo = null
+
 func reload() -> void:
+        clear()
         _cache_slots()
         _build_icons()

@@ -235,12 +235,12 @@ func reset() -> void:
 		gameplay = null
 		overlay = null
 
-                MemoryPool.init_from_table(memory_table)
-                CircleBank.reset_all()
+		MemoryPool.init_from_table(memory_table)
+		CircleBank.clear()
 
-                get_tree().change_scene_to_file("res://Scenes/Main.tscn")
-                await get_tree().process_frame
-                CircleBank.reload()
+		get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+		await get_tree().process_frame
+		CircleBank.reload()
 
 # ──────── helpers ────────
 func _clear_overlay() -> void:
