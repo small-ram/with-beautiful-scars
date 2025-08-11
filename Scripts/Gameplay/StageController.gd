@@ -219,10 +219,10 @@ func _enter_end() -> void:
 
 # ──────── RESET ────────
 func reset() -> void:
-		stage = Stage.INTRO
-		photo_dialogues_done = 0
-		photos_total = 0
-		critters_done = 0
+                stage = Stage.INTRO
+                photo_dialogues_done = 0
+                photos_total = 0
+                critters_done = 0
 
 		_queue.clear()
 		if woman:
@@ -235,10 +235,12 @@ func reset() -> void:
 		gameplay = null
 		overlay = null
 
-		MemoryPool.init_from_table(memory_table)
-		CircleBank.reset_all()
+                MemoryPool.init_from_table(memory_table)
+                CircleBank.reset_all()
 
-		get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+                get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+                await get_tree().process_frame
+                CircleBank.reload()
 
 # ──────── helpers ────────
 func _clear_overlay() -> void:
