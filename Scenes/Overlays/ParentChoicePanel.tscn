@@ -17,29 +17,40 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hmjht")
 script = ExtResource("1_hmjht")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 965.0
-offset_top = 482.0
-offset_right = 1035.0
-offset_bottom = 522.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="YesBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Yes"
-
-[node name="NoBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "No"
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 884.0
-offset_top = 409.0
-offset_right = 1124.0
-offset_bottom = 444.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Are you her parent?"
 label_settings = SubResource("LabelSettings_hmjht")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Yes"
+
+[node name="NoBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "No"
+
