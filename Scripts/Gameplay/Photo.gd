@@ -18,6 +18,16 @@ signal dialogue_done(photo)
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
 
+
+const DEBUG := true
+func _dbg(msg: String) -> void:
+	if DEBUG:
+		print_rich("[color=teal][Photo][/color] ", msg)
+
+
+
+
+
 # ───────────────────────────
 #  Internal state
 # ───────────────────────────
@@ -47,7 +57,7 @@ const TAPE_TEXTURES : Array[Texture2D] = [
 #  Ready
 # ───────────────────────────
 func _ready() -> void:
-		set_pickable(true)
+	set_pickable(true)
 
 # ───────────────────────────
 #  Input (drag / drop)
@@ -141,27 +151,30 @@ func _snap_to_slot(slot: Area2D, mem_id: String) -> void:
 #  Dialogue trigger
 # ───────────────────────────
 func _start_dialogue_if_possible() -> void:
-                if _dialogue_complete:
-                                return
-                if dialog_id == "":
-                                _dialogue_complete = true
-                                return
-                if Engine.is_editor_hint():
-                                return
-                if not DialogueManager.has_method("start"):
-                                _dialogue_complete = true
-                                emit_signal("dialogue_done", self)
-                                return
-                DialogueManager.dialogue_finished.connect(_on_dialogue_finished, flags=CONNECT_ONE_SHOT)
-                DialogueManager.start(dialog_id)
+	if _dialogue_complete:
+		return
+	if dialog_id.is_empty():
+		_dialogue_complete = true
+		return
+	if Engine.is_editor_hint():
+		return
+	if not DialogueManager.has_method("start"):
+		_dialogue_complete = true
+		emit_signal("dialogue_done", self)
+		return
+
+	# Pass the flag positionally and qualify it (safer across 4.x)
+	DialogueManager.dialogue_finished.connect(_on_dialogue_finished, Object.CONNECT_ONE_SHOT)
+	DialogueManager.start(dialog_id)
 
 func _on_dialogue_finished(last_id: String) -> void:
-        if last_id != dialog_id:
-                return
-        if _dialogue_complete:
-                return
-        _dialogue_complete = true
-        emit_signal("dialogue_done", self)
+	if last_id != dialog_id:
+		return
+	if _dialogue_complete:
+		return
+	_dialogue_complete = true
+	emit_signal("dialogue_done", self)
+
 # ───────────────────────────
 #  Helpers
 # ───────────────────────────

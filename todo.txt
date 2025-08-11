@@ -5,7 +5,6 @@ animace circles - možná místo zaostřování/zvětšování by mohla být ani
 hudba
 zvuk zaostřování (možná každé kolco jiný zvuk, zvuky se doplňují)
 dialogue: Change every single font color, type, size etc. so that the game looks better
-After going through all snapped photos and critters dialogues next stage should trigger, but that does not happen.
-Critters are still moving after triggering their dialogue. They should stay on the scene, but with the "trigger" animation, not "move" and they should not move anymore
+After going through all snapped photos and critters dialogues, stage 2 should trigger, but that does not happen. The issue likely is  likely either in Photo.gd, stagecontroller or kind wherever it makes sense
 Critters should be on a higher layer than the dialogue visual and above circles (blueberries)
 Improve resolution responsiveness
