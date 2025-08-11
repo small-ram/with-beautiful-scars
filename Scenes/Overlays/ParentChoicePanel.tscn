@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlfjmnwyap55e"]
 
-[ext_resource type="PackedScene" uid="uid://cqiyk0hntms4q" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
 [ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="2"]
 
 [node name="ParentChoicePanel" instance=ExtResource("1")]
@@ -8,17 +8,17 @@ script = ExtResource("2")
 yes_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/YesBtn")
 no_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/NoBtn")
 
-[node name="LineLabel" parent="CenterContainer/VBoxContainer"]
+[node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
 text = "Are you her parent?"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="1"]
 layout_mode = 2
 alignment = 1
 
-[node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]
 layout_mode = 2
 text = "Yes"
 
-[node name="NoBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="NoBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="1"]
 layout_mode = 2
 text = "No"

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://drrbg65xm6npm"]
 
-[ext_resource type="PackedScene" uid="uid://cqiyk0hntms4q" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
 [ext_resource type="Script" uid="uid://21176bfc7lka" path="res://Scripts/UI/DifficultyChoicePanel.gd" id="2"]
 
 [node name="DifficultyChoicePanel" instance=ExtResource("1")]
@@ -8,18 +8,20 @@ script = ExtResource("2")
 easy_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/EasyBtn")
 hard_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/HardBtn")
 
-[node name="LineLabel" parent="CenterContainer/VBoxContainer"]
-text = "How hard is it for you to forgive?\n\nPlease select your difficulty:"
+[node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
+text = "How hard is it for you to forgive?
+
+Please select your difficulty:"
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="1"]
 layout_mode = 2
 alignment = 1
 
-[node name="EasyBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="EasyBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]
 layout_mode = 2
 text = "Easy"
 
-[node name="HardBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="HardBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="1"]
 layout_mode = 2
 text = "Hard"

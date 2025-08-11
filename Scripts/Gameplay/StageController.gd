@@ -75,24 +75,23 @@ const RIVER_SCENE      := preload("res://Scenes/River.tscn")        # stage 4 cl
 
 # ───────── READY ─────────
 func _ready() -> void:
-MemoryPool.init_from_table(memory_table)
+	MemoryPool.init_from_table(memory_table)
 
-gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
-overlay  = _fetch_node(overlay_path,  "OverlayLayer")
+	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
 
-var parent := PARENT_PANEL.instantiate()
-overlay.add_child(parent)
-parent.parent_chosen.connect(_on_parent_decided)
+	var parent := PARENT_PANEL.instantiate()
+	overlay.add_child(parent)
+	parent.parent_chosen.connect(_on_parent_decided)
 
-photos_total = 0
-_pending_photo_ids.clear()
-for ph in get_tree().get_nodes_in_group("photos"):
-var pid: String = ph.dialog_id
-if pid != "":
-photos_total += 1
-_pending_photo_ids.append(pid)
-
-DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
+	photos_total = 0
+	_pending_photo_ids.clear()
+	for ph in get_tree().get_nodes_in_group("photos"):
+		var pid: String = ph.dialog_id
+		if pid != "":
+			photos_total += 1
+			_pending_photo_ids.append(pid)
+	DialogueManager.dialogue_finished.connect(_on_dialogue_finished)
 
 # ──────── PARENT / DIFFICULTY ────────
 func _on_parent_decided(is_parent:bool) -> void:
@@ -126,7 +125,7 @@ func _apply_slot_cfg(path:String) -> void:
 		for n in j.data:
 				var ph := get_tree().current_scene.find_child(n, true, false)
 				if ph:
-						ph.allowed_slots = PackedInt32Array(j.data[n])
+					ph.allowed_slots = PackedInt32Array(j.data[n])
 
 # ──────── STAGE 1 ────────
 func _enter_stage1() -> void:
@@ -164,7 +163,7 @@ func _on_dialogue_finished(last_id: String) -> void:
 
 func _check_stage1_done() -> void:
 				if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
-								_enter_stage2()
+					_enter_stage2()
 
 # ──────── STAGE 2 (mid panel → woman) ────────
 func _enter_stage2() -> void:
