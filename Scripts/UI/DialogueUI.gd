@@ -131,12 +131,14 @@ func _clear_choices() -> void:
 		c.queue_free()
 
 func _add_choice_button(index: int, label_text: String) -> void:
-	var b: Button = Button.new()
-	b.text = label_text
-	b.focus_mode = Control.FOCUS_ALL
-	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	b.mouse_entered.connect(_on_btn_hovered)
-	b.pressed.connect(_on_btn_pressed.bind(index))
+        var b: Button = Button.new()
+        b.text = label_text
+        b.focus_mode = Control.FOCUS_ALL
+        b.autowrap = true
+        b.size_flags_horizontal = Control.SIZE_FILL
+        b.size_flags_vertical = Control.SIZE_EXPAND
+        b.mouse_entered.connect(_on_btn_hovered)
+        b.pressed.connect(_on_btn_pressed.bind(index))
 
 	var btn_theme_path_s: String = _current_button_theme_path()
 	if btn_theme_path_s != "":
@@ -151,12 +153,14 @@ func _add_choice_button(index: int, label_text: String) -> void:
 	_choice_box.add_child(b)
 
 func _add_continue_button() -> void:
-	var b: Button = Button.new()
-	b.text = "Continue"
-	b.focus_mode = Control.FOCUS_ALL
-	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	b.mouse_entered.connect(_on_btn_hovered)
-	b.pressed.connect(_on_continue_pressed)
+        var b: Button = Button.new()
+        b.text = "Continue"
+        b.focus_mode = Control.FOCUS_ALL
+        b.autowrap = true
+        b.size_flags_horizontal = Control.SIZE_FILL
+        b.size_flags_vertical = Control.SIZE_EXPAND
+        b.mouse_entered.connect(_on_btn_hovered)
+        b.pressed.connect(_on_continue_pressed)
 	b.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 	b.add_theme_color_override("font_hover_color", Color(1, 1, 1, 1))
 	b.add_theme_color_override("font_pressed_color", Color(1, 1, 1, 1))
