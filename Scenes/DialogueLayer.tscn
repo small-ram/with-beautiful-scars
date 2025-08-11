@@ -65,10 +65,20 @@ bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="ChoiceBox" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+[node name="Choices" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Spacer" type="Control" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/Choices"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChoiceBox" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/Choices"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
+anchor_bottom = 1.0
 theme_override_constants/separation = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer"]
