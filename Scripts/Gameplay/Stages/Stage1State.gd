@@ -1,5 +1,5 @@
-extends StageState
 class_name Stage1State
+extends StageState
 
 const CRITTERS : Array[PackedScene] = [
     preload("res://Scenes/Critters/CritterJesterka.tscn"),
@@ -21,7 +21,7 @@ func enter(controller) -> void:
     photo_dialogues_done = 0
     critters_done = 0
     photos_total = 0
-    for ph in get_tree().get_nodes_in_group("photos"):
+    for ph in controller.get_tree().get_nodes_in_group("photos"):
         var pid: String = ph.dialog_id
         if pid != "":
             photos_total += 1
@@ -29,7 +29,7 @@ func enter(controller) -> void:
     _queue.shuffle()
     _spawn_next_critter(controller)
 
-func exit(controller) -> void:
+func exit(_controller) -> void:
     pass
 
 func _spawn_next_critter(controller) -> void:
@@ -40,7 +40,7 @@ func _spawn_next_critter(controller) -> void:
     if controller.critter_layer:
         controller.critter_layer.add_child(cr)
     else:
-        get_tree().current_scene.add_child(cr)
+        controller.get_tree().current_scene.add_child(cr)
     cr.dialogue_done.connect(controller._on_critter_dialogue_done.bind(cr))
 
 func on_photo_dialogue_done(controller, _photo) -> void:
@@ -54,6 +54,6 @@ func on_critter_dialogue_done(controller, critter) -> void:
     _spawn_next_critter(controller)
     _check_stage1_done(controller)
 
-func _check_stage1_done(controller) -> void:
+func _check_stage1_done(_controller) -> void:
     if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
         finished.emit(Stage2State.new())
