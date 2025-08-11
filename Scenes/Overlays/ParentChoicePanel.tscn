@@ -1,45 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://dlfjmnwyap55e"]
+[gd_scene load_steps=3 format=3 uid="uid://dlfjmnwyap55e"]
 
-[ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="1_hmjht"]
+[ext_resource type="PackedScene" uid="uid://cqiyk0hntms4q" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
+[ext_resource type="Script" uid="uid://6whkirprbgcn" path="res://Scripts/UI/ParentChoicePanel.gd" id="2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hmjht"]
-bg_color = Color(0, 0, 0, 1)
+[node name="ParentChoicePanel" instance=ExtResource("1")]
+script = ExtResource("2")
+yes_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/YesBtn")
+no_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/NoBtn")
 
-[sub_resource type="LabelSettings" id="LabelSettings_hmjht"]
-font_size = 25
+[node name="LineLabel" parent="CenterContainer/VBoxContainer"]
+text = "Are you her parent?"
 
-[node name="ParentChoicePanel" type="Panel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hmjht")
-script = ExtResource("1_hmjht")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 965.0
-offset_top = 482.0
-offset_right = 1035.0
-offset_bottom = 522.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
-[node name="YesBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Yes"
 
-[node name="NoBtn" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="NoBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "No"
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 884.0
-offset_top = 409.0
-offset_right = 1124.0
-offset_bottom = 444.0
-text = "Are you her parent?"
-label_settings = SubResource("LabelSettings_hmjht")

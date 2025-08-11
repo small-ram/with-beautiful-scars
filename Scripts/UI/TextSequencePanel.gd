@@ -3,7 +3,8 @@ signal intro_finished
 
 var lines : Array[String] = []
 
-@onready var _label : Label = $CenterContainer/LineLabel
+@export var label_path: NodePath = "CenterContainer/VBoxContainer/LineLabel"
+@onready var _label : Label = get_node(label_path)
 var _idx : int = 0
 
 func _ready() -> void:
