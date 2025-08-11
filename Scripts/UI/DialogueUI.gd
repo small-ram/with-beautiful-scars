@@ -37,8 +37,8 @@ func _autowire_nodes() -> void:
 
 	if _body == null:
 		_body = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/BodyLabel") as RichTextLabel
-        if _choice_box == null:
-                _choice_box = get_node_or_null("Backplate/Content/BodyAndChoices/Choices/ChoiceBox") as VBoxContainer
+	if _choice_box == null:
+		_choice_box = get_node_or_null("Backplate/Content/BodyAndChoices/Choices/ChoiceBox") as VBoxContainer
 	if _portrait == null:
 		_portrait = get_node_or_null("Backplate/Content/BodyAndChoices/LineRow/Portrait") as TextureRect
 	if _anim == null:
