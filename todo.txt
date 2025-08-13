@@ -1,6 +1,8 @@
 
 
 Gameplay
+U observations pridat moznost aby se menil font pismen - po relevantnim dialogu, ktery Anicka prida
+Pismena u observations by mela byt M,O,T,H,E,R - klidne nahodne poradi
 Critters jdou dat do reky, ale nemusi byt zlate
 konec se triggerne i bez presunutych critters
 critters by meli chodit nahodile - z bodu do bodu, ale ne v prime linii
