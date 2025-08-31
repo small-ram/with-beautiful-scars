@@ -1,6 +1,6 @@
 # scripts/Gameplay/States/StageState.gd
-extends Node
 class_name StageState
+extends Node
 
 signal transition_to(next_state)
 
