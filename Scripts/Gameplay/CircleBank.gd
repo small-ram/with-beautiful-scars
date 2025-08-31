@@ -41,6 +41,8 @@ func _resolve_origin() -> Vector2:
 	return m.global_position if m else Vector2.ZERO
 
 func _build_icons() -> void:
+	while MemoryPool.table == null:
+		await get_tree().process_frame
 	var table := MemoryPool.table
 
 	var origin : Vector2 = _resolve_origin()
