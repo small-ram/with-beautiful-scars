@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=17 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://dmphyegaj2je4" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/closure.jpg" id="8_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="9_1p5hy"]
 [ext_resource type="Texture2D" uid="uid://f8uylfanvar1" path="res://Assets/bg.png" id="13_1p5hy"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="14_h1m7h"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h1m7h"]
 texture = ExtResource("13_1p5hy")
@@ -211,6 +212,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("14_h1m7h")
 alignment = 2
 script = ExtResource("4_0sev1")
 
