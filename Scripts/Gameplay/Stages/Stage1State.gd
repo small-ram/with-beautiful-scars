@@ -1,5 +1,6 @@
 class_name Stage1State
 extends StageState
+signal finished(new_state: StageState)
 
 const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterJesterka.tscn"),
@@ -9,6 +10,7 @@ const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterSnek.tscn"),
 	preload("res://Scenes/Critters/CritterKliste.tscn")
 ]
+const NEXT_STATE := preload("res://Scripts/Gameplay/Stages/Stage2State.gd") 
 
 var photo_dialogues_done : int = 0
 var photos_total   : int = 0
@@ -18,6 +20,10 @@ var _queue : Array[PackedScene] = []
 func enter(controller) -> void:
 	controller.gameplay.visible = true
 	CircleBank.reset_all(); CircleBank.show_bank()
+
+	# Deterministic critter keys: M O T H E R
+	KeyAssigner.set_custom_keys([KEY_M as Key, KEY_O as Key, KEY_T as Key, KEY_H as Key, KEY_E as Key, KEY_R as Key])
+
 	photo_dialogues_done = 0
 	critters_done = 0
 	photos_total = 0
@@ -56,4 +62,4 @@ func on_critter_dialogue_done(controller, critter) -> void:
 
 func _check_stage1_done(_controller) -> void:
 	if photo_dialogues_done == photos_total and critters_done == CRITTERS.size():
-		finished.emit(Stage2State.new())
+		finished.emit(NEXT_STATE.new())

@@ -1,7 +1,8 @@
 {
   "id": "mem_distance_dialog",
-  "body": 	"When you moved your family into the house on the edge of the forest, she was six and has already learned to avoid you as much as she could.\n\n 
-Where is she now? ",
+  "body": 	"When you moved your family into the house at the edge of the forest, She was six and had already learned the vital lesson to avoid you whenever She could. 
+\nLet's reminisce these dark endless days together.
+Where is She? ",
   "portrait": "res://Assets/distance.jpg",
   "choices": [
 	{ "label": "1) Playing in the garden mud.", "next": "mem_distance_reply1" },

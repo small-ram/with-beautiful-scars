@@ -1,5 +1,6 @@
 {
-  "body": "The only truly happy childhood memories are the ones where you're not.",
-  "portrait": "res://Assets/Critters/sklenenka.jpg",
+  "body": "The only happy childhood memories are the ones where you're not.\n 
+Like gathering blueberries, alone and far from house.",
+  "portrait": "res://Assets/Critters/sklenenka.png",
   "choices": []
 }

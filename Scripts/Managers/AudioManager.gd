@@ -9,16 +9,15 @@ func _ready() -> void:
 	add_child(_player)
 
 # ----------------------------------------------------------------
-func play_sfx(name:String) -> void:
-	# cached?
-	var stream : AudioStream = _cache.get(name)
+func play_sfx(sfx_name: String) -> void:
+	var stream : AudioStream = _cache.get(sfx_name)
 	if stream == null:
-		stream = _find_and_load(name)
+		stream = _find_and_load(sfx_name)
 		if stream == null:
 			if OS.is_debug_build():
-				push_warning("Missing SFX: " + name)
+				push_warning("Missing SFX: " + sfx_name)
 			return
-		_cache[name] = stream
+		_cache[sfx_name] = stream
 
 	_player.stream = stream
 	_player.play()

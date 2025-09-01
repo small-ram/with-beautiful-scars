@@ -1,13 +1,8 @@
 {
   "id": "mem_hehory_dialog",
   "body": 	"Right after the Horse kicked Her in the head, He fainted. 
-
-It was up to you, as is everything, always, to drive Her 
-
-to the hospital.\n\n
-...\n\n
-He fainted because of the blood. \n\n
-Just how much blood can spill from the head of a four-year old?",
+It was up to you, as everything always was, is, and ever will be, to drive Her to the hospital.
+\nDid it surprise you how much blood there can be in the head of a four-year old?",
   "portrait": "res://Assets/hehory.jpg",
   "choices": [
 	{ "label": "1) I told Her to be careful around the Horse.", "next": "mem_hehory_reply1" },

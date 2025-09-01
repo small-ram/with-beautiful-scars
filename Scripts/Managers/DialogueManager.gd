@@ -7,7 +7,6 @@ signal line_loaded(id: String, line: Dictionary)
 signal line_shown(id: String, line: Dictionary)
 signal choice_made(id: String, choice_index: int, next_id: String)
 signal dialogue_finished(last_id: String)
-signal dialogue_closed(id: String) # legacy alias
 
 @export var dialogue_ui_scene: PackedScene = preload("res://Scenes/DialogueLayer.tscn")
 @export var search_dirs: PackedStringArray = [
@@ -114,7 +113,6 @@ func _finish() -> void:
 	var last: String = _current_id
 	_active = false
 	emit_signal("dialogue_finished", last)
-	emit_signal("dialogue_closed", last)
 	_dismiss_ui()
 
 func _load(id: String) -> Dictionary:

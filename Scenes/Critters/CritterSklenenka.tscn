@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://b02saw60yhi3i"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
 [ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
 [ext_resource type="Texture2D" uid="uid://c3l0356l88lh3" path="res://Assets/Critters/sklenenka.png" id="3_qv3e0"]
 
@@ -72,22 +72,22 @@ size = Vector2(103, 118)
 top_level = true
 light_mask = 0
 visibility_layer = 2
-z_index = 1000
 script = ExtResource("1_ysoph")
 one_liner_id = "Critters/sklenenka"
 
 [node name="KeyLabel" type="Label" parent="."]
-z_index = 2
-offset_right = 40.0
-offset_bottom = 99.0
+z_index = 1
+offset_left = -24.0
+offset_top = -55.0
+offset_right = 21.0
+offset_bottom = 55.0
 theme = SubResource("Theme_mulg6")
-theme_override_colors/font_color = Color(0.898275, 2.59906e-06, 1.2514e-06, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
+theme_override_font_sizes/font_size = 80
 text = "E"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
 

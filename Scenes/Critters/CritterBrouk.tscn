@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://54ccmuxuohxe"]
+[gd_scene load_steps=7 format=3 uid="uid://54ccmuxuohxe"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="2_ge0xk"]
 [ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
+[ext_resource type="Texture2D" uid="uid://c0whmats2px7g" path="res://Assets/Critters/brouk2.png" id="4_xerlx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
@@ -15,7 +17,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_irxac")
+"texture": ExtResource("4_xerlx")
 }],
 "loop": true,
 "name": &"trigger",
@@ -29,24 +31,23 @@ size = Vector2(103, 152)
 top_level = true
 light_mask = 0
 visibility_layer = 2
-z_index = 1000
 script = ExtResource("1_c02s6")
 one_liner_id = "Critters/brouk"
 
 [node name="KeyLabel" type="Label" parent="."]
-z_index = 2
-offset_top = -24.0
-offset_right = 40.0
-offset_bottom = 75.0
-theme_override_colors/font_color = Color(0.898039, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
+z_index = 1
+offset_left = -27.0
+offset_top = -48.0
+offset_right = 21.0
+offset_bottom = 51.0
+theme = ExtResource("2_ge0xk")
+theme_override_font_sizes/font_size = 80
 text = "E"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"move"
+animation = &"trigger"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.5, 2)

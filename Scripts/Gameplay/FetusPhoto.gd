@@ -18,17 +18,33 @@ func _input_event(_vp, ev:InputEvent, _i:int) -> void:
 		_move_to_center_and_talk()
 
 # ───────── move & dialogue ─────────
+# ───────── move & dialogue ─────────
+var _my_run_active: bool = false
+
 func _move_to_center_and_talk() -> void:
 	var tw := create_tween()
-	tw.tween_property(self, "global_position", center_pos, 0.6)\
-	   .set_trans(Tween.TRANS_SINE)
+	tw.tween_property(self, "global_position", center_pos, 0.6).set_trans(Tween.TRANS_SINE)
 	await tw.finished
 
-	DialogueManager.start(dialog_id)
-	DialogueManager.dialogue_closed.connect(_on_dialogue_closed, CONNECT_ONE_SHOT)
+	# Track run ownership
+	if DialogueManager.has_signal("dialogue_started"):
+		DialogueManager.dialogue_started.connect(
+			func(id: String) -> void:
+				_my_run_active = (id == dialog_id),
+			Object.CONNECT_ONE_SHOT
+		)
+	else:
+		_my_run_active = true
 
-func _on_dialogue_closed(_id:String) -> void:
-	dialogue_done.emit()
+	DialogueManager.dialogue_finished.connect(
+		func(_last_id: String) -> void:
+			if _my_run_active:
+				_my_run_active = false
+				dialogue_done.emit(),
+		Object.CONNECT_ONE_SHOT
+	)
+	DialogueManager.start(dialog_id)
+
 
 # ───────── gild photos on touch ─────────
 func _on_area_entered(a:Area2D) -> void:

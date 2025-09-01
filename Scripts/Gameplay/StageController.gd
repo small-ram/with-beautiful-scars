@@ -50,6 +50,7 @@ func _ready() -> void:
 		push_warning("StageController: 'memory_table' is not assigned. MemoryPool will be empty; dialogues that rely on it may fail.")
 	else:
 		MemoryPool.init_from_table(memory_table)
+		CircleBank.reload()  # <-- ensure icons rebuild after load/reload
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
@@ -83,29 +84,30 @@ func _on_critter_dialogue_done(critter) -> void:
 
 # ───────── RESET ─────────
 func reset() -> void:
+	# If a dialogue is open, close it first so no UI lingers across reloads
+	if is_instance_valid(DialogueManager) and DialogueManager.is_active():
+		DialogueManager.close()
+
+	# Politely exit current state
 	if current_state:
 		current_state.exit(self)
 		current_state = null
+
+	# Clean local spawned nodes (safe even if null)
 	if woman:
 		woman.queue_free()
 		woman = null
 	if fetus:
 		fetus.queue_free()
 		fetus = null
-	gameplay = null
-	overlay = null
 
-	# Reinitialize pool only when memory_table is present
-	if memory_table != null:
-		MemoryPool.init_from_table(memory_table)
-	else:
-		push_warning("StageController.reset: 'memory_table' still not assigned; MemoryPool left empty.")
-
+	# Reset CircleBank visuals before we leave the scene
 	CircleBank.reset_all()
-	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
-	await get_tree().process_frame
-	CircleBank.reload()
 
+	# IMPORTANT: perform the scene change DEFERRED and RETURN immediately.
+	# Do NOT await frames or call anything on this node after this line.
+	get_tree().call_deferred("change_scene_to_file", "res://Scenes/Main.tscn")
+	return
 
 # ───────── helpers ─────────
 func _clear_overlay() -> void:

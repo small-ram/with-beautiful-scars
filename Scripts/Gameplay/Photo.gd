@@ -155,13 +155,6 @@ func _start_dialogue_if_possible() -> void:
 		emit_signal("dialogue_done", self)
 		return
 
-	# Mark runs that start with *this* dialog_id
-	if DialogueManager.has_signal("dialogue_started"):
-		DialogueManager.dialogue_started.connect(
-			func(id: String) -> void:
-				_my_run_active = (id == dialog_id),
-			Object.CONNECT_ONE_SHOT
-		)
 	else:
 		# If no 'dialogue_started', assume single-run and mark as ours.
 		_my_run_active = true

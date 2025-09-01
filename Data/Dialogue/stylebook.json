@@ -3,7 +3,7 @@
 		"theme": "res://Scenes/Overlays/dialogue_default.tres",
 		"body_color": "#ffffff",
 		"body_font": "",
-		"body_font_size": 18,
+		"body_font_size": 28,
 		"content_margin": 24,
 		"background_texture": "res://Assets/dark-texture-background.jpg",
 		"corner_radius": 0

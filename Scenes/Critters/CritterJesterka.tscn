@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://ch21v4lrv1m6t"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
 [ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/Critters/jesterka2.png" id="2_ywtd5"]
 [ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/Critters/jesterka1.png" id="3_ky1fu"]
 
@@ -33,24 +33,24 @@ size = Vector2(103, 244)
 top_level = true
 light_mask = 0
 visibility_layer = 2
-z_index = 1000
 script = ExtResource("1_qecfm")
 one_liner_id = "Critters/jesterka"
 
 [node name="KeyLabel" type="Label" parent="."]
-z_index = 2
-offset_right = 40.0
-offset_bottom = 99.0
+z_index = 1
+offset_left = -20.0
+offset_top = -49.0
+offset_right = 20.0
+offset_bottom = 50.0
 theme = SubResource("Theme_mulg6")
-theme_override_colors/font_color = Color(0.898275, 2.59906e-06, 1.2514e-06, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
+theme_override_font_sizes/font_size = 60
 text = "E"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
+position = Vector2(-1, 0)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"move"
+animation = &"trigger"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.5, -1)

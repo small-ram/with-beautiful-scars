@@ -2,5 +2,9 @@
   "id": "mem_hehory_dialog",
   "body": 	"The hoof's impacted Her life in a way that it erased all the memories from before that summer's day in 1994. You never stopped loving and caring for that Horse and to this day you hold it dear in your memory.",
   "portrait": "res://Assets/hehory.jpg",
-  "choices": []
+  "choices": [
+	{ "label": "1) Anger at her.", "next": "mem_hehory_reply2_1" },
+	{ "label": "2) Anger at the horse.", "next": "mem_hehory_reply2_2" },
+	{ "label": "3) Remain silent.", "next": "mem_hehory_reply2_3" }
+  ]
 }

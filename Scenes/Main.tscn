@@ -1,12 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=19 format=3 uid="uid://bfqu87r1mfsng"]
 
-[ext_resource type="Script" uid="uid://dmphyegaj2je4" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
+[ext_resource type="Script" uid="uid://dwv857qw5ncgr" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
+[ext_resource type="PackedScene" uid="uid://bvc3anuilxmgo" path="res://Scenes/Overlays/MidStagePanel.tscn" id="2_frkhe"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
+[ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Data/SlotConfigs/memory_table.tres" id="3_1p5hy"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/crib.jpg" id="3_2e00o"]
-[ext_resource type="Script" uid="uid://br3d2fgomq46e" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
+[ext_resource type="Script" uid="uid://dsswc6us6rm48" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
+[ext_resource type="PackedScene" uid="uid://b7xedi8tnuqpo" path="res://Scenes/Overlays/ParentIntroPanel.tscn" id="4_h1m7h"]
 [ext_resource type="Texture2D" uid="uid://gmq13reaxln6" path="res://Assets/distance.jpg" id="4_vy5pj"]
 [ext_resource type="Texture2D" uid="uid://cm0p62x83b3iw" path="res://Assets/repair.jpg" id="5_bmxlf"]
+[ext_resource type="Texture2D" uid="uid://1blj6841ycfg" path="res://Assets/box.png" id="5_erwvk"]
+[ext_resource type="Texture2D" uid="uid://b7wcmknwiibe0" path="res://Assets/boruvci.png" id="6_2w5on"]
 [ext_resource type="Texture2D" uid="uid://b6utljt5wqpl4" path="res://Assets/concept.jpg" id="6_4kpch"]
 [ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/closure.jpg" id="8_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="9_1p5hy"]
@@ -20,9 +25,22 @@ texture = ExtResource("13_1p5hy")
 
 [node name="StageController" type="Node" parent="."]
 script = ExtResource("1_fwmen")
+gameplay_path = NodePath("../Gameplay")
+overlay_path = NodePath("../UI/OverlayLayer")
+critter_layer_path = NodePath("../CritterLayer")
+stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
+woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
+river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
+fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
+fetus_centre_path = NodePath("../SpawnPoints/FetusCentre")
+woman_target_path = NodePath("../SpawnPoints/WomanTarget")
+mid_stage_panel = ExtResource("2_frkhe")
+memory_table = ExtResource("3_1p5hy")
+alt_intro_scene = ExtResource("4_h1m7h")
+easy_slots_json = "res://Data/SlotConfigs/easy.json"
+hard_slots_json = "res://Data/SlotConfigs/hard.json"
 
 [node name="CritterLayer" type="CanvasLayer" parent="."]
-layer = 200
 
 [node name="Gameplay" type="Node2D" parent="."]
 
@@ -33,7 +51,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Box" type="Sprite2D" parent="Gameplay/MarginContainer"]
+z_index = -14
+position = Vector2(1601, 460)
+rotation = 1.5708
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_erwvk")
+
+[node name="boruvci" type="Sprite2D" parent="Gameplay/MarginContainer"]
+z_index = -16
+position = Vector2(915, 1067)
+scale = Vector2(1.49203, 1.36632)
+texture = ExtResource("6_2w5on")
+
 [node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
+position = Vector2(-160, 97)
 
 [node name="photo_distance" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
 position = Vector2(1701, 316)
@@ -184,6 +216,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+theme = ExtResource("14_h1m7h")
 
 [node name="ButtonBar" type="HBoxContainer" parent="UI/ButtonLayer/ButtonBarContainer"]
 layout_mode = 1
@@ -212,7 +245,7 @@ text = "Quit"
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="WomanSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1511, 465)
+position = Vector2(736, 450)
 
 [node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1577, 185)
@@ -221,13 +254,19 @@ position = Vector2(1577, 185)
 position = Vector2(149, 943)
 
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1518, 468)
+position = Vector2(1576, 450)
 
 [node name="WomanTarget" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(593, 781)
 
 [node name="FetusCentre" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1647, 622)
+
+[node name="CritterPlayArea" type="ReferenceRect" parent="." groups=["critter_bounds"]]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(30.3525, 17.2068)
+mouse_filter = 2
 
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_distance"]
 [editable path="Gameplay/MarginContainer/PhotoStack/photo_repair"]

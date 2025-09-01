@@ -1,8 +1,9 @@
 {
   "id": "mem_repair_dialog",
-  "body": 	"Perhaps. By the way She read the book. There was no such advice. On the contrary, the authors encouraged parents to comfort their children and show them affection.",
+  "body": 	"
+I have learned that victims make more victims. I needed to talk about the Scar. Soon, it will be your turn to tell your story.",
   "portrait": "res://Assets/repair.jpg",
   "choices": [
-	{ "label": "I wanted Her to be tough. Like me. Preferably without having to experience the same level of violence I did as a kid.", "next": "" },
+	{ "label": "I wanted Her to be tough. To be ready for the world.", "next": "" },
 		]
 }

@@ -1,9 +1,11 @@
 class_name IntroState
 extends StageState
+signal finished(new_state: StageState)
 
 const PARENT_PANEL     := preload("res://Scenes/Overlays/ParentChoicePanel.tscn")
 const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.tscn")
 const INTRO_PANEL      := preload("res://Scenes/Overlays/IntroPanel.tscn")
+const NEXT_STATE       := preload("res://Scripts/Gameplay/Stages/Stage1State.gd")
 
 func enter(controller) -> void:
 	var parent := PARENT_PANEL.instantiate()
@@ -16,9 +18,13 @@ func exit(controller) -> void:
 func _on_parent_decided(is_parent: bool, controller) -> void:
 	controller._clear_overlay()
 	if is_parent:
-		var alt: Node = controller.alt_intro_scene.instantiate()
-		controller.overlay.add_child(alt)
-		alt.intro_finished.connect(func(): controller.get_tree().quit())
+		if controller.alt_intro_scene:
+			var alt: Node = controller.alt_intro_scene.instantiate()
+			controller.overlay.add_child(alt)
+			alt.intro_finished.connect(func(): controller.get_tree().quit())
+		else:
+			push_warning("IntroState: alt_intro_scene not assigned; skipping parent branch.")
+			_show_difficulty(controller)
 	else:
 		_show_difficulty(controller)
 
@@ -32,7 +38,7 @@ func _on_diff_selected(easy: bool, controller) -> void:
 	controller._clear_overlay()
 	var intro := INTRO_PANEL.instantiate()
 	controller.overlay.add_child(intro)
-	intro.intro_finished.connect(func(): finished.emit(Stage1State.new()))
+	intro.intro_finished.connect(func(): finished.emit(NEXT_STATE.new()))
 
 func _apply_slot_cfg(controller, path: String) -> void:
 	if path.is_empty() or not FileAccess.file_exists(path):

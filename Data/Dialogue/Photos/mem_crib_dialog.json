@@ -1,7 +1,8 @@
 {
   "id": "mem_crib_dialog",
-  "body": 	"The baby’s crying. Screaming in her crib. She’s so small. You have just fed her with a precisely measured dose of formula and changed her diaper. What more does she want? \n\n
-			What should you do?",
+  "body": 	"The baby’s screaming in her crib. 
+\nYou have just fed her with a measured dose of formula and changed her diaper. Just as the Book on parenting (wrote by a male doctor in 1972) told you to.
+\nWhat else does She want? What should you do now?",
   "portrait": "res://Assets/crib.jpg",
   "choices": [
 	{ "label": "1) Nothing", "next": "mem_crib_reply1" },

@@ -2,11 +2,9 @@
   "id": "mem_concept_dialog",
   "body": 	"The theorem of a good enough parent says that if your reactions to your child’s needs == empathic in > 50% cases\n\n
 	then:  \n\n
-	you = good enough parent\n\n
-Fact: She learned very soon to hide all her needs for fear of upsetting you.",
+	you = good enough parent who stepped out of the black stream",
   "portrait": "res://Assets/concept.jpg",
   "choices": [
-	{ "label": "1) You can just say it out loud, that I was a terrible mother.", "next": "mem_concept_reply1_1AND2_1" },
-	{ "label": "2) This is not useful for either of us. Are you aware of that?", "next": "" }
+	{ "label": "You can just say it out loud, that I was a terrible mother.", "next": "mem_concept_reply1_1AND2_1" }
   ]
 }

@@ -3,26 +3,25 @@ signal dialogue_done
 
 @export var base_action  : String = "critter"
 @export var one_liner_id : String = ""
-@export var move_speed   : float  = 80.0     # base px/s
-@export var off_margin   : float  = 64.0     # how far past the edge before flip
-@export var lane_padding : float  = 80.0     # keep lane away from perpendicular edges
+@export var move_speed   : float  = 80.0
+@export var off_margin   : float  = 64.0
+@export var lane_padding : float  = 80.0
 
-# Natural wander controls (tune these to taste)
-@export var wander_strength : float = 0.30   # 0..1, lateral drift amount
-@export var wander_freq     : float = 0.35   # Hz, how fast drift changes
-@export var turn_rate_deg_s : float = 180.0  # max turn rate toward target dir (deg/sec)
-@export var speed_wobble    : float = 0.10   # +/- percentage of speed
-@export var edge_pause_min  : float = 0.06   # seconds
-@export var edge_pause_max  : float = 0.20   # seconds
+@export var wander_strength : float = 0.30
+@export var wander_freq     : float = 0.35
+@export var turn_rate_deg_s : float = 180.0
+@export var speed_wobble    : float = 0.10
+@export var edge_pause_min  : float = 0.06
+@export var edge_pause_max  : float = 0.20
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var label  : Label            = $KeyLabel
 @onready var vp     : Viewport         = get_viewport()
 
 var _view : Rect2
-var _dir  : Vector2 = Vector2.ZERO          # current (smoothed) movement direction
-var _axis_dir : Vector2 = Vector2.ZERO      # lane direction (+/- X or Y)
-var _perp_dir : Vector2 = Vector2.ZERO      # perpendicular to lane
+var _dir  : Vector2 = Vector2.ZERO
+var _axis_dir : Vector2 = Vector2.ZERO
+var _perp_dir : Vector2 = Vector2.ZERO
 
 var _action_name : String
 var _triggered   : bool = false
@@ -31,17 +30,12 @@ var _cleanup_mode: bool = false
 var _dragging: bool = false
 var _drag_off: Vector2 = Vector2.ZERO
 
-# Smooth noise + timers
 var _noise : FastNoiseLite
 var _t : float = 0.0
 var _edge_pause_until : float = 0.0
 
-# ───────── READY ─────────
 func _ready() -> void:
 	add_to_group("critters")
-	z_index = 10000
-	z_as_relative = false
-
 	vp.size_changed.connect(_on_viewport_resized)
 	_refresh_view_rect()
 
@@ -53,63 +47,49 @@ func _ready() -> void:
 	_spawn_at_random_edge()
 	sprite.play("move")
 
-# ───────── VIEW UTIL ─────────
+# ───────── VIEW UTIL: required editor rect ─────────
+func _editor_bounds() -> Rect2:
+	var ref := get_tree().get_first_node_in_group("critter_bounds") as Control
+	assert(ref != null, "Critter bounds ReferenceRect (group 'critter_bounds') is required.")
+	return ref.get_global_rect()
+
 func _refresh_view_rect() -> void:
-	_view = vp.get_visible_rect()
+	_view = _editor_bounds()
 	queue_redraw()
 
 func _on_viewport_resized() -> void:
 	_refresh_view_rect()
 
-# ───────── PHYSICS ─────────
 func _physics_process(delta: float) -> void:
 	if _triggered or _axis_dir == Vector2.ZERO:
 		return
 
 	_t += delta
 
-	# brief pause right after a flip
 	if _edge_pause_until > 0.0:
 		if _t < _edge_pause_until:
 			_update_facing()
 			return
 		_edge_pause_until = 0.0
 
-	# Smooth lateral drift from noise (in [-1,1])
 	var n := _noise.get_noise_1d(_t * wander_freq)
 	var lateral := _perp_dir * (n * wander_strength)
-
-	# Desired heading is axis +/- a gentle lateral component
 	var desired := (_axis_dir + lateral).normalized()
-
-	# FIXED ternary here (Python style):
-	var base_dir := (_axis_dir if _dir == Vector2.ZERO else _dir)
-
-	# Turn toward desired with a max angular speed (no twitch)
+	var base_dir := _axis_dir if _dir == Vector2.ZERO else _dir
 	var max_turn := deg_to_rad(turn_rate_deg_s) * delta
 	_dir = _rotate_toward(base_dir, desired, max_turn)
 
-	# Mild speed wobble
 	var nw := _noise.get_noise_1d((_t + 123.456) * (wander_freq * 0.6))
 	var speed := move_speed * (1.0 + nw * speed_wobble)
-
-	# Move
 	global_position += _dir * speed * delta
 
-	# Edge flip checks
 	if _axis_dir.x != 0.0:
-		if (
-			(_axis_dir.x > 0.0 and global_position.x > _view.position.x + _view.size.x + off_margin)
-			or
-			(_axis_dir.x < 0.0 and global_position.x < _view.position.x - off_margin)
-		):
+		if ((_axis_dir.x > 0.0 and global_position.x > _view.position.x + _view.size.x + off_margin)
+		or  (_axis_dir.x < 0.0 and global_position.x < _view.position.x - off_margin)):
 			_flip_lane()
 	elif _axis_dir.y != 0.0:
-		if (
-			(_axis_dir.y > 0.0 and global_position.y > _view.position.y + _view.size.y + off_margin)
-			or
-			(_axis_dir.y < 0.0 and global_position.y < _view.position.y - off_margin)
-		):
+		if ((_axis_dir.y > 0.0 and global_position.y > _view.position.y + _view.size.y + off_margin)
+		or  (_axis_dir.y < 0.0 and global_position.y < _view.position.y - off_margin)):
 			_flip_lane()
 
 	_update_facing()
@@ -120,7 +100,6 @@ func _physics_process(delta: float) -> void:
 	if _cleanup_mode:
 		return
 
-# ───────── SPAWN HELPERS ─────────
 func _spawn_at_random_edge() -> void:
 	var xmin: float = _view.position.x
 	var xmax: float = _view.position.x + _view.size.x
@@ -144,25 +123,23 @@ func _spawn_at_random_edge() -> void:
 			global_position = Vector2(randf_range(xmin + pad_x, xmax - pad_x), ymax + off_margin)
 			_axis_dir = Vector2.UP
 
-	_perp_dir = Vector2(-_axis_dir.y, _axis_dir.x)   # 90° left of axis
+	_perp_dir = Vector2(-_axis_dir.y, _axis_dir.x)
 	_dir = _axis_dir
 	_update_facing()
 
-# ───────── EDGE FLIP ─────────
 func _flip_lane() -> void:
 	_axis_dir = -_axis_dir
 	_perp_dir = Vector2(-_axis_dir.y, _axis_dir.x)
 	_dir = _rotate_toward(_dir, _axis_dir, deg_to_rad(720))
 	_edge_pause_until = _t + randf_range(edge_pause_min, edge_pause_max)
 
-# ───────── DIRECTION → SPRITE ORIENT ─────────
 func _update_facing() -> void:
 	sprite.rotation = atan2(_dir.y, _dir.x) - PI / 2.0
 
-# ───────── KEY ASSIGNMENT ─────────
+# ---- UNIQUE KEY / INPUT ACTION ----
 func _assign_unique_key() -> void:
-	var keycode : int = KeyAssigner.take_free_key()
-	_action_name = "%s_%d" % [base_action, keycode]
+	var keycode: Key = KeyAssigner.take_free_key()
+	_action_name = "%s_%d" % [base_action, int(keycode)]
 	if not InputMap.has_action(_action_name):
 		InputMap.add_action(_action_name)
 		var ev := InputEventKey.new()
@@ -170,11 +147,25 @@ func _assign_unique_key() -> void:
 		InputMap.action_add_event(_action_name, ev)
 	label.text = OS.get_keycode_string(keycode)
 
-# ───────── TRIGGER ─────────
+
+# ───────── TRIGGER GUARD (no overlapping dialogues) ─────────
 func _trigger() -> void:
+	if is_instance_valid(DialogueManager) and DialogueManager.is_active():
+		return
 	_triggered = true
 	sprite.play("trigger")
 	label.hide()
+
+	# Provide a fallback portrait (first frame of "trigger" or current frame)
+	var tex: Texture2D = null
+	if sprite.sprite_frames:
+		if sprite.sprite_frames.has_animation("trigger"):
+			tex = sprite.sprite_frames.get_frame_texture("trigger", 0)
+		elif sprite.sprite_frames.has_animation("move"):
+			tex = sprite.sprite_frames.get_frame_texture("move", sprite.frame)
+	var ui := get_tree().get_first_node_in_group("dialogue_ui")
+	if ui and tex and ui.has_method("set_fallback_portrait"):
+		ui.call("set_fallback_portrait", tex)
 
 	var dm := get_tree().root.get_node_or_null("DialogueManager")
 	if dm:
@@ -213,7 +204,7 @@ func _finish_if_mine() -> void:
 	add_to_group("gold")
 	emit_signal("dialogue_done")
 
-# ───────── CLEANUP ─────────
+# ---- CLEANUP / DRAG ----
 func unlock_for_cleanup() -> void:
 	_cleanup_mode = true
 	_triggered = true
@@ -226,7 +217,6 @@ func unlock_for_cleanup() -> void:
 	else:
 		sprite.stop()
 
-# ───────── DRAG HANDLERS ─────────
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 	if not _cleanup_mode:
 		return
@@ -242,7 +232,7 @@ func _input(ev: InputEvent) -> void:
 	if _cleanup_mode and _dragging and ev is InputEventMouseMotion:
 		global_position = ev.position + _drag_off
 
-# ───────── UTIL ─────────
+# ---- UTIL ----
 func _rotate_toward(current: Vector2, target: Vector2, max_step: float) -> Vector2:
 	var c := current.normalized()
 	var t := target.normalized()
