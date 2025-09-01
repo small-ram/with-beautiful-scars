@@ -45,15 +45,23 @@ var current_state : StageState = null
 
 # ───────── READY ─────────
 func _ready() -> void:
-	MemoryPool.init_from_table(memory_table)
-	gameplay = _fetch_node(gameplay_path, "Gameplay") ; gameplay.visible = false
+	# Initialize the memory pool only if a table is assigned
+	if memory_table == null:
+		push_warning("StageController: 'memory_table' is not assigned. MemoryPool will be empty; dialogues that rely on it may fail.")
+	else:
+		MemoryPool.init_from_table(memory_table)
+
+	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
 	critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
+
 	for ph in get_tree().get_nodes_in_group("photos"):
 		var pid: String = ph.dialog_id
 		if pid != "":
 			ph.dialogue_done.connect(_on_photo_dialogue_done)
+
 	change_state(IntroState.new())
+
 
 # ───────── STATE HELPERS ─────────
 func change_state(new_state: StageState) -> void:
@@ -86,11 +94,18 @@ func reset() -> void:
 		fetus = null
 	gameplay = null
 	overlay = null
-	MemoryPool.init_from_table(memory_table)
+
+	# Reinitialize pool only when memory_table is present
+	if memory_table != null:
+		MemoryPool.init_from_table(memory_table)
+	else:
+		push_warning("StageController.reset: 'memory_table' still not assigned; MemoryPool left empty.")
+
 	CircleBank.reset_all()
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 	await get_tree().process_frame
 	CircleBank.reload()
+
 
 # ───────── helpers ─────────
 func _clear_overlay() -> void:

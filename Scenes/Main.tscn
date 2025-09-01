@@ -1,19 +1,17 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=14 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://dmphyegaj2je4" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
-[ext_resource type="Resource" uid="uid://bjdovhd0fefjg" path="res://Data/SlotConfigs/easy_memory_table.tres" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://chuke612m828x" path="res://Scenes/Photo.tscn" id="2_r0v0p"]
 [ext_resource type="Texture2D" uid="uid://bi3cjqrkkl4bh" path="res://Assets/crib.jpg" id="3_2e00o"]
-[ext_resource type="PackedScene" uid="uid://bvc3anuilxmgo" path="res://Scenes/Overlays/MidStagePanel.tscn" id="3_frkhe"]
 [ext_resource type="Script" uid="uid://br3d2fgomq46e" path="res://Scripts/UI/ButtonBar.gd" id="4_0sev1"]
-[ext_resource type="PackedScene" uid="uid://b7xedi8tnuqpo" path="res://Scenes/Overlays/ParentIntroPanel.tscn" id="4_frkhe"]
 [ext_resource type="Texture2D" uid="uid://gmq13reaxln6" path="res://Assets/distance.jpg" id="4_vy5pj"]
 [ext_resource type="Texture2D" uid="uid://cm0p62x83b3iw" path="res://Assets/repair.jpg" id="5_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://b6utljt5wqpl4" path="res://Assets/concept.jpg" id="6_4kpch"]
 [ext_resource type="Texture2D" uid="uid://hhvunncb5sdp" path="res://Assets/closure.jpg" id="8_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="9_1p5hy"]
 [ext_resource type="Texture2D" uid="uid://f8uylfanvar1" path="res://Assets/bg.png" id="13_1p5hy"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="14_h1m7h"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h1m7h"]
 texture = ExtResource("13_1p5hy")
@@ -22,20 +20,6 @@ texture = ExtResource("13_1p5hy")
 
 [node name="StageController" type="Node" parent="."]
 script = ExtResource("1_fwmen")
-gameplay_path = NodePath("../Gameplay")
-overlay_path = NodePath("../UI/OverlayLayer")
-critter_layer_path = NodePath("../CritterLayer")
-stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
-woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
-river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
-fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
-fetus_centre_path = NodePath("../SpawnPoints/FetusCentre")
-woman_target_path = NodePath("../SpawnPoints/WomanTarget")
-mid_stage_panel = ExtResource("3_frkhe")
-memory_table = ExtResource("2_grg3l")
-alt_intro_scene = ExtResource("4_frkhe")
-easy_slots_json = "res://Data/SlotConfigs/easy.json"
-hard_slots_json = "res://Data/SlotConfigs/hard.json"
 
 [node name="CritterLayer" type="CanvasLayer" parent="."]
 layer = 200
@@ -211,6 +195,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("14_h1m7h")
 alignment = 2
 script = ExtResource("4_0sev1")
 

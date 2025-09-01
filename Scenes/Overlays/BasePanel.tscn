@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://i0mlbm0dbgq8"]
+[gd_scene load_steps=3 format=3 uid="uid://i0mlbm0dbgq8"]
+
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="1_68o7v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_base"]
 bg_color = Color(0, 0, 0, 1)
@@ -9,17 +11,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_68o7v")
 theme_override_styles/panel = SubResource("StyleBoxFlat_base")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -150.0
+offset_right = 400.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(400, 150)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 alignment = 1
 

@@ -2,7 +2,7 @@
   "default": {
 		"theme": "res://Scenes/Overlays/dialogue_default.tres",
 		"body_color": "#ffffff",
-		"body_font": "res://Fonts/default_font.tres",
+		"body_font": "",
 		"body_font_size": 18,
 		"content_margin": 24,
 		"background_texture": "res://Assets/dark-texture-background.jpg",
