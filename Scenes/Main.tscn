@@ -39,6 +39,7 @@ memory_table = ExtResource("3_1p5hy")
 alt_intro_scene = ExtResource("4_h1m7h")
 easy_slots_json = "res://Data/SlotConfigs/easy.json"
 hard_slots_json = "res://Data/SlotConfigs/hard.json"
+heartbeat_sfx = "heartbeat"
 
 [node name="CritterLayer" type="CanvasLayer" parent="."]
 

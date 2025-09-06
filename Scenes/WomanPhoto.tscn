@@ -9,13 +9,16 @@ z_index = 10
 position = Vector2(460, 506)
 scale = Vector2(0.7, 0.7)
 script = ExtResource("1_tc5rb")
+phrases_file = "res://Data/Dialogue/Photos/woman_phrases.json"
 reveal_radius = 900.0
 hover_scale_factor = 4.0
 base_tint = Color(0.782249, 0.859944, 0.164506, 1)
 transformed_tint = Color(0.337429, 0.633331, 0.342342, 1)
 label_font_size = 18
 outline_size_px = 2
-enable_shadow = false
+min_font_size = null
+max_font_size = null
+transformed_font_size = null
 allowed_slots = PackedInt32Array()
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

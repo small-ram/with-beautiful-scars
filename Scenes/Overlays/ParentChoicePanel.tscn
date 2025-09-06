@@ -15,6 +15,7 @@ text = "Are you her parent?"
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="1"]
 layout_mode = 2
 theme = ExtResource("3_weiw0")
+theme_override_constants/separation = 60
 alignment = 1
 
 [node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]

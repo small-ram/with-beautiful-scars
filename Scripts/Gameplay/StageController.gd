@@ -45,12 +45,8 @@ var current_state : StageState = null
 
 # ───────── READY ─────────
 func _ready() -> void:
-	# Initialize the memory pool only if a table is assigned
-	if memory_table == null:
-		push_warning("StageController: 'memory_table' is not assigned. MemoryPool will be empty; dialogues that rely on it may fail.")
-	else:
-		MemoryPool.init_from_table(memory_table)
-		CircleBank.reload()  # <-- ensure icons rebuild after load/reload
+	MemoryPool.init_from_table(memory_table)
+	CircleBank.reload()  # <-- ensure icons rebuild after load/reload
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")

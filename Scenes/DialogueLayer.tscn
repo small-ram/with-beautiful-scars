@@ -19,6 +19,10 @@ grow_vertical = 2
 layout_mode = 2
 theme = ExtResource("1_dhyk3")
 script = ExtResource("1_g87dj")
+body_path = NodePath("Backplate/Content/BodyAndChoices/LineRow/BodyLabel")
+choice_box_path = NodePath("Backplate/Content/BodyAndChoices/Choices/ChoiceBox")
+portrait_path = NodePath("Backplate/Content/BodyAndChoices/LineRow/PortraitBox/Portrait")
+choice_template_path = NodePath("Backplate/Content/BodyAndChoices/Choices/ChoiceBox/ChoiceButton")
 
 [node name="Backplate" type="NinePatchRect" parent="MarginContainer/DialogueUI"]
 layout_mode = 1
@@ -26,6 +30,7 @@ anchors_preset = -1
 anchor_left = 0.666667
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.000610352
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_3r4kx")
@@ -43,14 +48,15 @@ theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
 [node name="BodyAndChoices" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content"]
+clip_contents = true
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 16
 
 [node name="LineRow" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 theme_override_constants/separation = 12
 
 [node name="PortraitBox" type="AspectRatioContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/LineRow"]
@@ -66,23 +72,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-fit_content = true
-scroll_active = false
 
-[node name="Choices" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
+[node name="Choices" type="ScrollContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Spacer" type="Control" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/Choices"]
-layout_mode = 2
-size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
 [node name="ChoiceBox" type="VBoxContainer" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/Choices"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 10
+
+[node name="ChoiceButton" type="Button" parent="MarginContainer/DialogueUI/Backplate/Content/BodyAndChoices/Choices/ChoiceBox"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 0
+autowrap_mode = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer"]
 

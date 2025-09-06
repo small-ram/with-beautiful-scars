@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://21c0jtsmih3"]
+[gd_scene load_steps=9 format=3 uid="uid://21c0jtsmih3"]
 
 [ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_nq4vm"]
 [ext_resource type="Texture2D" uid="uid://ch80s00bhcewe" path="res://Assets/Critters/list.png" id="2_62edy"]
 [ext_resource type="Texture2D" uid="uid://dpod3ykbxj5a2" path="res://Assets/Critters/list2.png" id="3_f4n4o"]
-
-[sub_resource type="Theme" id="Theme_mulg6"]
-default_font_size = 50
+[ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_sq3wa"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_xuifg"]
+[ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_xuifg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
@@ -36,22 +36,28 @@ visibility_layer = 2
 script = ExtResource("1_nq4vm")
 one_liner_id = "Critters/list"
 
-[node name="KeyLabel" type="Label" parent="."]
-z_index = 1
-offset_left = -19.0
-offset_top = -44.0
-offset_right = 21.0
-offset_bottom = 55.0
-theme = SubResource("Theme_mulg6")
-theme_override_font_sizes/font_size = 80
-text = "E"
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, 0)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"trigger"
-frame_progress = 0.304664
+animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -0.5)
 shape = SubResource("RectangleShape2D_62edy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, -2)
+texture = ExtResource("4_sq3wa")
+
+[node name="KeyLabel" type="Label" parent="Sprite2D"]
+z_index = 1
+offset_left = -23.0
+offset_top = -28.0
+offset_right = 25.0
+offset_bottom = 71.0
+theme = ExtResource("5_xuifg")
+theme_override_fonts/font = ExtResource("6_xuifg")
+theme_override_font_sizes/font_size = 50
+text = "E"
+metadata/_edit_use_anchors_ = true

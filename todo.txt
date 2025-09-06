@@ -3,20 +3,16 @@
 Gameplay
 Critters jdou dat do reky, ale nemusi byt zlate
 konec se triggerne i bez presunutych critters
-critters by meli chodit nahodile - z bodu do bodu, ale ne v prime linii
 az se v dialogu zmini lucida caligraphy, vsude nastavit ten font - ten dialog by měl byt treti
 
 
 Vizuál
-dodělat animaci a obrazky critters
-upravit jak/jestli se v dialogu zobrazi obrazek
 animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
-dialogue: Change every single font color, type, size etc. so that the game looks better
-na critters místo písmena možná dát obrázek klávesy s písmenem
 dialog by měl být lehce průhledný
 U intra mít animaci indikujici jak rychle se posouvaji jednotlive dialogy - napr, loading indikator boruvky
-zmensit boruvky
-
+fetus at pulzuje a dela zvuk - zvuk by mel byt na repeat
+woman dialog 	- lag po nacteni
+				- piso po transformaci je moc male
 
 Zvuk/hudba
 -hudba

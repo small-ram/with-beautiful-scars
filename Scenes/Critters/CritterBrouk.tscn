@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://54ccmuxuohxe"]
+[gd_scene load_steps=9 format=3 uid="uid://54ccmuxuohxe"]
 
 [ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="2_ge0xk"]
 [ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
+[ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="2_looll"]
+[ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="4_k53wa"]
 [ext_resource type="Texture2D" uid="uid://c0whmats2px7g" path="res://Assets/Critters/brouk2.png" id="4_xerlx"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
@@ -34,15 +36,22 @@ visibility_layer = 2
 script = ExtResource("1_c02s6")
 one_liner_id = "Critters/brouk"
 
-[node name="KeyLabel" type="Label" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
-offset_left = -27.0
-offset_top = -48.0
-offset_right = 21.0
-offset_bottom = 51.0
+position = Vector2(0, -17)
+texture = ExtResource("2_looll")
+
+[node name="KeyLabel" type="Label" parent="Sprite2D"]
+z_index = 1
+offset_left = -21.0
+offset_top = -28.0
+offset_right = 27.0
+offset_bottom = 71.0
 theme = ExtResource("2_ge0xk")
-theme_override_font_sizes/font_size = 80
+theme_override_fonts/font = ExtResource("4_k53wa")
+theme_override_font_sizes/font_size = 50
 text = "E"
+metadata/_edit_use_anchors_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false

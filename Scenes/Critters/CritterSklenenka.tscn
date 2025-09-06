@@ -1,11 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://b02saw60yhi3i"]
+[gd_scene load_steps=15 format=3 uid="uid://b02saw60yhi3i"]
 
 [ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
 [ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
 [ext_resource type="Texture2D" uid="uid://c3l0356l88lh3" path="res://Assets/Critters/sklenenka.png" id="3_qv3e0"]
-
-[sub_resource type="Theme" id="Theme_mulg6"]
-default_font_size = 50
+[ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_k8ck3"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_v6fid"]
+[ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_v6fid"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qv3e0"]
 atlas = ExtResource("2_g87b1")
@@ -75,16 +75,6 @@ visibility_layer = 2
 script = ExtResource("1_ysoph")
 one_liner_id = "Critters/sklenenka"
 
-[node name="KeyLabel" type="Label" parent="."]
-z_index = 1
-offset_left = -24.0
-offset_top = -55.0
-offset_right = 21.0
-offset_bottom = 55.0
-theme = SubResource("Theme_mulg6")
-theme_override_font_sizes/font_size = 80
-text = "E"
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 scale = Vector2(0.5, 0.5)
@@ -94,3 +84,20 @@ animation = &"move"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.5, 19)
 shape = SubResource("RectangleShape2D_qv3e0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, 4)
+texture = ExtResource("4_k8ck3")
+
+[node name="KeyLabel" type="Label" parent="Sprite2D"]
+z_index = 1
+offset_left = -24.0
+offset_top = -29.0
+offset_right = 24.0
+offset_bottom = 70.0
+theme = ExtResource("5_v6fid")
+theme_override_fonts/font = ExtResource("6_v6fid")
+theme_override_font_sizes/font_size = 50
+text = "E"
+metadata/_edit_use_anchors_ = true

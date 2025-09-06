@@ -15,14 +15,15 @@ signal dialogue_done
 @export var edge_pause_max  : float = 0.20
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
-@onready var label  : Label            = $KeyLabel
+@onready var key_sprite : Sprite2D         = $Sprite2D
+@onready var label  : Label            = $Sprite2D/KeyLabel
 @onready var vp     : Viewport         = get_viewport()
 
 var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _axis_dir : Vector2 = Vector2.ZERO
 var _perp_dir : Vector2 = Vector2.ZERO
-
+var _consumed: bool = false
 var _action_name : String
 var _triggered   : bool = false
 var _my_run_active: bool = false
@@ -36,6 +37,7 @@ var _edge_pause_until : float = 0.0
 
 func _ready() -> void:
 	add_to_group("critters")
+	set_pickable(true)  # ← allow mouse clicks on the Area2D
 	vp.size_changed.connect(_on_viewport_resized)
 	_refresh_view_rect()
 
@@ -150,10 +152,13 @@ func _assign_unique_key() -> void:
 
 # ───────── TRIGGER GUARD (no overlapping dialogues) ─────────
 func _trigger() -> void:
+	if _consumed or _triggered:
+		return
 	if is_instance_valid(DialogueManager) and DialogueManager.is_active():
 		return
 	_triggered = true
 	sprite.play("trigger")
+	key_sprite.hide()
 	label.hide()
 
 	# Provide a fallback portrait (first frame of "trigger" or current frame)
@@ -218,15 +223,20 @@ func unlock_for_cleanup() -> void:
 		sprite.stop()
 
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
-	if not _cleanup_mode:
+	# Cleanup mode: drag to the river
+	if _cleanup_mode:
+		if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
+			if ev.pressed:
+				_dragging = true
+				_drag_off = global_position - ev.position
+				move_to_front()
+			else:
+				_dragging = false
 		return
-	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
-		if ev.pressed:
-			_dragging = true
-			_drag_off = global_position - ev.position
-			move_to_front()
-		else:
-			_dragging = false
+
+	# Normal mode: left-click triggers the critter (same as hotkey)
+	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT and ev.pressed:
+		_trigger()
 
 func _input(ev: InputEvent) -> void:
 	if _cleanup_mode and _dragging and ev is InputEventMouseMotion:

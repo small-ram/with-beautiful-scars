@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch21v4lrv1m6t"]
+[gd_scene load_steps=9 format=3 uid="uid://ch21v4lrv1m6t"]
 
 [ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
 [ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/Critters/jesterka2.png" id="2_ywtd5"]
 [ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/Critters/jesterka1.png" id="3_ky1fu"]
-
-[sub_resource type="Theme" id="Theme_mulg6"]
-default_font_size = 50
+[ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_mf1il"]
+[ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_dxbe1"]
+[ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_dxbe1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
@@ -36,22 +36,29 @@ visibility_layer = 2
 script = ExtResource("1_qecfm")
 one_liner_id = "Critters/jesterka"
 
-[node name="KeyLabel" type="Label" parent="."]
-z_index = 1
-offset_left = -20.0
-offset_top = -49.0
-offset_right = 20.0
-offset_bottom = 50.0
-theme = SubResource("Theme_mulg6")
-theme_override_font_sizes/font_size = 60
-text = "E"
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 position = Vector2(-1, 0)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"trigger"
+animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.5, -1)
 shape = SubResource("RectangleShape2D_sprtf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(-3, 17)
+texture = ExtResource("4_mf1il")
+
+[node name="KeyLabel" type="Label" parent="Sprite2D"]
+z_index = 1
+offset_left = -25.0
+offset_top = -30.0
+offset_right = 23.0
+offset_bottom = 69.0
+theme = ExtResource("5_dxbe1")
+theme_override_fonts/font = ExtResource("6_dxbe1")
+theme_override_font_sizes/font_size = 50
+text = "E"
+metadata/_edit_use_anchors_ = true

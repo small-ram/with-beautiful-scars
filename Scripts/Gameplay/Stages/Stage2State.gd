@@ -11,13 +11,27 @@ func enter(controller) -> void:
 	controller.overlay.add_child(mid)
 	mid.intro_finished.connect(func(): _spawn_woman(controller))
 
-func exit(controller) -> void:
-	controller._clear_overlay()
-
 func _spawn_woman(controller) -> void:
 	controller._clear_overlay()
-	var stack: Node = controller._fetch_node(controller.stack_path, "PhotoStack")
-	controller.woman = WOMAN_SCENE.instantiate()
-	stack.add_child(controller.woman)
-	controller.woman.global_position = controller._woman_spawn.global_position if controller._woman_spawn else Vector2(150,150)
-	controller.woman.all_words_transformed.connect(func(): finished.emit(NEXT_STATE.new()))
+
+	# Instance & parent ABOVE critters
+	var w: Node2D = WOMAN_SCENE.instantiate() as Node2D
+	controller.overlay.add_child(w)
+
+	# Typed spawn position (no inference ambiguity)
+	var spawn_pos: Vector2
+	if controller._woman_spawn:
+		spawn_pos = controller._woman_spawn.global_position
+	else:
+		spawn_pos = Vector2(150, 150)
+
+	# No to_local needed; global coords work across layers
+	w.global_position = spawn_pos
+
+	# Ensure it's on top within the overlay
+	w.z_as_relative = false
+	w.z_index = 999
+
+	# Keep a handle and wire the transition
+	controller.woman = w
+	w.all_words_transformed.connect(func(): finished.emit(NEXT_STATE.new()))
