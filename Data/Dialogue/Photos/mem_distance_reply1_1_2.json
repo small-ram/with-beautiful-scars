@@ -1,0 +1,8 @@
+{
+  "id": "mem_closure1_dialog",
+  "body": 	"The rage bubbles inside you. Where THE HELL is She?",
+  "portrait": "res://Assets/distance.jpg",
+  "choices": [
+	{ "label": "Doing the work you told her to do, out in the fields.", "next": "mem_distance_reply3" }
+	]
+}

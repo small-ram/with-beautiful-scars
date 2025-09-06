@@ -6,7 +6,6 @@ Where is She? ",
   "portrait": "res://Assets/distance.jpg",
   "choices": [
 	{ "label": "1) Playing in the garden mud.", "next": "mem_distance_reply1" },
-	{ "label": "2) Reading up on a tree", "next": "mem_distance_reply2" },
-	{ "label": "3) Doing the work you told her to do, out in the fields.", "next": "mem_distance_reply3" }
+	{ "label": "2) Reading up on a tree.", "next": "mem_distance_reply2" }
   ]
 }

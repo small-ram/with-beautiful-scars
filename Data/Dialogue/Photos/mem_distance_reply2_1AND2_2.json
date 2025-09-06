@@ -1,0 +1,8 @@
+{
+  "id": "mem_distance_dialog",
+  "body": 	"No, She’s not there. Where is SHE??",
+  "portrait": "res://Assets/distance.jpg",
+  "choices": [
+	{ "label": "Doing the work you told her to do, out in the fields.", "next": "mem_distance_reply3" }
+			]
+}

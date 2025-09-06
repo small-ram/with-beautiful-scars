@@ -2,5 +2,7 @@
   "id": "mem_closure1_dialog",
   "body": 	"WHERE THE HELL ARE YOU???",
   "portrait": "res://Assets/distance.jpg",
-  "choices": []
+  "choices": [
+	{ "label": "Playing in the garden mud.", "next": "mem_distance_reply2_1AND2_2" }
+	]
 }

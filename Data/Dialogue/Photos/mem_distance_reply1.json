@@ -2,5 +2,7 @@
   "id": "mem_distance_dialog",
   "body": 	"No, She’s not there. Where is SHE??",
   "portrait": "res://Assets/distance.jpg",
-  "choices": []
+  "choices": [
+	{ "label": "Reading up on a tree", "next": "mem_distance_reply1_1" }
+			]
 }

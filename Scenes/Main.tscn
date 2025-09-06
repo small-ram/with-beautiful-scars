@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfqu87r1mfsng"]
+[gd_scene load_steps=26 format=3 uid="uid://bfqu87r1mfsng"]
 
 [ext_resource type="Script" uid="uid://dwv857qw5ncgr" path="res://Scripts/Gameplay/StageController.gd" id="1_fwmen"]
 [ext_resource type="PackedScene" uid="uid://dsfcmnuk1bmxa" path="res://Scenes/MemorySlot.tscn" id="1_pt8x6"]
@@ -17,6 +17,13 @@
 [ext_resource type="Texture2D" uid="uid://bs481516o2k1b" path="res://Assets/hehory.jpg" id="9_1p5hy"]
 [ext_resource type="Texture2D" uid="uid://f8uylfanvar1" path="res://Assets/bg.png" id="13_1p5hy"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="14_h1m7h"]
+[ext_resource type="Script" uid="uid://cg7ifq86pnlca" path="res://Scripts/Gameplay/CircleIcon.gd" id="16_0sclb"]
+[ext_resource type="Texture2D" uid="uid://bxkx3b7vu0nau" path="res://Assets/Circles/circle_closure.png" id="16_346fj"]
+[ext_resource type="Texture2D" uid="uid://bg84wtw7pycoc" path="res://Assets/Circles/circle_concept.png" id="18_3tgeq"]
+[ext_resource type="Texture2D" uid="uid://c4bd8dihg3u4t" path="res://Assets/Circles/circle_crib.png" id="19_c4ay3"]
+[ext_resource type="Texture2D" uid="uid://bl07y7vqas5k6" path="res://Assets/Circles/circle_distance.png" id="20_aht7i"]
+[ext_resource type="Texture2D" uid="uid://bapxn6so8o1q6" path="res://Assets/Circles/circle_horse.png" id="21_5jffn"]
+[ext_resource type="Texture2D" uid="uid://boryeunw2l80k" path="res://Assets/Circles/circle_repair.png" id="22_kpo4j"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h1m7h"]
 texture = ExtResource("13_1p5hy")
@@ -58,12 +65,6 @@ position = Vector2(1601, 460)
 rotation = 1.5708
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("5_erwvk")
-
-[node name="boruvci" type="Sprite2D" parent="Gameplay/MarginContainer"]
-z_index = -16
-position = Vector2(915, 1067)
-scale = Vector2(1.49203, 1.36632)
-texture = ExtResource("6_2w5on")
 
 [node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
 position = Vector2(-160, 97)
@@ -243,6 +244,54 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Quit"
 
+[node name="boruvci" type="Node2D" parent="UI"]
+position = Vector2(-23, 35)
+
+[node name="hehory" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(206, 836)
+rotation = 0.771567
+texture = ExtResource("16_346fj")
+script = ExtResource("16_0sclb")
+memory_id = "mem_hehory"
+
+[node name="distance" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(795, 785)
+texture = ExtResource("18_3tgeq")
+script = ExtResource("16_0sclb")
+memory_id = "mem_distance"
+
+[node name="repair" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(702, 842)
+texture = ExtResource("19_c4ay3")
+script = ExtResource("16_0sclb")
+memory_id = "mem_repair"
+
+[node name="concept" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(430, 770)
+texture = ExtResource("20_aht7i")
+script = ExtResource("16_0sclb")
+memory_id = "mem_concept"
+
+[node name="closure" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(1076, 884)
+rotation = 1.37219
+texture = ExtResource("21_5jffn")
+script = ExtResource("16_0sclb")
+memory_id = "mem_closure"
+
+[node name="crib" type="Sprite2D" parent="UI/boruvci"]
+position = Vector2(455, 914)
+texture = ExtResource("22_kpo4j")
+script = ExtResource("16_0sclb")
+memory_id = "mem_crib"
+
+[node name="boruvci" type="Sprite2D" parent="UI/boruvci"]
+z_index = -16
+z_as_relative = false
+position = Vector2(576, 874)
+rotation = -0.0007294
+texture = ExtResource("6_2w5on")
+
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="WomanSpawn" type="Marker2D" parent="SpawnPoints"]
@@ -251,11 +300,8 @@ position = Vector2(736, 450)
 [node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1577, 185)
 
-[node name="CircleBankOrigin" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(149, 943)
-
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1576, 450)
+position = Vector2(699, 401)
 
 [node name="WomanTarget" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(593, 781)

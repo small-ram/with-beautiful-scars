@@ -1,39 +1,35 @@
 extends CanvasLayer
 
-# ───────── inspector ─────────
-@export_node_path("Marker2D") var origin_path : NodePath = NodePath("")
-@export var icon_spacing : Vector2 = Vector2(200, 0)
-@export var max_dist     : float   = 250.0
-@export var max_scale    : float   = 1.8
-@export var pulse_tint   : Color   = Color(1, 1, 1)
+# Where your editor-placed circle sprites live
+@export_node_path("Node") var icons_container_path: NodePath
 
-# ───────── internals ─────────
-var _icons    : Dictionary = {}     # String (mem_id) -> Sprite2D
-var _base_mod : Dictionary = {}     # String (mem_id) -> Color
-var _mem2slot : Dictionary = {}     # String (mem_id) -> Node2D (MemorySlot)
+# Pulse visuals (kept from before)
+@export var max_dist  : float = 250.0
+@export var max_scale : float = 1.8
+@export var pulse_tint: Color = Color(1, 1, 1)
+
+var _icons    : Dictionary = {}   # mem_id -> Sprite2D
+var _base_mod : Dictionary = {}   # mem_id -> Color
+var _mem2slot : Dictionary = {}   # mem_id -> MemorySlot (Node2D)
 var _active_photo : Node = null
+var _container : Node = null
 
 func _ready() -> void:
-	# hide icon on claim (fast path)
-	if MemoryPool and MemoryPool.has_signal("claimed") and not MemoryPool.claimed.is_connected(_on_memory_claimed):
-		MemoryPool.claimed.connect(_on_memory_claimed)
+	MemoryPool.claimed.connect(_on_memory_claimed)
+	call_deferred("_late_init")
 
-	# build after pool exists
-	call_deferred("_rebuild")
-
-	# watch photos for hover pulse and snap
+	# Track photos (for pulsing while dragging)
 	for p in get_tree().get_nodes_in_group("photos"):
 		_hook_photo_signals(p)
 	get_tree().node_added.connect(_on_node_added)
 
 	set_process(true)
 
-func _rebuild() -> void:
+func _late_init() -> void:
 	_cache_slots()
-	_build_icons()
-	_sync_visibility()
+	_collect_icons()
 
-# ───────── data setup ─────────
+# ---------- data setup ----------
 func _cache_slots() -> void:
 	_mem2slot.clear()
 	for s: Node in get_tree().get_nodes_in_group("memory_slots"):
@@ -41,52 +37,50 @@ func _cache_slots() -> void:
 		if mid != null and mid != "":
 			_mem2slot[mid] = s
 
-func _resolve_origin() -> Vector2:
-	if origin_path != NodePath(""):
-		var n: Node2D = get_node_or_null(origin_path) as Node2D
-		if n:
-			return n.global_position
-	var m: Node2D = get_tree().current_scene.find_child("CircleBankOrigin", true, false) as Node2D
-	return m.global_position if m else Vector2.ZERO
-
-func _build_icons() -> void:
-	# wait for pool
-	while MemoryPool == null or MemoryPool.table == null:
-		await get_tree().process_frame
-
-	var table := MemoryPool.table
-	var tex_map: Dictionary = table.get("memory_to_circle_tex") as Dictionary
-	if tex_map == null or tex_map.is_empty():
-		push_warning("CircleBank: MemoryTable has no 'memory_to_circle_tex'; icons will not be built.")
-		return
-
-	# clear & rebuild
-	for c in get_children():
-		c.queue_free()
+func _collect_icons() -> void:
 	_icons.clear()
 	_base_mod.clear()
+	_container = null
 
-	var origin := _resolve_origin()
-	var idx := 0
-	for mem_id_any in tex_map.keys():
-		var mem_id: String = mem_id_any as String
-		if mem_id == null or mem_id == "":
+	if icons_container_path != NodePath(""):
+		_container = get_node_or_null(icons_container_path)
+	if _container == null:
+		_container = get_tree().current_scene.find_child("boruvci", true, false)
+	if _container == null:
+		push_warning("CircleBank: no icons container found (set 'icons_container_path' or add a 'CircleIcons' node).")
+		return
+
+	# Optional auto-assign textures if missing, using MemoryTable
+	var tex_map: Dictionary = {}
+	if MemoryPool != null and MemoryPool.table != null:
+		tex_map = MemoryPool.table.memory_to_circle_tex as Dictionary
+
+	for c in _container.get_children():
+		var spr: Sprite2D = c as Sprite2D
+		if spr == null:
 			continue
-		var tex: Texture2D = tex_map.get(mem_id, null) as Texture2D
-		if tex == null:
+
+		# Prefer exported property 'memory_id' (via CircleIcon.gd), else metadata
+		var mem_id: String = ""
+		var v: Variant = spr.get("memory_id")  # will be null if not present
+		if v is String:
+			mem_id = v
+		elif spr.has_meta("memory_id"):
+			mem_id = str(spr.get_meta("memory_id"))
+
+		if mem_id == "":
 			continue
 
-		var spr := Sprite2D.new()
-		spr.texture  = tex
-		spr.position = origin + icon_spacing * idx
-		spr.z_index  = 20
-		add_child(spr)
+		# Auto texture if user forgot to assign and table has one
+		if spr.texture == null and tex_map.has(mem_id):
+			var tex := tex_map[mem_id] as Texture2D
+			if tex != null:
+				spr.texture = tex
 
-		_icons[mem_id]    = spr
+		_icons[mem_id] = spr
 		_base_mod[mem_id] = spr.modulate
-		idx += 1
 
-# ───────── track dynamic photos ─────────
+# ---------- track dynamic photos ----------
 func _on_node_added(n: Node) -> void:
 	if n is Photo:
 		_hook_photo_signals(n)
@@ -96,49 +90,32 @@ func _hook_photo_signals(p: Photo) -> void:
 		p.drag_started.connect(_on_drag_started)
 	if not p.drag_ended.is_connected(_on_drag_ended):
 		p.drag_ended.connect(_on_drag_ended)
-	if not p.snapped.is_connected(_on_photo_snapped):
-		p.snapped.connect(_on_photo_snapped)
 
+# ---------- runtime updates ----------
 func _on_drag_started(photo: Node) -> void:
 	_active_photo = photo
 
 func _on_drag_ended(_photo: Node) -> void:
 	_active_photo = null
-	_reset_all_mod()
+	_reset_all()
 
-# Hide immediately when a photo snaps to a slot (best effort; frame sync below is the source of truth)
-func _on_photo_snapped(_photo: Photo, slot: Area2D) -> void:
-	var map := _slot_map()
-	if map.is_empty():
-		return
-	var mem_id := map.get(slot.get("slot_idx"), "") as String
-	if mem_id != null and _icons.has(mem_id):
-		var spr := _icons[mem_id] as Sprite2D
+func _on_memory_claimed(mem_id: String) -> void:
+	if _icons.has(mem_id):
+		var spr: Sprite2D = _icons[mem_id] as Sprite2D
 		if spr:
 			spr.visible = false
 
-# ───────── runtime updates ─────────
-func _on_memory_claimed(_mem_id: String) -> void:
-	_sync_visibility()  # robust against build order
-
 func _process(_d: float) -> void:
-	# keep visibility in sync with pool every frame (6 icons → trivial)
-	_sync_visibility()
-
-	# pulsing guidance only while dragging
 	if _active_photo == null:
 		return
 	if MemoryPool == null or MemoryPool.table == null:
 		return
 
-	var slots_any: Variant = _active_photo.get("allowed_slots")
-	var slots: Array = []
-	if slots_any is Array:
-		slots = slots_any
-	elif slots_any is PackedInt32Array:
-		for v in slots_any:
-			slots.append(int(v))
-	else:
+	# read allowed slots from the active photo
+	if not _active_photo.has_method("get"):
+		return
+	var slots: Array = _active_photo.get("allowed_slots") as Array
+	if slots == null:
 		return
 
 	var allowed: Array[String] = _mems_for_photo(slots)
@@ -154,17 +131,10 @@ func _process(_d: float) -> void:
 		else:
 			_reset_icon(mem_id, spr)
 
-# ───────── helpers ─────────
-func _sync_visibility() -> void:
-	if MemoryPool == null or MemoryPool.table == null:
-		return
-	for mem_id_any in _icons.keys():
-		var mem_id: String = mem_id_any as String
-		var spr: Sprite2D = _icons[mem_id] as Sprite2D
-		if spr:
-			spr.visible = MemoryPool.is_free(mem_id)
-
+# ---------- helpers ----------
 func _slot_map() -> Dictionary:
+	if MemoryPool == null:
+		return {}
 	var t: MemoryTable = MemoryPool.table
 	if t == null:
 		return {}
@@ -198,24 +168,27 @@ func _reset_icon(mem_id: String, spr: Sprite2D) -> void:
 	spr.scale    = Vector2.ONE
 	spr.modulate = _base_mod[mem_id] as Color
 
-func _reset_all_mod() -> void:
+func _reset_all() -> void:
 	for mem_id_any in _icons.keys():
 		var mem_id: String = mem_id_any as String
 		if mem_id != null:
 			_reset_icon(mem_id, _icons[mem_id] as Sprite2D)
 
-# ───────── API for StageController ─────────
+# ---------- API used by StageController ----------
 func show_bank() -> void:
-	visible = true
+	if _container: _container.visible = true
+	else: visible = true
 
 func hide_bank() -> void:
-	visible = false
+	if _container: _container.visible = false
+	else: visible = false
 
 func reset_all() -> void:
 	for spr: Sprite2D in _icons.values():
-		spr.visible = true
-	_reset_all_mod()
-	_sync_visibility()
+		if spr:
+			spr.visible = true
+	_reset_all()
 
 func reload() -> void:
-	_rebuild()
+	_cache_slots()
+	_collect_icons()
