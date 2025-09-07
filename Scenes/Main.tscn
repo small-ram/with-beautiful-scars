@@ -301,7 +301,7 @@ position = Vector2(736, 450)
 position = Vector2(1577, 185)
 
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(699, 401)
+position = Vector2(1013, 777)
 
 [node name="WomanTarget" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(593, 781)
