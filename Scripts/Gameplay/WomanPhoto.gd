@@ -40,8 +40,8 @@ var _font_cached : Font              = null
 
 # ────────────────────────────────────────────────
 func _ready() -> void:
-	super._ready()  # Photo.gd initialisation
-	set_pickable(false)
+	set_pickable(false)  # not draggable until cleanup
+
 	# Cache font once (prevents repeated loads)
 	if label_font_path != "" and ResourceLoader.exists(label_font_path):
 		var f := load(label_font_path)
@@ -59,22 +59,60 @@ func _ready() -> void:
 	_load_phrases()
 	await _spawn_labels_async()          # stagger creation to reduce hitch
 
-	# IMPORTANT: size the state array AFTER labels exist
+	# Size the state array AFTER labels exist
 	_transformed.resize(_labels.size())  # zero-initialized
 
-	# Hook shard clicks and hide overlays
+	# Hook shard clicks + hover; hide overlays
 	var cc:int = _container.get_child_count()
 	for i in range(cc):
 		var shard := _container.get_child(i)
 		if shard is Area2D:
-			var a2d:Area2D = shard
+			var a2d: Area2D = shard
 			if not a2d.input_event.is_connected(_on_shard_input):
 				a2d.input_event.connect(_on_shard_input.bind(i))
+			# hover → hand if not transformed yet
+			if not a2d.mouse_entered.is_connected(_on_shard_hover_enter):
+				a2d.mouse_entered.connect(_on_shard_hover_enter.bind(i))
+			if not a2d.mouse_exited.is_connected(_on_shard_hover_exit):
+				a2d.mouse_exited.connect(_on_shard_hover_exit.bind(i))
+
 			var overlay := a2d.get_node_or_null("CrackOverlay")
 			if overlay and overlay is CanvasItem:
 				(overlay as CanvasItem).visible = false
 
+	# Self hover (hand only when draggable during cleanup)
+	if not mouse_entered.is_connected(_on_self_hover_enter):
+		mouse_entered.connect(_on_self_hover_enter)
+	if not mouse_exited.is_connected(_on_self_hover_exit):
+		mouse_exited.connect(_on_self_hover_exit)
+
 	set_process(true)
+
+# Allow dragging during cleanup → hand cursor on hover will appear
+func unlock_for_cleanup() -> void:
+	set_pickable(true)
+
+# ───────── Cursor helpers ─────────
+func _on_self_hover_enter() -> void:
+	var can_drag: bool = is_pickable() and not _snapped
+	Input.set_default_cursor_shape(
+		Input.CURSOR_POINTING_HAND if can_drag else Input.CURSOR_ARROW
+	)
+
+func _on_self_hover_exit() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+func _on_shard_hover_enter(idx: int) -> void:
+	var done: bool = _is_shard_transformed(idx)
+	Input.set_default_cursor_shape(
+		Input.CURSOR_POINTING_HAND if not done else Input.CURSOR_ARROW
+	)
+
+func _on_shard_hover_exit(_idx: int) -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+func _is_shard_transformed(idx: int) -> bool:
+	return (idx >= 0 and idx < _transformed.size() and _transformed[idx] != 0)
 
 # ────────────────────────────────────────────────
 func _load_phrases() -> void:
@@ -93,12 +131,8 @@ func _load_phrases() -> void:
 
 	_phrases.clear()
 	for e in j.data:
-		if typeof(e) == TYPE_DICTIONARY:
-			# require "short" and "long" to be present
-			if e.has("short") and e.has("long"):
-				_phrases.append(e)
-			else:
-				pass
+		if typeof(e) == TYPE_DICTIONARY and e.has("short") and e.has("long"):
+			_phrases.append(e)
 
 # ────────────────────────────────────────────────
 # Create labels in small batches to avoid a one-frame spike
@@ -239,9 +273,9 @@ func _transform_phrase(idx:int) -> void:
 		if overlay and overlay is CanvasItem:
 			(overlay as CanvasItem).visible = true
 
-	# emit when all entries are non-zero
+	# Reset cursor (this shard is no longer actionable)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+	# Emit when all entries are non-zero
 	if not _transformed.has(0):
 		all_words_transformed.emit()
-		
-func unlock_for_cleanup() -> void:
-	set_pickable(true)

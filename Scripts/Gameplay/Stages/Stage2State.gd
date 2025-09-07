@@ -11,6 +11,8 @@ func enter(controller) -> void:
 	mid.intro_finished.connect(func(): _spawn_woman(controller))
 
 func _spawn_woman(controller) -> void:
+	if controller.music_woman != "":
+		MusicManager.play(controller.music_woman)
 	controller._clear_overlay()
 
 	# Instance & parent ABOVE critters

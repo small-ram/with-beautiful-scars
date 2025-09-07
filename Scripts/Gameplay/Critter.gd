@@ -38,6 +38,8 @@ var _edge_pause_until : float = 0.0
 func _ready() -> void:
 	add_to_group("critters")
 	set_pickable(true)  # ← allow mouse clicks on the Area2D
+	mouse_entered.connect(_on_mouse_enter)
+	mouse_exited.connect(_on_mouse_exit)
 	vp.size_changed.connect(_on_viewport_resized)
 	_refresh_view_rect()
 
@@ -48,6 +50,26 @@ func _ready() -> void:
 	_assign_unique_key()
 	_spawn_at_random_edge()
 	sprite.play("move")
+	
+func _can_click() -> bool:
+	if _cleanup_mode: return false
+	if _triggered: return false
+	if _my_run_active: return false
+	if is_instance_valid(DialogueManager) and DialogueManager.is_active():
+		return false
+	return true
+
+func _on_mouse_enter() -> void:
+	var shape: int
+	if _cleanup_mode:
+		shape = Input.CURSOR_POINTING_HAND
+	else:
+		shape = Input.CURSOR_POINTING_HAND if _can_click() else Input.CURSOR_ARROW
+	Input.set_default_cursor_shape(shape)
+
+func _on_mouse_exit() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
 
 # ───────── VIEW UTIL: required editor rect ─────────
 func _editor_bounds() -> Rect2:
@@ -230,8 +252,10 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 				_dragging = true
 				_drag_off = global_position - ev.position
 				move_to_front()
+				Input.set_default_cursor_shape(Input.CURSOR_MOVE)
 			else:
 				_dragging = false
+				Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		return
 
 	# Normal mode: left-click triggers the critter (same as hotkey)
@@ -252,3 +276,11 @@ func _rotate_toward(current: Vector2, target: Vector2, max_step: float) -> Vecto
 	if abs(ang) <= max_step:
 		return t
 	return c.rotated(sign(ang) * max_step).normalized()
+	
+# Critter.gd — add anywhere in the script
+func is_in_hand() -> bool:
+	# dragging only exists during cleanup mode
+	return _cleanup_mode and _dragging
+
+func force_drop() -> void:
+	_dragging = false

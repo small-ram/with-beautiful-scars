@@ -1,9 +1,0 @@
-{
-  "id": "outro",
-  "body": "This is the closest to freedom I will ever be. 
-\nA new kind of emptiness.
-",
-  "choices": [
-	{"label": "Continue", "next": "cleanup_start"}
-  ]
-}

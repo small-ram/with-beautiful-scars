@@ -42,16 +42,23 @@ const TAPE_TEXTURES : Array[Texture2D] = [
 	preload("res://Assets/Tape/tape7.png"),
 	preload("res://Assets/Tape/tape8.png")
 ]
-
 # ───────────────────────────
 #  Ready
 # ───────────────────────────
 func _ready() -> void:
 	set_pickable(true)
+	mouse_entered.connect(_on_mouse_enter)
+	mouse_exited.connect(_on_mouse_exit)
 
-# ───────────────────────────
-#  Input (drag / drop)
-# ───────────────────────────
+func _on_mouse_enter() -> void:
+	var can_drag := is_pickable() and not _snapped
+	Input.set_default_cursor_shape(
+		Input.CURSOR_POINTING_HAND if can_drag else Input.CURSOR_ARROW
+	)
+
+func _on_mouse_exit() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 	if _snapped:
 		return
@@ -64,6 +71,7 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			_in_hand  = true
 			_drag_off = global_position - ev.position
 			move_to_front()
+			Input.set_default_cursor_shape(Input.CURSOR_MOVE)   # <—
 			emit_signal("drag_started", self)
 		else:
 			if Photo.current_drag != self:
@@ -72,6 +80,7 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			_in_hand  = false
 			_try_snap()
 			emit_signal("drag_ended", self)
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)  # <—
 			Photo.current_drag = null
 
 func _input(ev: InputEvent) -> void:

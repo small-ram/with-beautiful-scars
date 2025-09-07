@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="PLSHLP"
-run/main_scene="res://Scenes/Main.tscn"
+run/main_scene="uid://kt0ji02ih1ok"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
@@ -21,6 +21,7 @@ MemoryPool="*res://Scripts/Gameplay/MemoryPool.gd"
 KeyAssigner="*res://Scripts/Managers/KeyAssigner.gd"
 CircleBank="*res://Scripts/Gameplay/CircleBank.gd"
 DialogueManager="*res://Scripts/Managers/DialogueManager.gd"
+MusicManager="*res://Scripts/Managers/MusicManager.gd"
 
 [display]
 

@@ -9,7 +9,7 @@ const LINES : Array[String] = [
 		"...",
 		"That's easy.",
 		"The abyss has always had your voice.",
-		"Hey."
+		"\"Hey.\""
 ]
 func _init() -> void:
 		lines = LINES

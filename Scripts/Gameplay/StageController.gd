@@ -18,7 +18,6 @@ extends Node
 @export_node_path("Marker2D")    var woman_spawn_path   : NodePath
 @export_node_path("Marker2D")    var river_spawn_path   : NodePath
 @export_node_path("Marker2D")    var fetus_spawn_path   : NodePath
-@export_node_path("Marker2D")   var fetus_centre_path : NodePath
 @export_node_path("Marker2D")    var woman_target_path  : NodePath
 
 @export var mid_stage_panel     : PackedScene               # “Now she is ready …”
@@ -26,13 +25,17 @@ extends Node
 @export var alt_intro_scene     : PackedScene
 @export_file("*.json") var easy_slots_json : String
 @export_file("*.json") var hard_slots_json : String
+# StageController.gd — add near other exports
+@export_file("*.mp3") var music_intro   : String
+@export_file("*.mp3") var music_woman   : String
+@export_file("*.mp3") var music_cleanup : String
+
 @export var heartbeat_sfx       : String = "fetusHeartbeat"
 
 # ───────── ONREADY MARKERS ─────────
 @onready var _woman_spawn : Marker2D = get_node_or_null(woman_spawn_path)
 @onready var _river_pos   : Marker2D = get_node_or_null(river_spawn_path)
 @onready var _fetus_spawn : Marker2D = get_node_or_null(fetus_spawn_path)
-@onready var _fetus_centre : Marker2D = get_node_or_null(fetus_centre_path)
 @onready var _woman_target: Marker2D = get_node_or_null(woman_target_path)
 
 # ───────── STATE ─────────
@@ -41,6 +44,7 @@ var overlay  : CanvasLayer = null
 var critter_layer : CanvasLayer = null
 var woman    : Node = null
 var fetus    : Node = null
+var river    : Node2D = null
 var current_state : StageState = null
 
 # ───────── READY ─────────
@@ -100,7 +104,11 @@ func reset() -> void:
 	if fetus:
 		fetus.queue_free()
 		fetus = null
+	if river:
+		river.queue_free()
+		river = null
 
+	_stop_all_audio()
 	# Reset CircleBank visuals before we leave the scene
 	CircleBank.reset_all()
 
@@ -119,3 +127,9 @@ func _fetch_node(path:NodePath, fallback:String) -> Node:
 		var n := get_node_or_null(path)
 		if n: return n
 	return get_tree().current_scene.find_child(fallback, true, false)
+
+func _stop_all_audio() -> void:
+	if Engine.has_singleton("MusicManager"):
+		MusicManager.stop(0.25)
+	if Engine.has_singleton("AudioManager"):
+		AudioManager.stop_all()

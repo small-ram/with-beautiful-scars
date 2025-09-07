@@ -1,21 +1,21 @@
-# Scripts/Managers/KeyAssigner.gd
+# Scripts/Managers/KeyAssigner.gd (autoload)
 extends Node
 
-var _unused_codes : Array[Key] = []
-var _custom_queue : Array[Key] = []   # deterministic queue, FIFO
+var _unused_codes: Array[int] = []
+
+# Keep this an Array[int] so it matches _unused_codes
+const FIXED: Array[int] = [KEY_M, KEY_O, KEY_T, KEY_H, KEY_E, KEY_R]
 
 func _ready() -> void:
-	for i in range(KEY_A, KEY_Z + 1):
-		_unused_codes.append(i as Key)  # type-safe
-	_unused_codes.shuffle()
+	reset()  # harmless on first boot
 
-func set_custom_keys(codes: Array[Key]) -> void:
-	_custom_queue = codes.duplicate()
+func reset() -> void:
+	_unused_codes = FIXED.duplicate()  # Array[int] -> Array[int]
 
-func take_free_key() -> Key:
-	if not _custom_queue.is_empty():
-		return _custom_queue.pop_front()
+func take_free_key() -> int:
 	if _unused_codes.is_empty():
 		push_error("KeyAssigner: ran out of keys")
-		return KEY_SPACE as Key
-	return _unused_codes.pop_back()
+		return KEY_SPACE
+	var code: int = _unused_codes[0]
+	_unused_codes.remove_at(0)  # keep order M→O→T→H→E→R
+	return code

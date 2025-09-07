@@ -3,16 +3,13 @@
 Gameplay
 Critters jdou dat do reky, ale nemusi byt zlate
 konec se triggerne i bez presunutych critters
-az se v dialogu zmini lucida caligraphy, vsude nastavit ten font - ten dialog by měl byt treti
 
 
 Vizuál
-animace circles - možná místo zaostřování/zvětšování by mohla být animace jak se mění z pekne boruvky na skaredou
 dialog by měl být lehce průhledný
-U intra mít animaci indikujici jak rychle se posouvaji jednotlive dialogy - napr, loading indikator boruvky
-fetus at pulzuje a dela zvuk - zvuk by mel byt na repeat
 woman dialog 	- lag po nacteni
-				- piso po transformaci je moc male
+v jednom dialogu italics nebo jine formatovani/na papiru - 2x
+zavrit a otevrit krabici
 
 Zvuk/hudba
 -hudba
@@ -22,4 +19,3 @@ Zvuk/hudba
 
 Technical
 Improve resolution responsiveness
-restart is currently not working properly, often crashing the game

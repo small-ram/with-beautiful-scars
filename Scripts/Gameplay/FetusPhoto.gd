@@ -2,7 +2,6 @@
 extends Area2D
 signal dialogue_done
 
-@export var center_pos : Vector2                       # set by StageController
 @export var panel_scene : PackedScene = preload("res://Scenes/Overlays/FetusPanel.tscn")
 
 # --- Visual heartbeat targets ---
@@ -35,7 +34,8 @@ const _WHITE    : Color = Color(1, 1, 1, 1)
 
 func _ready() -> void:
 	input_pickable = true
-	area_entered.connect(_on_area_entered)
+	mouse_entered.connect(_on_mouse_enter)
+	mouse_exited.connect(_on_mouse_exit)
 
 	_sprite = get_node_or_null(fetus_sprite_path) as Sprite2D
 	if _sprite == null:
@@ -63,23 +63,25 @@ func _ready() -> void:
 
 	# Start heartbeat visuals (and audio if assigned)
 	_start_heartbeat()
-	if _audio != null and !_audio.playing:
+	if _audio != null and not _audio.playing:
 		_audio.play(0.0)
+
+func _on_mouse_enter() -> void:
+	if not _clicked:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_mouse_exit() -> void:
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 func _input_event(_vp: Viewport, ev: InputEvent, _i: int) -> void:
 	if _clicked:
 		return
 	if ev is InputEventMouseButton and ev.pressed:
 		_clicked = true
-		_move_to_center_and_show_panel()
+		_show_panel()
 
-# ───────── move & overlay ─────────
-func _move_to_center_and_show_panel() -> void:
-	var tw: Tween = create_tween()
-	tw.set_trans(Tween.TRANS_SINE)
-	tw.tween_property(self, "global_position", center_pos, 0.6)
-	await tw.finished
-
+# ───────── overlay only (no movement, no gilding) ─────────
+func _show_panel() -> void:
 	var overlay := _find_overlay()
 	if overlay != null and panel_scene != null:
 		var panel := panel_scene.instantiate()
@@ -94,22 +96,6 @@ func _find_overlay() -> CanvasLayer:
 
 func _on_panel_finished() -> void:
 	dialogue_done.emit()
-
-# ───────── gild photos on touch (unchanged) ─────────
-func _on_area_entered(a: Area2D) -> void:
-	if not a.is_in_group("photos"):
-		return
-	var is_dragging: bool = a.has_method("is_in_hand") and a.is_in_hand()
-	if not is_dragging:
-		return
-	if a.is_in_group("gold"):
-		return
-
-	# — gild —
-	# NOTE: relies on the other Area2D exposing 'sprite' and 'allowed_slots'
-	a.sprite.modulate = Color(1, 0.85, 0.3)
-	a.allowed_slots   = PackedInt32Array()
-	a.add_to_group("gold")
 
 # ───────── heartbeat visuals ─────────
 func _start_heartbeat() -> void:
@@ -159,15 +145,10 @@ func _run_heartbeat_cycle() -> void:
 	if use_echo_layer and _echo != null:
 		var e: Tween = create_tween()
 		e.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		# prepare starting size slightly larger for a halo feel
 		_echo.scale = _base_scale * (1.0 + scale_amp * 1.30)
-		# fade in across LUB
 		e.tween_property(_echo, "modulate:a", 0.25, lub_up + lub_release).set_ease(Tween.EASE_OUT)
-		# hold across the small gap
 		e.tween_interval(dub_gap)
-		# small re-accent on DUB
 		e.tween_property(_echo, "modulate:a", 0.20, dub_up).set_ease(Tween.EASE_OUT)
-		# fade away while shrinking slightly toward base, over dub_release + pause
 		e.tween_property(_echo, "modulate:a", 0.0, dub_release + pause).set_ease(Tween.EASE_IN)
 		e.parallel().tween_property(_echo, "scale", _base_scale * (1.0 + scale_amp * 0.15), dub_release + pause)
 

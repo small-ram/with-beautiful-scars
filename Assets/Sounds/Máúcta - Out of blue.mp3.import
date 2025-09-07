@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://blw3qkslml28j"
+path="res://.godot/imported/Máúcta - Out of blue.mp3-4adfca0abc82cc988dc76684a1a4a43d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Máúcta - Out of blue.mp3"
+dest_files=["res://.godot/imported/Máúcta - Out of blue.mp3-4adfca0abc82cc988dc76684a1a4a43d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

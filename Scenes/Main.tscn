@@ -39,13 +39,15 @@ stack_path = NodePath("../Gameplay/MarginContainer/PhotoStack")
 woman_spawn_path = NodePath("../SpawnPoints/WomanSpawn")
 river_spawn_path = NodePath("../SpawnPoints/RiverSpawn")
 fetus_spawn_path = NodePath("../SpawnPoints/FetusSpawn")
-fetus_centre_path = NodePath("../SpawnPoints/FetusCentre")
 woman_target_path = NodePath("../SpawnPoints/WomanTarget")
 mid_stage_panel = ExtResource("2_frkhe")
 memory_table = ExtResource("3_1p5hy")
 alt_intro_scene = ExtResource("4_h1m7h")
 easy_slots_json = "res://Data/SlotConfigs/easy.json"
 hard_slots_json = "res://Data/SlotConfigs/hard.json"
+music_intro = "uid://bdaaac1857hw6"
+music_woman = "uid://di1wsve1v33bb"
+music_cleanup = "uid://blw3qkslml28j"
 heartbeat_sfx = "heartbeat"
 
 [node name="CritterLayer" type="CanvasLayer" parent="."]
@@ -238,11 +240,6 @@ script = ExtResource("4_0sev1")
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Restart"
-
-[node name="QuitBtn" type="Button" parent="UI/ButtonLayer/ButtonBarContainer/ButtonBar"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Quit"
 
 [node name="boruvci" type="Node2D" parent="UI"]
 position = Vector2(-23, 35)
