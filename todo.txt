@@ -19,3 +19,4 @@ Zvuk/hudba
 
 Technical
 Improve resolution responsiveness
+bug kdyz premistuju fotku a triggernu obeservation
