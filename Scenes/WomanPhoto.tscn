@@ -5,9 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://upe5t6p8x81a" path="res://Assets/woman_glass_edited.png" id="3_qw7of"]
 
 [node name="WomanPhoto" type="Area2D" groups=["discardable", "photos"]]
-z_index = 10
 position = Vector2(460, 506)
 scale = Vector2(0.7, 0.7)
+input_pickable = false
 script = ExtResource("1_tc5rb")
 allowed_slots = PackedInt32Array()
 

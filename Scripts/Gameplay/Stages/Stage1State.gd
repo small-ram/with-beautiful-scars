@@ -1,6 +1,5 @@
 class_name Stage1State
 extends StageState
-signal finished(new_state: StageState)
 
 const CRITTERS : Array[PackedScene] = [
 	preload("res://Scenes/Critters/CritterJesterka.tscn"),

@@ -1,6 +1,5 @@
 class_name IntroState
 extends StageState
-signal finished(new_state: StageState)
 
 const PARENT_PANEL     := preload("res://Scenes/Overlays/ParentChoicePanel.tscn")
 const DIFFICULTY_PANEL := preload("res://Scenes/Overlays/DifficultyChoicePanel.tscn")

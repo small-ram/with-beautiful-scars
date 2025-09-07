@@ -1,6 +1,5 @@
 class_name Stage3State
 extends StageState
-signal finished(new_state: StageState)
 
 const FETUS_SCENE := preload("res://Scenes/FetusPhoto.tscn")
 const NEXT_STATE  := preload("res://Scripts/Gameplay/Stages/Stage4State.gd") 

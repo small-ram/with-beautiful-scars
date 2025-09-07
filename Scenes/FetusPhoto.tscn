@@ -7,6 +7,7 @@
 size = Vector2(228, 300)
 
 [node name="FetusPhoto" type="Area2D" groups=["non_discardable"]]
+z_index = 1200
 script = ExtResource("1_v3gcc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

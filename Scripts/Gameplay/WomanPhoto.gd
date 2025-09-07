@@ -41,7 +41,7 @@ var _font_cached : Font              = null
 # ────────────────────────────────────────────────
 func _ready() -> void:
 	super._ready()  # Photo.gd initialisation
-
+	set_pickable(false)
 	# Cache font once (prevents repeated loads)
 	if label_font_path != "" and ResourceLoader.exists(label_font_path):
 		var f := load(label_font_path)
@@ -128,7 +128,7 @@ func _spawn_labels_async() -> void:
 		lbl.position = center
 		lbl.visible = false
 		lbl.scale = Vector2.ONE
-		lbl.z_index = 100
+		lbl.z_index = 2
 
 		_apply_label_style(lbl)
 		shard.add_child(lbl)
@@ -242,3 +242,6 @@ func _transform_phrase(idx:int) -> void:
 	# emit when all entries are non-zero
 	if not _transformed.has(0):
 		all_words_transformed.emit()
+		
+func unlock_for_cleanup() -> void:
+	set_pickable(true)

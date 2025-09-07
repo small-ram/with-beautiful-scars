@@ -2,8 +2,8 @@
 extends Area2D
 signal dialogue_done
 
-@export var dialog_id  : String  = "fetus_dialog"
-@export var center_pos : Vector2                 # set by StageController
+@export var center_pos : Vector2                       # set by StageController
+@export var panel_scene : PackedScene = preload("res://Scenes/Overlays/FetusPanel.tscn")
 
 # --- Visual heartbeat targets ---
 @export var fetus_sprite_path    : NodePath = NodePath("Sprite2D")
@@ -23,8 +23,7 @@ signal dialogue_done
 @export var dub_up      : float = 0.06   # softer second swell
 @export var dub_release : float = 0.22   # full relax
 
-var _clicked       : bool = false
-var _my_run_active : bool = false
+var _clicked: bool = false
 
 # Runtime refs for visuals
 var _sprite     : Sprite2D
@@ -67,38 +66,34 @@ func _ready() -> void:
 	if _audio != null and !_audio.playing:
 		_audio.play(0.0)
 
-func _input_event(_vp, ev: InputEvent, _i: int) -> void:
+func _input_event(_vp: Viewport, ev: InputEvent, _i: int) -> void:
 	if _clicked:
 		return
 	if ev is InputEventMouseButton and ev.pressed:
 		_clicked = true
-		_move_to_center_and_talk()
+		_move_to_center_and_show_panel()
 
-# ───────── move & dialogue ─────────
-func _move_to_center_and_talk() -> void:
+# ───────── move & overlay ─────────
+func _move_to_center_and_show_panel() -> void:
 	var tw: Tween = create_tween()
 	tw.set_trans(Tween.TRANS_SINE)
 	tw.tween_property(self, "global_position", center_pos, 0.6)
 	await tw.finished
 
-	# Track run ownership
-	if DialogueManager.has_signal("dialogue_started"):
-		DialogueManager.dialogue_started.connect(
-			func(id: String) -> void:
-				_my_run_active = (id == dialog_id),
-			Object.CONNECT_ONE_SHOT
-		)
+	var overlay := _find_overlay()
+	if overlay != null and panel_scene != null:
+		var panel := panel_scene.instantiate()
+		overlay.add_child(panel)
+		# TextSequencePanel emits `intro_finished`
+		panel.intro_finished.connect(_on_panel_finished, Object.CONNECT_ONE_SHOT)
 	else:
-		_my_run_active = true
+		_on_panel_finished()
 
-	DialogueManager.dialogue_finished.connect(
-		func(_last_id: String) -> void:
-			if _my_run_active:
-				_my_run_active = false
-				dialogue_done.emit(),
-			Object.CONNECT_ONE_SHOT
-	)
-	DialogueManager.start(dialog_id)
+func _find_overlay() -> CanvasLayer:
+	return get_tree().current_scene.find_child("OverlayLayer", true, false) as CanvasLayer
+
+func _on_panel_finished() -> void:
+	dialogue_done.emit()
 
 # ───────── gild photos on touch (unchanged) ─────────
 func _on_area_entered(a: Area2D) -> void:

@@ -1,6 +1,5 @@
 class_name Stage2State
 extends StageState
-signal finished(new_state: StageState)
 
 const WOMAN_SCENE := preload("res://Scenes/WomanPhoto.tscn")
 const NEXT_STATE  := preload("res://Scripts/Gameplay/Stages/Stage3State.gd") 
@@ -27,10 +26,6 @@ func _spawn_woman(controller) -> void:
 
 	# No to_local needed; global coords work across layers
 	w.global_position = spawn_pos
-
-	# Ensure it's on top within the overlay
-	w.z_as_relative = false
-	w.z_index = 999
 
 	# Keep a handle and wire the transition
 	controller.woman = w

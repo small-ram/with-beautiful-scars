@@ -4,5 +4,4 @@
 [ext_resource type="Script" uid="uid://rwnnmssfcvju" path="res://Scripts/UI/MidStagePanel.gd" id="2"]
 
 [node name="MidStagePanel" instance=ExtResource("1")]
-z_index = 6
 script = ExtResource("2")

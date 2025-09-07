@@ -1,8 +1,7 @@
 class_name Stage4State
 extends StageState
-signal finished(new_state: StageState)
 
-const RIVER_SCENE := preload("res://Scenes/River.tscn")
+const RIVER_SCENE := preload("res://Scenes/Kun.tscn")
 const NEXT_STATE  := preload("res://Scripts/Gameplay/Stages/OutroState.gd") 
 
 func enter(controller) -> void:

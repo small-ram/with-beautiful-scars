@@ -6,8 +6,6 @@
 
 [node name="ParentChoicePanel" instance=ExtResource("1")]
 script = ExtResource("2")
-yes_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/YesBtn")
-no_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/NoBtn")
 
 [node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
 text = "Are you her parent?"

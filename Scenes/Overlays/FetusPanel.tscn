@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bniujalyqupoq"]
+
+[ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1_lxgh4"]
+[ext_resource type="Script" uid="uid://ce40owfns5t87" path="res://Scripts/UI/FetusPanel.gd" id="2_lxgh4"]
+
+[node name="FetusPanel" instance=ExtResource("1_lxgh4")]
+light_mask = 3
+script = ExtResource("2_lxgh4")

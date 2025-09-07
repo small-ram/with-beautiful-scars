@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddw0x2to15ax3"]
+
+[ext_resource type="Script" uid="uid://jr13wluyoiis" path="res://Scripts/Gameplay/TrashCan.gd" id="1_drtah"]
+[ext_resource type="Texture2D" uid="uid://bwj3ueyx2ikfg" path="res://Assets/kun_podpatky.png" id="2_yvoio"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rkxt"]
+size = Vector2(693.553, 337.442)
+
+[node name="River" type="Area2D" groups=["bin"]]
+z_index = -8
+script = ExtResource("1_drtah")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.286176, 0.286176)
+texture = ExtResource("2_yvoio")
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 19.5)
+scale = Vector2(0.445532, 0.684563)
+shape = SubResource("RectangleShape2D_8rkxt")

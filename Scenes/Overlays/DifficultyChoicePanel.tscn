@@ -6,8 +6,6 @@
 
 [node name="DifficultyChoicePanel" instance=ExtResource("1")]
 script = ExtResource("2")
-easy_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/EasyBtn")
-hard_btn_path = NodePath("CenterContainer/VBoxContainer/HBoxContainer/HardBtn")
 
 [node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
 text = "How hard is it for you to forgive?

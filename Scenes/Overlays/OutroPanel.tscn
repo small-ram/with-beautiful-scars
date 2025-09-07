@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://6fcofcgrv6nu"]
+
+[ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1_rm157"]
+[ext_resource type="Script" uid="uid://npo8kepr5e2s" path="res://Scripts/UI/OutroPanel.gd" id="2_rm157"]
+
+[node name="OutroPanel" instance=ExtResource("1_rm157")]
+script = ExtResource("2_rm157")

@@ -1,11 +1,16 @@
-class_name OutroState
+# Scripts/Gameplay/OutroState.gd  (REPLACE FILE)
 extends StageState
-signal finished(new_state: StageState)
+class_name OutroState
 
-func enter(_controller) -> void:
-	if DialogueManager.is_active():
-		await DialogueManager.dialogue_finished
-	DialogueManager.start("outro")
+const OUTRO_PANEL := preload("res://Scenes/Overlays/OutroPanel.tscn")
+
+func enter(controller) -> void:
+	controller._clear_overlay()
+	var panel: Node = OUTRO_PANEL.instantiate()
+	controller.overlay.add_child(panel)
+	# Optional: end the app after the outro
+	# panel.intro_finished.connect(func(): controller.get_tree().quit())
 
 func exit(_controller) -> void:
+	# Let the panel manage its own lifetime; nothing to do here.
 	pass

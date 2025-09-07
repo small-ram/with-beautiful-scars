@@ -298,7 +298,7 @@ texture = ExtResource("6_2w5on")
 position = Vector2(736, 450)
 
 [node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1577, 185)
+position = Vector2(1593, 507)
 
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1013, 777)

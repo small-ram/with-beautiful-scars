@@ -63,11 +63,15 @@ func _ready() -> void:
 # ───────── STATE HELPERS ─────────
 func change_state(new_state: StageState) -> void:
 	if current_state:
-		current_state.finished.disconnect(change_state)
+		if current_state.has_signal("finished") and current_state.finished.is_connected(change_state):
+			current_state.finished.disconnect(change_state)
 		current_state.exit(self)
+
 	current_state = new_state
+
 	if current_state:
-		current_state.finished.connect(change_state)
+		if current_state.has_signal("finished"):
+			current_state.finished.connect(change_state)
 		current_state.enter(self)
 
 func _on_photo_dialogue_done(photo) -> void:
