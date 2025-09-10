@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dt1pw6kymrvga"]
 
 [ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
-[ext_resource type="Script" uid="uid://bmal3uyah6fol" path="res://Scripts/UI/IntroPanel.gd" id="2"]
+[ext_resource type="Script" uid="uid://dge8dfngidg28" path="res://Scripts/UI/IntroPanel.gd" id="2"]
 
 [node name="IntroPanel" instance=ExtResource("1")]
 script = ExtResource("2")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://54ccmuxuohxe"]
 
-[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
+[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="2_ge0xk"]
 [ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
 [ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="2_looll"]

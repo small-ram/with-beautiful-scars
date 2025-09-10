@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dsfcmnuk1bmxa"]
 
-[ext_resource type="Script" uid="uid://bih4y5v1ryeeb" path="res://Scripts/Gameplay/MemorySlot.gd" id="1_02non"]
+[ext_resource type="Script" uid="uid://vbjrlylghqfb" path="res://Scripts/Gameplay/MemorySlot.gd" id="1_02non"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aiuo1"]
 size = Vector2(32, 32)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvc3anuilxmgo"]
 
 [ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
-[ext_resource type="Script" uid="uid://rwnnmssfcvju" path="res://Scripts/UI/MidStagePanel.gd" id="2"]
+[ext_resource type="Script" uid="uid://bimbfgmve10en" path="res://Scripts/UI/MidStagePanel.gd" id="2"]
 
 [node name="MidStagePanel" instance=ExtResource("1")]
 script = ExtResource("2")

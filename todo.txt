@@ -10,6 +10,10 @@ dialog by měl být lehce průhledný
 woman dialog 	- lag po nacteni
 v jednom dialogu italics nebo jine formatovani/na papiru - 2x
 zavrit a otevrit krabici
+zvětšit písmo
+animace textu jako kdyby se psal
+volby textu jako v disco elysiu - mozna ne tlacitka, ale primo na text s hover animací
+pozice odpovědí se dynamicky mění podle délky dialogu
 
 Zvuk/hudba
 -hudba

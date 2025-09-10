@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://drrbg65xm6npm"]
 
 [ext_resource type="PackedScene" uid="uid://i0mlbm0dbgq8" path="res://Scenes/Overlays/BasePanel.tscn" id="1"]
-[ext_resource type="Script" uid="uid://dv7hvkgwf2lfq" path="res://Scripts/UI/DifficultyChoicePanel.gd" id="2"]
+[ext_resource type="Script" uid="uid://21176bfc7lka" path="res://Scripts/UI/DifficultyChoicePanel.gd" id="2"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="3_84lpx"]
 
 [node name="DifficultyChoicePanel" instance=ExtResource("1")]
