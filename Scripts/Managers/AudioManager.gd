@@ -98,20 +98,24 @@ func unlock_on_user_gesture() -> void:
 	if _unlock_dummy != null:
 		return
 	_unlock_dummy = AudioStreamPlayer.new()
-	var gen := AudioStreamGenerator.new()
-	gen.mix_rate = 44100.0
-	gen.buffer_length = 0.1
-	_unlock_dummy.stream = gen
 	add_child(_unlock_dummy)
+
+	# 50 ms of stereo silence at 44.1 kHz, 16-bit
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = 44100
+	wav.stereo = true
+	var samples: int = int(wav.mix_rate * 0.05)              # 0.05s
+	var bytes := PackedByteArray()
+	bytes.resize(samples * 2 /*channels*/ * 2 /*bytes*/ )
+	for i in range(bytes.size()):
+		bytes[i] = 0
+	wav.data = bytes
+
+	_unlock_dummy.stream = wav
 	_unlock_dummy.play()
 
-	var pb: AudioStreamGeneratorPlayback = _unlock_dummy.get_stream_playback() as AudioStreamGeneratorPlayback
-	if pb:
-		var frames: int = int(gen.mix_rate * 0.02)
-		for i in range(frames):
-			pb.push_frame(Vector2.ZERO)
-
-	get_tree().create_timer(0.05).timeout.connect(
+	get_tree().create_timer(0.06).timeout.connect(
 		func() -> void:
 			if is_instance_valid(_unlock_dummy):
 				_unlock_dummy.stop(),

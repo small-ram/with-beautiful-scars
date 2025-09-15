@@ -50,8 +50,12 @@ var current_state : StageState = null
 # ───────── READY ─────────
 func _ready() -> void:
 	MemoryPool.init_from_table(memory_table)
-	await get_tree().process_frame
-	CircleBank.reload()  # <-- ensure icons rebuild after load/reload
+
+	# Point CircleBank at your icons container and then reload
+	var boruv := get_tree().current_scene.find_child("boruvci", true, false)
+	if boruv and is_instance_valid(CircleBank):
+		CircleBank.icons_container_path = boruv.get_path()
+		CircleBank.reload()
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
