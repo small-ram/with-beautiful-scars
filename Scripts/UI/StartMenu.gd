@@ -38,7 +38,7 @@ func _wire() -> void:
 
 func _on_new_game() -> void:
 	_btn.disabled = true
-
+	
 	# Unlock global audio context (covers music + sfx on Web)
 	if is_instance_valid(AudioManager):
 		AudioManager.unlock_on_user_gesture()
@@ -50,7 +50,7 @@ func _on_new_game() -> void:
 			"photoSnap",
 			"heartbeat",
 		])
-
+	get_tree().set_meta("skip_intro", true)
 
 	# Tell Main to skip its own Intro (we're showing it here)
 	if is_instance_valid(RunFlags):

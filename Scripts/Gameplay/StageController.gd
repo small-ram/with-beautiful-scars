@@ -50,13 +50,7 @@ var current_state : StageState = null
 # ───────── READY ─────────
 func _ready() -> void:
 	MemoryPool.init_from_table(memory_table)
-
-	# Point CircleBank at your icons container and then reload
-	var boruv := get_tree().current_scene.find_child("boruvci", true, false)
-	if boruv and is_instance_valid(CircleBank):
-		CircleBank.icons_container_path = boruv.get_path()
-		CircleBank.reload()
-
+	CircleBank.reload()
 	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
 	overlay  = _fetch_node(overlay_path,  "OverlayLayer")
 	critter_layer = _fetch_node(critter_layer_path, "CritterLayer") as CanvasLayer
@@ -66,14 +60,7 @@ func _ready() -> void:
 		if pid != "":
 			ph.dialogue_done.connect(_on_photo_dialogue_done)
 
-	if is_instance_valid(RunFlags) and RunFlags.skip_intro:
-		change_state(Stage1State.new())
-		RunFlags.skip_intro = false
-	else:
-		change_state(IntroState.new())
-
-
-
+	change_state(IntroState.new())   # ← always; remove any skip/branch here
 # ───────── STATE HELPERS ─────────
 func change_state(new_state: StageState) -> void:
 	if current_state:
