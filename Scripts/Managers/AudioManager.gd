@@ -1,7 +1,7 @@
 # Scripts/Managers/AudioManager.gd
 extends Node
 
-@export var default_bus: String = "SFX"  # falls back to Master if not present
+@export var default_bus: String = "Master"  # falls back to Master if not present
 
 var _cache  : Dictionary = {}                # sfx name -> AudioStream
 var _player : AudioStreamPlayer = null       # one reusable player

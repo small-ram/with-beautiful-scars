@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://kt0ji02ih1ok"]
 
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="1_do4vp"]
-[ext_resource type="Script" uid="uid://cqpkvvgny3bjj" path="res://Scripts/UI/StartMenu.gd" id="2"]
+[ext_resource type="Script" uid="uid://bm5t87l0b4r3e" path="res://Scripts/UI/StartMenu.gd" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_base"]
 bg_color = Color(0, 0, 0, 1)
@@ -18,7 +18,6 @@ grow_vertical = 2
 theme = ExtResource("1_do4vp")
 theme_override_styles/panel = SubResource("StyleBoxFlat_base")
 script = ExtResource("2")
-new_game_btn_path = NodePath("HBoxContainer/NewGameBtn")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

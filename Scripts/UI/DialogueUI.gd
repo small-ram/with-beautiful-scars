@@ -28,9 +28,18 @@ func _ready() -> void:
 
 	if _body and body_variation != "":
 		_body.theme_type_variation = body_variation
+
+	# Let critters find this for fallback portraits
+	add_to_group("dialogue_ui")
+
 	if is_instance_valid(DialogueManager):
 		DialogueManager.register_ui(self)
 
+func _exit_tree() -> void:
+	if is_instance_valid(DialogueManager):
+		DialogueManager.unregister_ui(self)
+
+# Called by DialogueManager
 func show_line(data: Dictionary) -> void:
 	visible = true
 
@@ -40,52 +49,73 @@ func show_line(data: Dictionary) -> void:
 		_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_body.fit_content = false
 		_body.scroll_active = true
-		# IMPORTANT: use bbcode_text so inline tags (e.g., [font]) are parsed
+		# Use bbcode_text so inline tags are parsed
 		_body.bbcode_text = str(data.get("body", ""))
 
-	# Portrait
+	# Portrait (path in data, fallback may be provided separately)
 	if _portrait:
 		var p: String = str(data.get("portrait", ""))
 		if p != "" and ResourceLoader.exists(p):
 			_portrait.texture = load(p) as Texture2D
 			_portrait.visible = true
 		else:
-			_portrait.texture = null
-			_portrait.visible = false
+			if _portrait.texture == null:
+				_portrait.visible = false
 
 	# Choices
 	_clear_choices()
+
 	var choices: Array = []
 	var choices_any: Variant = data.get("choices", [])
 	if choices_any is Array:
 		choices = choices_any
+
 	if _choice_box:
 		if choices.is_empty():
 			_add_continue_button()
 		else:
 			for i in range(choices.size()):
-				var e: Variant = choices[i]
-				var label: String
+				var label: String = ""
+				var e: Variant = choices[i]         # explicit type → no inference error
 				if e is Dictionary:
 					var d: Dictionary = e
 					label = str(d.get("label", ""))
 				else:
 					label = str(e)
+				if label == "":
+					label = "Continue"
 				_add_choice_button(i, label)
 
 	# Optional entrance anim
 	if _anim and _anim.has_animation("FadeIn"):
 		_anim.play("FadeIn")
 
-# ---- Buttons from in-scene template ----
-func _make_button() -> Button:
+# Allow critters to provide a portrait if the JSON lacks one
+func set_fallback_portrait(tex: Texture2D) -> void:
+	if _portrait and tex and (_portrait.texture == null):
+		_portrait.texture = tex
+		_portrait.visible = true
+
+# ---- Buttons & list management ----
+func _clear_choices() -> void:
+	if _choice_box == null:
+		return
+	for c in _choice_box.get_children():
+		if c != _choice_template:   # keep the in-scene template alive
+			c.queue_free()
 	if _choice_template:
-		var b := _choice_template.duplicate() as Button
-		b.visible = true
-		b.disabled = false
-		return b
-	# Fallback if template missing (keeps behavior correct)
-	var b := Button.new()
+		_choice_template.visible = false
+
+func _make_button() -> Button:
+	var b: Button                      # declare once → no confusable redeclaration
+	if is_instance_valid(_choice_template):
+		b = _choice_template.duplicate() as Button
+		if b:
+			b.visible = true
+			b.disabled = false
+			return b
+	# Fallback if template missing
+	b = Button.new()
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.size_flags_vertical = 0
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -94,36 +124,41 @@ func _make_button() -> Button:
 
 func _add_choice_button(index: int, text: String) -> void:
 	if _choice_box == null: return
-	var b := _make_button()
+	var b: Button = _make_button()
 	if button_variation != "": b.theme_type_variation = button_variation
 	b.text = text
+	# Always left-align choices (this was drifting on later branches)
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.focus_mode = Control.FOCUS_ALL
 	b.mouse_entered.connect(_on_btn_hover)
 	b.pressed.connect(_on_btn_pressed.bind(index))
 	_choice_box.add_child(b)
 
+	# Focus the first choice for keyboard/gamepad flow
+	if _choice_box.get_child_count() == 1:
+		b.grab_focus()
+
 func _add_continue_button() -> void:
 	if _choice_box == null: return
-	var b := _make_button()
+	var b: Button = _make_button()
 	if button_variation != "": b.theme_type_variation = button_variation
 	b.text = "Continue"
+	# Center looks better for a single “Continue”
+	b.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.focus_mode = Control.FOCUS_ALL
 	b.mouse_entered.connect(_on_btn_hover)
 	b.pressed.connect(_on_continue_pressed)
 	_choice_box.add_child(b)
 	b.grab_focus()
 
-func _clear_choices() -> void:
-	if _choice_box == null: return
-	for c in _choice_box.get_children():
-		c.queue_free()
-
 # ---- Signals ----
 func _on_continue_pressed() -> void:
-	if is_instance_valid(DialogueManager): DialogueManager.advance()
+	if is_instance_valid(DialogueManager):
+		DialogueManager.advance()
 
 func _on_btn_pressed(index: int) -> void:
-	if is_instance_valid(DialogueManager): DialogueManager.choose(index)
+	if is_instance_valid(DialogueManager):
+		DialogueManager.choose(index)
 
 func _on_btn_hover() -> void:
 	if _hover_audio and hover_sfx:

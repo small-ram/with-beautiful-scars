@@ -9,12 +9,16 @@ func enter(controller) -> void:
 	controller.overlay.add_child(panel)
 
 	panel.intro_finished.connect(func ():
-		# Clean up transient dialogue state (defensive)
+		# Stop SFX only
+		if is_instance_valid(AudioManager):
+			AudioManager.stop_all()
+
+		# (Keep music playing)
 		if is_instance_valid(DialogueManager):
 			DialogueManager.clear_cache()
 			if DialogueManager.is_active():
 				DialogueManager.close()
-		# Full scene swap back to start menu (fresh run next time)
+
 		controller.get_tree().change_scene_to_file("res://Scenes/Overlays/StartMenu.tscn")
 	, Object.CONNECT_ONE_SHOT)
 
