@@ -167,10 +167,9 @@ func _assign_unique_key() -> void:
 	if not InputMap.has_action(_action_name):
 		InputMap.add_action(_action_name)
 		var ev := InputEventKey.new()
-		ev.physical_keycode = keycode
+		ev.physical_keycode = keycode      # ← no cast needed
 		InputMap.action_add_event(_action_name, ev)
 	label.text = OS.get_keycode_string(keycode)
-
 
 # ───────── TRIGGER GUARD (no overlapping dialogues) ─────────
 func _trigger() -> void:
