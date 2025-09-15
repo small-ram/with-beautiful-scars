@@ -18,6 +18,7 @@ grow_vertical = 2
 theme = ExtResource("1_do4vp")
 theme_override_styles/panel = SubResource("StyleBoxFlat_base")
 script = ExtResource("2")
+intro_music = "uid://bdaaac1857hw6"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

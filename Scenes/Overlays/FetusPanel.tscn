@@ -6,6 +6,3 @@
 [node name="FetusPanel" instance=ExtResource("1_lxgh4")]
 light_mask = 3
 script = ExtResource("2_lxgh4")
-
-[node name="VBoxContainer" parent="CenterContainer" index="0"]
-theme_override_constants/separation = 16

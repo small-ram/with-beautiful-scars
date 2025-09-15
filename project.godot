@@ -22,6 +22,7 @@ KeyAssigner="*res://Scripts/Managers/KeyAssigner.gd"
 CircleBank="*res://Scripts/Gameplay/CircleBank.gd"
 DialogueManager="*res://Scripts/Managers/DialogueManager.gd"
 MusicManager="*res://Scripts/Managers/MusicManager.gd"
+RunFlags="*res://Scripts/Managers/RunFlags.gd"
 
 [display]
 

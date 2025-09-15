@@ -50,6 +50,7 @@ var current_state : StageState = null
 # ───────── READY ─────────
 func _ready() -> void:
 	MemoryPool.init_from_table(memory_table)
+	await get_tree().process_frame
 	CircleBank.reload()  # <-- ensure icons rebuild after load/reload
 
 	gameplay = _fetch_node(gameplay_path, "Gameplay"); gameplay.visible = false
@@ -61,7 +62,12 @@ func _ready() -> void:
 		if pid != "":
 			ph.dialogue_done.connect(_on_photo_dialogue_done)
 
-	change_state(IntroState.new())
+	if is_instance_valid(RunFlags) and RunFlags.skip_intro:
+		change_state(Stage1State.new())
+		RunFlags.skip_intro = false
+	else:
+		change_state(IntroState.new())
+
 
 
 # ───────── STATE HELPERS ─────────

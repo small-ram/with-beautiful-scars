@@ -5,3 +5,4 @@
 
 [node name="OutroPanel" instance=ExtResource("1_rm157")]
 script = ExtResource("2_rm157")
+advance_text = "End"
