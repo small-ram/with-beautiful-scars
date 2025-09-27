@@ -1,8 +1,6 @@
 
 
 Gameplay
-Critters jdou dat do reky, ale nemusi byt zlate
-konec se triggerne i bez presunutych critters
 
 
 Vizuál
@@ -13,8 +11,6 @@ zavrit a otevrit krabici
 animace textu jako kdyby se psal
 volby textu jako v disco elysiu - mozna ne tlacitka, ale primo na text s hover animací
 pozice odpovědí se dynamicky mění podle délky dialogu
-u černých obrazovek mít tlačítko "Next"
-tlacitko "Clean the mess" na cerne obrazovce pred cleanup phase
 
 Zvuk/hudba
 -hudba
