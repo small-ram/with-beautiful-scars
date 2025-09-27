@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpuigb3va2qkd"]
 
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="1_dhyk3"]
-[ext_resource type="Script" uid="uid://c0x1abl8v6380" path="res://Scripts/UI/DialogueUI.gd" id="1_g87dj"]
-[ext_resource type="Texture2D" uid="uid://cw73txgkbugfh" path="res://Assets/dark-texture-background.jpg" id="3_3r4kx"]
+[ext_resource type="Script" uid="uid://c3ilw07eepnwl" path="res://Scripts/UI/DialogueUI.gd" id="1_g87dj"]
+[ext_resource type="Texture2D" uid="uid://5gkphpd2s8o3" path="res://Assets/side.png" id="3_rpjxb"]
 
 [node name="DialogueLayer" type="CanvasLayer"]
 layer = 100
@@ -30,10 +30,11 @@ anchors_preset = -1
 anchor_left = 0.666667
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 0.000610352
+offset_left = -3.0
+offset_right = -2.99939
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_3r4kx")
+texture = ExtResource("3_rpjxb")
 
 [node name="Content" type="MarginContainer" parent="MarginContainer/DialogueUI/Backplate"]
 layout_mode = 1

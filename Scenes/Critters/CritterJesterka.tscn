@@ -1,17 +1,53 @@
-[gd_scene load_steps=9 format=3 uid="uid://ch21v4lrv1m6t"]
+[gd_scene load_steps=18 format=3 uid="uid://ch21v4lrv1m6t"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
-[ext_resource type="Texture2D" uid="uid://cudeldmburk7t" path="res://Assets/Critters/jesterka2.png" id="2_ywtd5"]
-[ext_resource type="Texture2D" uid="uid://bolhflym22xdu" path="res://Assets/Critters/jesterka1.png" id="3_ky1fu"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_qecfm"]
+[ext_resource type="Texture2D" uid="uid://t0sm1s5qjrht" path="res://Assets/Critters/Jesterka/1.png" id="2_cdbo2"]
+[ext_resource type="Texture2D" uid="uid://yhhs4qs4tt7v" path="res://Assets/Critters/Jesterka/2.png" id="3_qccsk"]
+[ext_resource type="Texture2D" uid="uid://cqejjlm8x0xw" path="res://Assets/Critters/Jesterka/3.png" id="4_8tpar"]
 [ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_mf1il"]
+[ext_resource type="Texture2D" uid="uid://btb0yylbr4eln" path="res://Assets/Critters/Jesterka/4.png" id="5_77cj1"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_dxbe1"]
 [ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_dxbe1"]
+[ext_resource type="Texture2D" uid="uid://rvoyn3i12upe" path="res://Assets/Critters/Jesterka/5.png" id="6_mofi1"]
+[ext_resource type="Texture2D" uid="uid://ckwkob8hxfklr" path="res://Assets/Critters/Jesterka/6.png" id="7_5ef4p"]
+[ext_resource type="Texture2D" uid="uid://tcr4qcceaos3" path="res://Assets/Critters/Jesterka/7.png" id="8_py8rm"]
+[ext_resource type="Texture2D" uid="uid://d28wq5vls58l2" path="res://Assets/Critters/Jesterka/8.png" id="9_gyvpf"]
+[ext_resource type="Texture2D" uid="uid://vf20754p53ou" path="res://Assets/Critters/Jesterka/9.png" id="10_njenp"]
+[ext_resource type="Texture2D" uid="uid://dtu6pc34jcw5o" path="res://Assets/Critters/Jesterka/10.png" id="11_6e17e"]
+[ext_resource type="Texture2D" uid="uid://cpoc8x1ksyamj" path="res://Assets/Critters/Jesterka/dead.png" id="12_kwqvt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_ywtd5")
+"texture": ExtResource("2_cdbo2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qccsk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8tpar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_77cj1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mofi1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5ef4p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_py8rm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_gyvpf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_njenp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_6e17e")
 }],
 "loop": true,
 "name": &"move",
@@ -19,7 +55,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_ky1fu")
+"texture": ExtResource("12_kwqvt")
 }],
 "loop": true,
 "name": &"trigger",
@@ -27,7 +63,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sprtf"]
-size = Vector2(103, 244)
+size = Vector2(119, 251)
 
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
@@ -38,12 +74,12 @@ one_liner_id = "Critters/jesterka"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
-position = Vector2(-1, 0)
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, -1)
+position = Vector2(-2.5, 25.5)
 shape = SubResource("RectangleShape2D_sprtf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

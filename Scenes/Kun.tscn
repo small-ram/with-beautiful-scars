@@ -10,6 +10,8 @@ size = Vector2(693.553, 337.442)
 z_index = -8
 script = ExtResource("1_drtah")
 active = true
+scatter_radius = 32.0
+gold_tint = Color(0.779279, 0.641712, 0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1

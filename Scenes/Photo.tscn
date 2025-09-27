@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://chuke612m828x"]
 
-[ext_resource type="Script" uid="uid://bdahryimgainm" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
+[ext_resource type="Script" uid="uid://6vishbhsft72" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
 
 [node name="Photo" type="Area2D" groups=["photos"]]
 z_index = 10

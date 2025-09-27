@@ -1,17 +1,41 @@
-[gd_scene load_steps=9 format=3 uid="uid://54ccmuxuohxe"]
+[gd_scene load_steps=15 format=3 uid="uid://54ccmuxuohxe"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_c02s6"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="2_ge0xk"]
-[ext_resource type="Texture2D" uid="uid://dqvn0b1fbfc6w" path="res://Assets/Critters/brouk.png" id="2_irxac"]
 [ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="2_looll"]
 [ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="4_k53wa"]
-[ext_resource type="Texture2D" uid="uid://c0whmats2px7g" path="res://Assets/Critters/brouk2.png" id="4_xerlx"]
+[ext_resource type="Texture2D" uid="uid://b3foeesdtv75m" path="res://Assets/Critters/Brouk/2.png" id="5_tfbdr"]
+[ext_resource type="Texture2D" uid="uid://bgvm5pul6p81c" path="res://Assets/Critters/Brouk/3.png" id="6_h3ufe"]
+[ext_resource type="Texture2D" uid="uid://uxw0jiv7m4h" path="res://Assets/Critters/Brouk/4.png" id="7_5tl4a"]
+[ext_resource type="Texture2D" uid="uid://c3ppbli3gar42" path="res://Assets/Critters/Brouk/5.png" id="8_qm50j"]
+[ext_resource type="Texture2D" uid="uid://3hd3ing74uc3" path="res://Assets/Critters/Brouk/6.png" id="9_43bjo"]
+[ext_resource type="Texture2D" uid="uid://d1c7nhscioq3b" path="res://Assets/Critters/Brouk/7.png" id="10_uym08"]
+[ext_resource type="Texture2D" uid="uid://c3caswrdcsabc" path="res://Assets/Critters/Brouk/8.png" id="11_33hp0"]
+[ext_resource type="Texture2D" uid="uid://sox3kw1vci7" path="res://Assets/Critters/Brouk/dead.png" id="12_q4vvc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_irxac")
+"texture": ExtResource("5_tfbdr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h3ufe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5tl4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_qm50j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_43bjo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_uym08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_33hp0")
 }],
 "loop": true,
 "name": &"move",
@@ -19,7 +43,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_xerlx")
+"texture": ExtResource("12_q4vvc")
 }],
 "loop": true,
 "name": &"trigger",
@@ -27,7 +51,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_irxac"]
-size = Vector2(103, 152)
+size = Vector2(198, 226)
 
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
@@ -43,10 +67,10 @@ texture = ExtResource("2_looll")
 
 [node name="KeyLabel" type="Label" parent="Sprite2D"]
 z_index = 1
-offset_left = -21.0
-offset_top = -28.0
-offset_right = 27.0
-offset_bottom = 71.0
+offset_left = -26.0
+offset_top = -27.0
+offset_right = 22.0
+offset_bottom = 72.0
 theme = ExtResource("2_ge0xk")
 theme_override_fonts/font = ExtResource("4_k53wa")
 theme_override_font_sizes/font_size = 50
@@ -55,9 +79,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
+scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"trigger"
+animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 2)
+position = Vector2(8, -3)
 shape = SubResource("RectangleShape2D_irxac")

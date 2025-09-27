@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="MemoryTable" load_steps=8 format=3 uid="uid://bjdovhd0fefjg"]
 
 [ext_resource type="Script" uid="uid://j0ge7a7toghg" path="res://Scripts/Gameplay/MemoryTable.gd" id="1_bndln"]
-[ext_resource type="Texture2D" uid="uid://c4bd8dihg3u4t" path="res://Assets/Circles/circle_crib.png" id="1_lo4vx"]
-[ext_resource type="Texture2D" uid="uid://bapxn6so8o1q6" path="res://Assets/Circles/circle_horse.png" id="2_iv46k"]
-[ext_resource type="Texture2D" uid="uid://bl07y7vqas5k6" path="res://Assets/Circles/circle_distance.png" id="3_oqvbl"]
-[ext_resource type="Texture2D" uid="uid://boryeunw2l80k" path="res://Assets/Circles/circle_repair.png" id="4_lo4vx"]
-[ext_resource type="Texture2D" uid="uid://bg84wtw7pycoc" path="res://Assets/Circles/circle_concept.png" id="5_a3k3o"]
-[ext_resource type="Texture2D" uid="uid://bxkx3b7vu0nau" path="res://Assets/Circles/circle_closure.png" id="6_iv46k"]
+[ext_resource type="Texture2D" uid="uid://d4lhq84tl3pru" path="res://Assets/Blueberries/mem_crib.png" id="1_j4abg"]
+[ext_resource type="Texture2D" uid="uid://cy8ug6sfnut2y" path="res://Assets/Blueberries/mem_hehory.png" id="2_dbbes"]
+[ext_resource type="Texture2D" uid="uid://tgrqoxh6f22b" path="res://Assets/Blueberries/mem_distance.png" id="3_xwoem"]
+[ext_resource type="Texture2D" uid="uid://v7174ef6v2bf" path="res://Assets/Blueberries/mem_repair.png" id="4_4q6si"]
+[ext_resource type="Texture2D" uid="uid://4uu0j2xuu25f" path="res://Assets/Blueberries/mem_concept.png" id="5_wl6pr"]
+[ext_resource type="Texture2D" uid="uid://qs2wa1n7yain" path="res://Assets/Blueberries/mem_closure.png" id="6_pre3t"]
 
 [resource]
 script = ExtResource("1_bndln")
@@ -19,10 +19,10 @@ slot_to_memory_id = {
 6: "mem_closure"
 }
 memory_to_circle_tex = {
-"mem_closure": ExtResource("6_iv46k"),
-"mem_concept": ExtResource("5_a3k3o"),
-"mem_crib": ExtResource("1_lo4vx"),
-"mem_distance": ExtResource("3_oqvbl"),
-"mem_hehory": ExtResource("2_iv46k"),
-"mem_repair": ExtResource("4_lo4vx")
+"mem_closure": ExtResource("6_pre3t"),
+"mem_concept": ExtResource("5_wl6pr"),
+"mem_crib": ExtResource("1_j4abg"),
+"mem_distance": ExtResource("3_xwoem"),
+"mem_hehory": ExtResource("2_dbbes"),
+"mem_repair": ExtResource("4_4q6si")
 }

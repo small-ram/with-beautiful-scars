@@ -1,70 +1,45 @@
-[gd_scene load_steps=17 format=3 uid="uid://cdgdiob428etg"]
+[gd_scene load_steps=16 format=3 uid="uid://cdgdiob428etg"]
 
-[ext_resource type="Script" uid="uid://bbwwm6p4rbebg" path="res://Scripts/Gameplay/Critter.gd" id="1_dq6pa"]
-[ext_resource type="Texture2D" uid="uid://dvwff1j1wucqg" path="res://Assets/Critters/spritesheets/sprite_kliste.png" id="2_vd6uq"]
-[ext_resource type="Texture2D" uid="uid://b8ixipwoymsdf" path="res://Assets/Critters/kliste_trigger.png" id="3_wj4qh"]
+[ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_dq6pa"]
+[ext_resource type="Texture2D" uid="uid://beq7qq0c2dnwd" path="res://Assets/Critters/Tick/1.png" id="2_hdu3b"]
+[ext_resource type="Texture2D" uid="uid://p2lcgd2rr4yw" path="res://Assets/Critters/Tick/2.png" id="3_kle10"]
+[ext_resource type="Texture2D" uid="uid://dkhxouhfxy3t6" path="res://Assets/Critters/Tick/3.png" id="4_4jf4j"]
 [ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_rld6r"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_01k46"]
+[ext_resource type="Texture2D" uid="uid://djrvgy24hcm7l" path="res://Assets/Critters/Tick/4.png" id="5_j40a3"]
 [ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_01k46"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qwbra"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(0, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_07q26"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(264, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hcnfe"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(528, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iwqrj"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(792, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qjrvx"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(1056, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ch2av"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(1320, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_py0ex"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(1584, 0, 264, 404)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xaigm"]
-atlas = ExtResource("2_vd6uq")
-region = Rect2(1848, 0, 264, 404)
+[ext_resource type="Texture2D" uid="uid://dln1arlx7t7jj" path="res://Assets/Critters/Tick/5.png" id="6_wqe5t"]
+[ext_resource type="Texture2D" uid="uid://cms81avi3tybb" path="res://Assets/Critters/Tick/6.png" id="7_dukwi"]
+[ext_resource type="Texture2D" uid="uid://we166r2ege56" path="res://Assets/Critters/Tick/7.png" id="8_f1uis"]
+[ext_resource type="Texture2D" uid="uid://bqtgj6htpq73p" path="res://Assets/Critters/Tick/8.png" id="9_7po7o"]
+[ext_resource type="Texture2D" uid="uid://dmocqh3blg5yp" path="res://Assets/Critters/Tick/dead.png" id="10_0ntp2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qwbra")
+"texture": ExtResource("2_hdu3b")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_07q26")
+"texture": ExtResource("3_kle10")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hcnfe")
+"texture": ExtResource("4_4jf4j")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_iwqrj")
+"texture": ExtResource("5_j40a3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qjrvx")
+"texture": ExtResource("6_wqe5t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ch2av")
+"texture": ExtResource("7_dukwi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_py0ex")
+"texture": ExtResource("8_f1uis")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xaigm")
+"texture": ExtResource("9_7po7o")
 }],
 "loop": true,
 "name": &"move",
@@ -72,7 +47,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_wj4qh")
+"texture": ExtResource("10_0ntp2")
 }],
 "loop": true,
 "name": &"trigger",
@@ -80,7 +55,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnhui"]
-size = Vector2(103, 152)
+size = Vector2(170, 236)
 
 [node name="Node2D" type="Area2D" groups=["wanderers"]]
 top_level = true
@@ -92,12 +67,12 @@ one_liner_id = "Critters/kliste"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 position = Vector2(-2, 0)
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 2)
+position = Vector2(-2, 6)
 shape = SubResource("RectangleShape2D_cnhui")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
