@@ -30,7 +30,7 @@ extends Node
 @export_file("*.mp3") var music_woman   : String
 @export_file("*.mp3") var music_cleanup : String
 
-@export var heartbeat_sfx       : String = "fetusHeartbeat"
+@export var heartbeat_sfx       : String = "heartbeat"
 
 # ───────── ONREADY MARKERS ─────────
 @onready var _woman_spawn : Marker2D = get_node_or_null(woman_spawn_path)

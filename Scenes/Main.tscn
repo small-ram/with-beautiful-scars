@@ -48,7 +48,6 @@ hard_slots_json = "res://Data/SlotConfigs/hard.json"
 music_intro = "uid://bdaaac1857hw6"
 music_woman = "uid://di1wsve1v33bb"
 music_cleanup = "uid://blw3qkslml28j"
-heartbeat_sfx = "heartbeat"
 
 [node name="CleanupLayer" type="Node2D" parent="."]
 
