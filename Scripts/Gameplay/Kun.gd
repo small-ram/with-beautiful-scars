@@ -11,6 +11,8 @@ signal arrangement_complete
 @export var max_rotation_deg: float = 45.0
 @export var gold_tint: Color = Color(1.0, 0.85, 0.30)
 
+const Z_CLEANUP_BASE         := 500
+
 var _inside: Array[Area2D] = []
 var _snap_point: Marker2D
 var _sprite: Sprite2D
@@ -135,9 +137,23 @@ func _snap_onto_horse(a: Area2D) -> void:
 	if n2d:
 		n2d.global_position = target
 		n2d.rotation_degrees = rot_deg
+		# Put snapped item on top based on the shared counter
+		n2d.z_index = _claim_top_z()
 
 	if a.has_method("set_pickable"):
 		a.set_pickable(false)
 
 	_processed_ids[iid] = true
 	_done_count += 1
+
+func _find_cleanup_layer() -> Node:
+	return get_tree().current_scene.find_child("CleanupLayer", true, false)
+
+func _claim_top_z() -> int:
+	var cl := _find_cleanup_layer()
+	if cl:
+		var cur := int(cl.get_meta("interaction_z", 500))
+		cur += 1
+		cl.set_meta("interaction_z", cur)
+		return cur
+	return 501

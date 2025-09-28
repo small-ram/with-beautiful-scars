@@ -41,3 +41,15 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "New Game"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 933.0
+offset_right = 710.0
+offset_bottom = 1054.0
+theme = ExtResource("1_do4vp")
+text = "Game Design & Writing — Anna Kučerová
+Programming — Dominik Baránek
+Art & Animation — Adéla
+Music — Bernard “Nebolest”; Máúcta “Out of blue”; Plast “Ulempe”"

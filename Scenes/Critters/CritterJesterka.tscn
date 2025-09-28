@@ -73,7 +73,6 @@ script = ExtResource("1_qecfm")
 one_liner_id = "Critters/jesterka"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_as_relative = false
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
 animation = &"move"

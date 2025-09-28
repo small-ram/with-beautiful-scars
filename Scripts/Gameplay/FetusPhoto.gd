@@ -86,13 +86,20 @@ func _show_panel() -> void:
 	if overlay != null and panel_scene != null:
 		var panel := panel_scene.instantiate()
 		overlay.add_child(panel)
+		panel.z_index = 10000
 		# TextSequencePanel emits `intro_finished`
 		panel.intro_finished.connect(_on_panel_finished, Object.CONNECT_ONE_SHOT)
 	else:
 		_on_panel_finished()
 
 func _find_overlay() -> CanvasLayer:
-	return get_tree().current_scene.find_child("OverlayLayer", true, false) as CanvasLayer
+	var r := get_tree().current_scene
+	var dl := r.find_child("DialogueLayer", true, false) as CanvasLayer
+	if dl: return dl
+	var bl := r.find_child("ButtonLayer", true, false) as CanvasLayer
+	if bl: return bl
+	return r.find_child("OverlayLayer", true, false) as CanvasLayer
+
 
 func _on_panel_finished() -> void:
 	dialogue_done.emit()

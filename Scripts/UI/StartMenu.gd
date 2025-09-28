@@ -35,6 +35,8 @@ func _wire() -> void:
 		_btn.pressed.connect(_on_new_game)
 	mouse_filter = MOUSE_FILTER_STOP
 	_btn.grab_focus()
+	if is_instance_valid(PreloadHub):
+		PreloadHub.begin()
 
 func _on_new_game() -> void:
 	_btn.disabled = true

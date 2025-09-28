@@ -50,13 +50,15 @@ music_woman = "uid://di1wsve1v33bb"
 music_cleanup = "uid://blw3qkslml28j"
 heartbeat_sfx = "heartbeat"
 
+[node name="CleanupLayer" type="Node2D" parent="."]
+
 [node name="CritterLayer" type="CanvasLayer" parent="."]
 
 [node name="Gameplay" type="Node2D" parent="."]
 
 [node name="Box" type="Sprite2D" parent="Gameplay"]
 z_index = -14
-position = Vector2(1550, 460)
+position = Vector2(1556, 512)
 texture = ExtResource("5_3tgeq")
 
 [node name="MarginContainer" type="MarginContainer" parent="Gameplay"]

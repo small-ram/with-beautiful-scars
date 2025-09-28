@@ -2,6 +2,10 @@
 class_name Stage4State
 extends StageState
 
+const Z_CLEANUP_BASE      := 500
+const CLEANUP_LAYER_NAME  := "CleanupLayer"
+const META_INTERACTION_Z  := "interaction_z"   # shared z counter during cleanup
+
 func enter(controller) -> void:
 	CircleBank.hide_bank()
 
@@ -11,10 +15,12 @@ func enter(controller) -> void:
 
 	# Enable cleanup mode on all interactables
 	for ph in controller.get_tree().get_nodes_in_group("photos"):
-		if ph.has_method("unlock_for_cleanup"): ph.unlock_for_cleanup()
+		if ph.has_method("unlock_for_cleanup"):
+			ph.unlock_for_cleanup()
 	for cr in controller.get_tree().get_nodes_in_group("critters"):
-		if cr.has_method("unlock_for_cleanup"): cr.unlock_for_cleanup()
-	# Woman becomes draggable in cleanup via its override
+		if cr.has_method("unlock_for_cleanup"):
+			cr.unlock_for_cleanup()
+	# Woman becomes draggable in cleanup via its override (inherits Photo.gd behavior)
 	if controller.woman and controller.woman.has_method("unlock_for_cleanup"):
 		controller.woman.unlock_for_cleanup()
 
@@ -28,15 +34,35 @@ func enter(controller) -> void:
 		var pos: Vector2 = controller._river_pos.global_position if controller._river_pos else Vector2(640, 720)
 		rv.global_position = pos
 
-	# Move all interactive nodes into CleanupLayer so they layer above the horse
-	var cleanup_parent: Node = controller.get_tree().current_scene.find_child("CleanupLayer", true, false)
-	if cleanup_parent:
-		for ph in controller.get_tree().get_nodes_in_group("photos"):
-			if ph is Node2D: _reparent_preserve_global(ph as Node2D, cleanup_parent)
-		for cr in controller.get_tree().get_nodes_in_group("critters"):
-			if cr is Node2D: _reparent_preserve_global(cr as Node2D, cleanup_parent)
-		if controller.woman and controller.woman is Node2D:
-			_reparent_preserve_global(controller.woman as Node2D, cleanup_parent)
+	# Ensure a CleanupLayer exists (world-space Node2D)
+	var cleanup_parent: Node = controller.get_tree().current_scene.find_child(CLEANUP_LAYER_NAME, true, false)
+	if cleanup_parent == null:
+		cleanup_parent = Node2D.new()
+		cleanup_parent.name = CLEANUP_LAYER_NAME
+		controller.get_tree().current_scene.add_child(cleanup_parent)
+
+	# Seed/Reset the shared "latest interaction" z counter
+	cleanup_parent.set_meta(META_INTERACTION_Z, Z_CLEANUP_BASE)
+
+	# Move all interactive nodes into CleanupLayer so their z-indices are comparable
+	for ph in controller.get_tree().get_nodes_in_group("photos"):
+		if ph is Node2D:
+			_reparent_preserve_global(ph as Node2D, cleanup_parent)
+	for cr in controller.get_tree().get_nodes_in_group("critters"):
+		if cr is Node2D:
+			_reparent_preserve_global(cr as Node2D, cleanup_parent)
+	if controller.woman and controller.woman is Node2D:
+		_reparent_preserve_global(controller.woman as Node2D, cleanup_parent)
+
+	# Normalize z so cleanup starts with everyone equal
+	for ph in controller.get_tree().get_nodes_in_group("photos"):
+		if ph is Node2D:
+			(ph as Node2D).z_index = Z_CLEANUP_BASE
+	for cr in controller.get_tree().get_nodes_in_group("critters"):
+		if cr is Node2D:
+			(cr as Node2D).z_index = Z_CLEANUP_BASE
+	if controller.woman and controller.woman is Node2D:
+		(controller.woman as Node2D).z_index = Z_CLEANUP_BASE
 
 	# Activate horse and wire completion
 	if rv.has_method("set_active"):
@@ -53,7 +79,7 @@ func exit(_controller) -> void:
 func _reparent_preserve_global(n: Node2D, new_parent: Node) -> void:
 	if n.get_parent() == new_parent:
 		return
-	# Godot 4 has Node.reparent(new_parent, keep_global_xform)
+	# Godot 4: Node.reparent(new_parent, keep_global_xform)
 	if n.has_method("reparent"):
 		n.call("reparent", new_parent, true)
 		return

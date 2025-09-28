@@ -19,6 +19,13 @@ signal dialogue_done
 @onready var label  : Label            = $Sprite2D/KeyLabel
 @onready var vp     : Viewport         = get_viewport()
 
+# ───────── Z-LAYERS ─────────
+const Z_CRITTER_MOVING    := 700
+const Z_CRITTER_TRIGGERED := 600
+const Z_CLEANUP_BASE      := 500
+const Z_CLEANUP_DRAG      := 1200
+
+
 var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
 var _axis_dir : Vector2 = Vector2.ZERO
@@ -150,6 +157,7 @@ func _spawn_at_random_edge() -> void:
 	_perp_dir = Vector2(-_axis_dir.y, _axis_dir.x)
 	_dir = _axis_dir
 	_update_facing()
+	z_index = Z_CRITTER_MOVING
 
 func _flip_lane() -> void:
 	_axis_dir = -_axis_dir
@@ -229,6 +237,7 @@ func _finish_if_mine() -> void:
 	sprite.play("trigger")
 	add_to_group("gold")
 	emit_signal("dialogue_done")
+	z_index = Z_CRITTER_TRIGGERED
 
 # ---- CLEANUP / DRAG ----
 func unlock_for_cleanup() -> void:
@@ -242,6 +251,7 @@ func unlock_for_cleanup() -> void:
 		sprite.play("trigger")
 	else:
 		sprite.stop()
+	z_index = Z_CLEANUP_BASE
 
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 	# Cleanup mode: drag to the river
@@ -252,11 +262,13 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 				_drag_off = global_position - ev.position
 				move_to_front()
 				Input.set_default_cursor_shape(Input.CURSOR_MOVE)
+				# Claim a new global-top z and KEEP IT after drop
+				z_index = _claim_top_z()
 			else:
 				_dragging = false
 				Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+				# DO NOT reset z_index here — we keep the “latest interaction” order
 		return
-
 	# Normal mode: left-click triggers the critter (same as hotkey)
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT and ev.pressed:
 		_trigger()
@@ -283,3 +295,20 @@ func is_in_hand() -> bool:
 
 func force_drop() -> void:
 	_dragging = false
+
+func _exit_tree() -> void:
+	# Optional: clean InputMap if you want to avoid action buildup across multiple runs.
+	if _action_name != "" and InputMap.has_action(_action_name):
+		InputMap.erase_action(_action_name)
+		
+func _find_cleanup_layer() -> Node:
+	return get_tree().current_scene.find_child("CleanupLayer", true, false)
+
+func _claim_top_z() -> int:
+	var cl := _find_cleanup_layer()
+	var cur := 500
+	if cl:
+		cur = int(cl.get_meta("interaction_z", 500))
+		cur += 1
+		cl.set_meta("interaction_z", cur)
+	return cur

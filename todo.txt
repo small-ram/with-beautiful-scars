@@ -1,7 +1,7 @@
 
 
 Gameplay
-
+truhla - kvuli rozliseni by mela byt nastavena na vpravo uprostred
 
 Vizuál
 dialog by měl být lehce průhledný
@@ -11,6 +11,7 @@ zavrit a otevrit krabici
 animace textu jako kdyby se psal
 volby textu jako v disco elysiu - mozna ne tlacitka, ale primo na text s hover animací
 pozice odpovědí se dynamicky mění podle délky dialogu
+mit kod v dialogu jako code block
 
 Zvuk/hudba
 -hudba
@@ -20,4 +21,3 @@ Zvuk/hudba
 
 Technical
 Improve resolution responsiveness
-bug kdyz premistuju fotku a triggernu obeservation

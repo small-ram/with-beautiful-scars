@@ -18,6 +18,13 @@ signal dialogue_done(photo)
 @export var snap_radius    : float            = 30.0
 @export var allowed_slots  : PackedInt32Array = []
 
+# ───────── Z-LAYERS ─────────
+const Z_PHOTO_DEFAULT   := 400
+const Z_PHOTO_DRAG_PRE  := 650   # pre-cleanup drag stays below moving critters (700)
+const Z_CLEANUP_BASE    := 500   # everyone equal at start of cleanup
+const Z_CLEANUP_DRAG    := 1200  # dragged item always on very top during cleanup
+
+
 # ───────────────────────────
 #  Internal state
 # ───────────────────────────
@@ -31,6 +38,8 @@ var _dialogue_complete : bool = false
 
 static var current_drag    : Photo = null                # exclusive-drag lock
 static var _unused_tapes   : Array[Texture2D] = []       # shared between all photos
+
+
 
 # tape pool  (add the exact filenames you have in Assets/Tape/)
 const TAPE_TEXTURES : Array[Texture2D] = [
@@ -49,6 +58,7 @@ func _ready() -> void:
 	set_pickable(true)
 	mouse_entered.connect(_on_mouse_enter)
 	mouse_exited.connect(_on_mouse_exit)
+	z_index = Z_PHOTO_DEFAULT  # ← add this line
 
 func _on_mouse_enter() -> void:
 	var can_drag := is_pickable() and not _snapped
@@ -71,6 +81,10 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			_in_hand  = true
 			_drag_off = global_position - ev.position
 			move_to_front()
+			if _in_cleanup():
+				z_index = _claim_top_z()   # ← becomes top now and stays there
+			else:
+				z_index = Z_PHOTO_DRAG_PRE
 			Input.set_default_cursor_shape(Input.CURSOR_MOVE)   # <—
 			emit_signal("drag_started", self)
 		else:
@@ -79,6 +93,12 @@ func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
 			_dragging = false
 			_in_hand  = false
 			_try_snap()
+			if _in_cleanup():
+				# If HorsePad snaps later this frame, it'll assign a higher stack z.
+				if not _snapped:
+					z_index = Z_CLEANUP_BASE
+				else:
+					z_index = Z_PHOTO_DEFAULT
 			emit_signal("drag_ended", self)
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)  # <—
 			Photo.current_drag = null
@@ -216,6 +236,15 @@ func unlock_for_cleanup() -> void:
 	_snapped = false
 	set_pickable(true)
 
+func _in_cleanup() -> bool:
+	var p: Node = get_parent()
+	while p:
+		if p.name == "CleanupLayer":
+			return true
+		p = p.get_parent()
+	return false
+
+
 func _attach_random_tape() -> void:
 	if _unused_tapes.is_empty():
 		_unused_tapes = TAPE_TEXTURES.duplicate()
@@ -231,3 +260,15 @@ func _attach_random_tape() -> void:
 
 	var half_h : float = sprite.texture.get_height() * sprite.scale.y * 0.5
 	tape.position = Vector2(0, -half_h)
+
+func _find_cleanup_layer() -> Node:
+	return get_tree().current_scene.find_child("CleanupLayer", true, false)
+
+func _claim_top_z() -> int:
+	var cl := _find_cleanup_layer()
+	if cl:
+		var cur := int(cl.get_meta("interaction_z", 500))
+		cur += 1
+		cl.set_meta("interaction_z", cur)
+		return cur
+	return 501
