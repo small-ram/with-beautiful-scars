@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://6vishbhsft72" path="res://Scripts/Gameplay/Photo.gd" id="1_f6u5o"]
 
 [node name="Photo" type="Area2D" groups=["photos"]]
-z_index = 10
+z_index = 400
 collision_mask = 9
 script = ExtResource("1_f6u5o")
 snap_radius = 100.0

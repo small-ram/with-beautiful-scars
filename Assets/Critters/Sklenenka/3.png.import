@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccbwxl5b8yir5"
-path="res://.godot/imported/sprite_sklenenka.png-0245d8a1ca73e6acd373a9c3497840b6.ctex"
+uid="uid://doxhitd8efrcg"
+path="res://.godot/imported/3.png-ee082f0787b6944f14b12e241d76d5a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Critters/spritesheets/sprite_sklenenka.png"
-dest_files=["res://.godot/imported/sprite_sklenenka.png-0245d8a1ca73e6acd373a9c3497840b6.ctex"]
+source_file="res://Assets/Critters/Sklenenka/3.png"
+dest_files=["res://.godot/imported/3.png-ee082f0787b6944f14b12e241d76d5a0.ctex"]
 
 [params]
 

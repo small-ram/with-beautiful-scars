@@ -1,56 +1,45 @@
-[gd_scene load_steps=15 format=3 uid="uid://b02saw60yhi3i"]
+[gd_scene load_steps=16 format=3 uid="uid://b02saw60yhi3i"]
 
 [ext_resource type="Script" uid="uid://cxfdtevykvfxa" path="res://Scripts/Gameplay/Critter.gd" id="1_ysoph"]
-[ext_resource type="Texture2D" uid="uid://ccbwxl5b8yir5" path="res://Assets/Critters/spritesheets/sprite_sklenenka.png" id="2_g87b1"]
-[ext_resource type="Texture2D" uid="uid://c3l0356l88lh3" path="res://Assets/Critters/sklenenka.png" id="3_qv3e0"]
+[ext_resource type="Texture2D" uid="uid://7dfhao3wx3tg" path="res://Assets/Critters/Sklenenka/1.png" id="2_8giqo"]
+[ext_resource type="Texture2D" uid="uid://b8737btjne1vw" path="res://Assets/Critters/Sklenenka/2.png" id="3_iwm4l"]
+[ext_resource type="Texture2D" uid="uid://doxhitd8efrcg" path="res://Assets/Critters/Sklenenka/3.png" id="4_j1m73"]
 [ext_resource type="Texture2D" uid="uid://bqehbstq2p85u" path="res://Assets/klavesa.png" id="4_k8ck3"]
+[ext_resource type="Texture2D" uid="uid://dx0v87wh6jalu" path="res://Assets/Critters/Sklenenka/4.png" id="5_a6p75"]
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="5_v6fid"]
+[ext_resource type="Texture2D" uid="uid://bpvvhumjslpbw" path="res://Assets/Critters/Sklenenka/5.png" id="6_7322y"]
 [ext_resource type="FontFile" uid="uid://corlvfq5sm40k" path="res://Assets/Font/LucidaUnicodeCalligraphy.ttf" id="6_v6fid"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qv3e0"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(0, 0, 348, 332)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jt6qv"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(348, 0, 348, 332)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8ck3"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(0, 452, 348, 332)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v6fid"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(348, 452, 348, 332)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o7g07"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(0, 904, 348, 332)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_36w3i"]
-atlas = ExtResource("2_g87b1")
-region = Rect2(348, 904, 348, 332)
+[ext_resource type="Texture2D" uid="uid://ml48n7k1yhjj" path="res://Assets/Critters/Sklenenka/6.png" id="7_676im"]
+[ext_resource type="Texture2D" uid="uid://r8673lpju20f" path="res://Assets/Critters/Sklenenka/7.png" id="8_urv1y"]
+[ext_resource type="Texture2D" uid="uid://bcc71mn2ry8kn" path="res://Assets/Critters/Sklenenka/8.png" id="9_w4lrs"]
+[ext_resource type="Texture2D" uid="uid://4ww80p5ph58k" path="res://Assets/Critters/Sklenenka/dead.png" id="10_ntosm"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fp3vr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qv3e0")
+"texture": ExtResource("2_8giqo")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jt6qv")
+"texture": ExtResource("3_iwm4l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_k8ck3")
+"texture": ExtResource("4_j1m73")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v6fid")
+"texture": ExtResource("5_a6p75")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o7g07")
+"texture": ExtResource("6_7322y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_36w3i")
+"texture": ExtResource("7_676im")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_urv1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_w4lrs")
 }],
 "loop": true,
 "name": &"move",
@@ -58,7 +47,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qv3e0")
+"texture": ExtResource("10_ntosm")
 }],
 "loop": true,
 "name": &"trigger",
@@ -76,9 +65,9 @@ script = ExtResource("1_ysoph")
 one_liner_id = "Critters/sklenenka"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"move"
+animation = &"trigger"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0.5)
