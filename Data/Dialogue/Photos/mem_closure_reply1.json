@@ -1,7 +1,6 @@
 {
   "id": "mem_closure_dialog",
-  "body": 	"Sure. 
-\nShe finds solace in that sentence because She has always felt it was all her fault. ",
+  "body": "Sure.\nShe finds solace in that sentence because She has always felt it was all [calli]her[/calli] fault.",
   "portrait": "res://Assets/closure.jpg",
   "choices": []
 }

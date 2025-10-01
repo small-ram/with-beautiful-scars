@@ -1,8 +1,9 @@
 {
   "id": "mem_concept_dialog",
-  "body": 	"The theorem of a good enough parent says that if your reactions to your child’s needs == empathic in > 50% cases\n\n
-	then:  \n\n
-	you = good enough parent who stepped out of the black stream",
+  "body": [
+	"The theorem of a good enough parent says that:",
+	"[indent][font=\"res://Assets/Font/JetBrainsMono.ttf\"]\n[color=#3A7AFE]if[/color] your reactions to your child’s needs == empathic in > 50% cases\n\n    [color=#3A7AFE]then[/color]:\n\n    you = good enough parent who stepped out of the black stream\n[/font][/indent]"
+  ],
   "portrait": "res://Assets/concept.jpg",
   "choices": [
 	{ "label": "You can just say it out loud, that I was a terrible mother.", "next": "mem_concept_reply1_1AND2_1" }

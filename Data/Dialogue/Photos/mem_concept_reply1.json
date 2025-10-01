@@ -1,9 +1,9 @@
 {
   "id": "mem_concept_dialog",
-  "body": 	"It's not difficult. It just says that: \n\n
-if your reactions to your child’s needs == empathic in > 50% cases\n\n
-	then:  \n\n
-	you = good enough parent",
+  "body": [
+	"It's not difficult. It just says that:",
+	"[indent][font=\"res://Assets/Font/JetBrainsMono.ttf\"]\n[color=#3A7AFE]if[/color] your reactions to your child’s needs == empathic in > 50% cases\n\n    [color=#3A7AFE]then[/color]:\n\n    you = good enough parent\n[/font][/indent]"
+  ],
   "portrait": "res://Assets/concept.jpg",
   "choices": [
 	{ "label": "You can just say it out loud, that I was a terrible mother.", "next": "mem_concept_reply1_1AND2_1" }

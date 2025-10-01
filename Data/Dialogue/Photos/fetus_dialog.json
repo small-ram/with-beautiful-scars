@@ -1,9 +1,11 @@
 {
   "id": "fetus_dialog",
-  "body": "I look at all these scars and they teach me compassion. 
-\nIt's my turn now to dilute the black stream. 
-\nI walk with beautiful scars.
-\nThe rest can be left behind.",
+  "body": [
+	"I look at all these scars and they teach me compassion.",
+	"It's my turn now to dilute the black stream.",
+	"I walk with [calli]beautiful scars[/calli].",
+	"The rest can be left behind."
+  ],
   "portrait": "res://Assets/fetus.jpg",
   "choices": []
 }

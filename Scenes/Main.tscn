@@ -210,6 +210,7 @@ offset_top = -433.0
 offset_bottom = 433.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("5_3tgeq")
 
 [node name="OverlayLayer" type="CanvasLayer" parent="UI"]
@@ -247,6 +248,7 @@ script = ExtResource("4_0sev1")
 
 [node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBarContainer/ButtonBar"]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme = ExtResource("14_h1m7h")
 text = "Restart"
 
