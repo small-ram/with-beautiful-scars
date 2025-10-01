@@ -45,9 +45,9 @@ memory_table = ExtResource("3_1p5hy")
 alt_intro_scene = ExtResource("4_h1m7h")
 easy_slots_json = "res://Data/SlotConfigs/easy.json"
 hard_slots_json = "res://Data/SlotConfigs/hard.json"
-music_intro = "uid://bdaaac1857hw6"
-music_woman = "uid://di1wsve1v33bb"
-music_cleanup = "uid://blw3qkslml28j"
+music_intro = "uid://d25b20lbblsvt"
+music_woman = "uid://c7f7cm2exw0vy"
+music_cleanup = "uid://073xr4s0f1gm"
 
 [node name="CleanupLayer" type="Node2D" parent="."]
 
@@ -237,7 +237,7 @@ script = ExtResource("4_0sev1")
 
 [node name="RestartBtn" type="Button" parent="UI/ButtonLayer/ButtonBarContainer/ButtonBar"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme = ExtResource("14_h1m7h")
 text = "Restart"
 
 [node name="boruvci" type="Node2D" parent="UI"]

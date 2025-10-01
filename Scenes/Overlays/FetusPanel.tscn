@@ -6,3 +6,5 @@
 [node name="FetusPanel" instance=ExtResource("1_lxgh4")]
 light_mask = 3
 script = ExtResource("2_lxgh4")
+label_path = NodePath("VBoxContainer/LineLabel")
+advance_btn_path = NodePath("VBoxContainer/CenterContainer/HBoxContainer/AdvanceBtn")

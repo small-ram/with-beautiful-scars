@@ -18,7 +18,7 @@ grow_vertical = 2
 theme = ExtResource("1_do4vp")
 theme_override_styles/panel = SubResource("StyleBoxFlat_base")
 script = ExtResource("2")
-intro_music = "uid://bdaaac1857hw6"
+intro_music = "uid://d25b20lbblsvt"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -40,6 +40,7 @@ alignment = 1
 [node name="NewGameBtn" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme = ExtResource("1_do4vp")
 text = "New Game"
 
 [node name="Label" type="Label" parent="."]

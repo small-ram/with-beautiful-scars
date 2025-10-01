@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://i0mlbm0dbgq8"]
+[gd_scene load_steps=4 format=3 uid="uid://i0mlbm0dbgq8"]
 
 [ext_resource type="Theme" uid="uid://bkdd8vm5an8vo" path="res://Scenes/Overlays/dialogue_default.tres" id="1_68o7v"]
+[ext_resource type="Texture2D" uid="uid://4uu0j2xuu25f" path="res://Assets/Blueberries/mem_concept.png" id="2_8qrp8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_base"]
 bg_color = Color(0, 0, 0, 1)
@@ -12,33 +13,24 @@ z_index = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_68o7v")
 theme_override_styles/panel = SubResource("StyleBoxFlat_base")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -150.0
-offset_right = 400.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(400, 150)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(1100, 0)
 layout_mode = 2
+offset_left = 410.0
+offset_top = 304.5
+offset_right = 1510.0
+offset_bottom = 775.5
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="LineLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="LineLabel" type="Label" parent="VBoxContainer"]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 theme = ExtResource("1_68o7v")
@@ -47,6 +39,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="AdvanceBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
 layout_mode = 2
-text = "Next"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="AdvanceBtn" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_68o7v")
+icon = ExtResource("2_8qrp8")
+flat = true

@@ -26,9 +26,9 @@ extends Node
 @export_file("*.json") var easy_slots_json : String
 @export_file("*.json") var hard_slots_json : String
 # StageController.gd — add near other exports
-@export_file("*.mp3") var music_intro   : String
-@export_file("*.mp3") var music_woman   : String
-@export_file("*.mp3") var music_cleanup : String
+@export_file("*.ogg") var music_intro   : String
+@export_file("*.ogg") var music_woman   : String
+@export_file("*.ogg") var music_cleanup : String
 
 @export var heartbeat_sfx       : String = "heartbeat"
 

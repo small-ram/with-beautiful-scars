@@ -7,24 +7,18 @@
 [node name="DifficultyChoicePanel" instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
-text = "How hard is it for you to forgive?
-
-Please select your difficulty:"
-autowrap_mode = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="1"]
+[node name="CenterContainer_VBoxContainer#HBoxContainer" type="HBoxContainer" parent="." index="1"]
 layout_mode = 2
 theme = ExtResource("3_84lpx")
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="EasyBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="EasyBtn" type="Button" parent="CenterContainer_VBoxContainer#HBoxContainer" index="0"]
 layout_mode = 2
 theme = ExtResource("3_84lpx")
 text = "Easy"
 
-[node name="HardBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="HardBtn" type="Button" parent="CenterContainer_VBoxContainer#HBoxContainer" index="1"]
 layout_mode = 2
 theme = ExtResource("3_84lpx")
 text = "Hard"

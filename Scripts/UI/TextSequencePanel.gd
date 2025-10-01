@@ -3,8 +3,8 @@ signal intro_finished
 
 @export var lines: Array[String] = []
 @export var advance_text: String = "Next"
-@export var label_path: NodePath = "CenterContainer/VBoxContainer/LineLabel"
-@export var advance_btn_path: NodePath = "CenterContainer/VBoxContainer/AdvanceBtn"
+@export var label_path: NodePath = ""
+@export var advance_btn_path: NodePath = ""
 
 @onready var _label: Label = get_node_or_null(label_path)
 @onready var _btn: Button = get_node_or_null(advance_btn_path)

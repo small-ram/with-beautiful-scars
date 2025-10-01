@@ -5,3 +5,5 @@
 
 [node name="MidStagePanel" instance=ExtResource("1")]
 script = ExtResource("2")
+label_path = NodePath("VBoxContainer/LineLabel")
+advance_btn_path = NodePath("VBoxContainer/CenterContainer/HBoxContainer/AdvanceBtn")

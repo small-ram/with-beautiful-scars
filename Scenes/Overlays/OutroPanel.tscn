@@ -6,3 +6,5 @@
 [node name="OutroPanel" instance=ExtResource("1_rm157")]
 script = ExtResource("2_rm157")
 advance_text = "End"
+label_path = NodePath("VBoxContainer/LineLabel")
+advance_btn_path = NodePath("VBoxContainer/CenterContainer/HBoxContainer/AdvanceBtn")

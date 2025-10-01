@@ -1,25 +1,26 @@
+# StartMenu.gd
 extends Panel
 
 @export_node_path("Button")
-var new_game_btn_path: NodePath = NodePath("HBoxContainer/NewGameBtn")  # MUST be NodePath, not String
+var new_game_btn_path: NodePath = NodePath("HBoxContainer/NewGameBtn")
 
-@export_file("*.mp3")
-var intro_music: String = ""  # single @export_file only; do NOT combine with @export
+# Allow WAV/OGG/MP3 and avoid comma-separated filter string
+@export_file("*.wav", "*.ogg", "*.mp3")
+var intro_music: String = ""
 
-const INTRO_PANEL_PATH := "res://Scenes/Overlays/IntroPanel.tscn"
-const MAIN_PATH        := "res://Scenes/Main.tscn"
+const INTRO_PANEL_SCN := preload("res://Scenes/Overlays/IntroPanel.tscn")
+const MAIN_PATH       := "res://Scenes/Main.tscn"
 
 var _btn: Button
 
 # Background load state
 var _packed: PackedScene = null
 var _intro: Node = null
-var _intro_btn: Button = null
 var _intro_done: bool = false
 
-# Tiny “Loading…” dots animation after intro finishes (while we wait)
-var _dots_timer: Timer = null
-var _dots_count: int = 0
+# The ONLY Loading UI (on New Game button)
+var _immediate_loading_timer: Timer = null
+var _immediate_dots: int = 0
 
 func _ready() -> void:
 	call_deferred("_wire")
@@ -36,49 +37,79 @@ func _wire() -> void:
 	mouse_filter = MOUSE_FILTER_STOP
 	_btn.grab_focus()
 
+# ---- Single Loading UI on New Game button ----
+func _start_loading_ui_now() -> void:
+	if _btn:
+		_btn.disabled = true
+		_btn.text = "Loading"
+	if _immediate_loading_timer == null:
+		_immediate_loading_timer = Timer.new()
+		_immediate_loading_timer.wait_time = 0.35
+		_immediate_loading_timer.one_shot = false
+		_immediate_loading_timer.timeout.connect(func ():
+			if _btn == null:
+				return
+			_immediate_dots = (_immediate_dots + 1) % 4
+			var dots := ""
+			for i in _immediate_dots:
+				dots += "."
+			_btn.text = "Loading" + dots
+		)
+		add_child(_immediate_loading_timer)
+	_immediate_loading_timer.start()
+
+func _stop_loading_ui_now() -> void:
+	if _immediate_loading_timer:
+		_immediate_loading_timer.stop()
+		_immediate_loading_timer.queue_free()
+		_immediate_loading_timer = null
+
+# ---- Main click handler (chunked across frames) ----
 func _on_new_game() -> void:
-	_btn.disabled = true
-	
-	# Unlock global audio context (covers music + sfx on Web)
+	# 0) Show Loading… immediately and let the browser paint it
+	_start_loading_ui_now()
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	# 1) Unlock audio + sfx aliases/preloads (cheap)
 	if is_instance_valid(AudioManager):
 		AudioManager.unlock_on_user_gesture()
-		AudioManager.set_alias("photoSnap", "res://Assets/Sounds/photoSnap.wav")
-		AudioManager.set_alias("heartbeat", "res://Assets/Sounds/heartbeat.mp3")
+		AudioManager.set_alias("photoSnap", "res://Assets/Sounds/photoSnap.ogg")
+		AudioManager.set_alias("heartbeat", "res://Assets/Sounds/heartbeat.ogg")
+		AudioManager.preload_sfx(["photoSnap", "heartbeat"])
 
-		# 📦 Preload them so there’s no first-time hitch later
-		AudioManager.preload_sfx([
-			"photoSnap",
-			"heartbeat",
-		])
+	# 2) Skip intro flags for Main (we show intro panel here)
 	get_tree().set_meta("skip_intro", true)
-
-	# Tell Main to skip its own Intro (we're showing it here)
 	if is_instance_valid(RunFlags):
 		RunFlags.skip_intro = true
 
-	# Show Intro immediately
-	var intro_ps := load(INTRO_PANEL_PATH) as PackedScene
-	_intro = intro_ps.instantiate()
+	# 3) Start music (immediate start)
+	if intro_music != "" and is_instance_valid(MusicManager):
+		if MusicManager.has_method("play_instant"):
+			MusicManager.play_instant(intro_music)
+		else:
+			MusicManager.play(intro_music, 0.0, true)
+	await get_tree().process_frame
+
+	# 4) Add Intro panel (already preloaded)
+	_intro = INTRO_PANEL_SCN.instantiate()
 	get_tree().root.add_child(_intro)
-	_intro_btn = _intro.find_child("AdvanceBtn", true, false) as Button
 	if _intro.has_signal("intro_finished"):
 		_intro.connect("intro_finished", _on_intro_finished, Object.CONNECT_ONE_SHOT)
+	await get_tree().process_frame
 
-	# Start intro music here (MusicManager is an autoload, so it persists across the scene change)
-	if intro_music != "" and is_instance_valid(MusicManager):
-		MusicManager.play(intro_music)
-
-	# Start background threaded load (non-blocking)
+	# 5) Start background threaded load of MAIN (non-blocking)
 	var err: int = ResourceLoader.load_threaded_request(MAIN_PATH)
 	if err != OK:
-		# Fallback: direct switch if threaded request fails (rare)
+		# Fallback: load synchronously
+		_stop_loading_ui_now()
 		get_tree().change_scene_to_file(MAIN_PATH)
 		return
 
 	set_process(true)
 
 func _process(_dt: float) -> void:
-	# If not yet obtained, poll threaded status
+	# Poll threaded status until the scene is ready
 	if _packed == null:
 		var st: int = ResourceLoader.load_threaded_get_status(MAIN_PATH)
 		if st == ResourceLoader.THREAD_LOAD_LOADED:
@@ -86,35 +117,20 @@ func _process(_dt: float) -> void:
 		elif st == ResourceLoader.THREAD_LOAD_FAILED:
 			push_error("Threaded load failed for %s" % MAIN_PATH)
 			set_process(false)
+			_stop_loading_ui_now()
+			get_tree().change_scene_to_file(MAIN_PATH)
 			return
 
-	# If the player finished reading and Main is ready, start now
+	# When intro is done and MAIN is ready, switch
 	if _intro_done and _packed != null:
 		_start_main()
 
 func _on_intro_finished() -> void:
 	_intro_done = true
-	# If still loading, disable button and show “Loading…” with animated dots
-	if _packed == null and _intro_btn:
-		_intro_btn.disabled = true
-		_intro_btn.text = "Loading…"
-		_dots_timer = Timer.new()
-		_dots_timer.wait_time = 0.35
-		_dots_timer.one_shot = false
-		_dots_timer.timeout.connect(_on_loading_tick)
-		add_child(_dots_timer)
-		_dots_timer.start()
-
-func _on_loading_tick() -> void:
-	if _intro_btn == null: return
-	_dots_count = (_dots_count + 1) % 4
-	var dots := ""
-	for i in _dots_count: dots += "."
-	_intro_btn.text = "Loading" + dots
+	# IMPORTANT: No additional loading UI here (requirement).
+	# We ONLY show 'Loading' on the New Game button.
 
 func _start_main() -> void:
 	set_process(false)
-	if _dots_timer and is_instance_valid(_dots_timer):
-		_dots_timer.stop()
-		_dots_timer.queue_free()
+	_stop_loading_ui_now()
 	get_tree().change_scene_to_packed(_packed)
