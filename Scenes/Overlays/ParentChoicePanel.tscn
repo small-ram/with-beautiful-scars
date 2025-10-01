@@ -7,21 +7,18 @@
 [node name="ParentChoicePanel" instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="LineLabel" parent="CenterContainer/VBoxContainer" index="0"]
-text = "Are you her parent?"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" index="1"]
-layout_mode = 2
-theme = ExtResource("3_weiw0")
-theme_override_constants/separation = 60
-alignment = 1
-
-[node name="YesBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="0"]
+[node name="CenterContainer_VBoxContainer_HBoxContainer#YesBtn" type="Button" parent="." index="0"]
 layout_mode = 2
 theme = ExtResource("3_weiw0")
 text = "Yes"
 
-[node name="NoBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer" index="1"]
+[node name="CenterContainer_VBoxContainer_HBoxContainer#NoBtn" type="Button" parent="." index="1"]
 layout_mode = 2
 theme = ExtResource("3_weiw0")
 text = "No"
+
+[node name="CenterContainer_VBoxContainer#HBoxContainer" type="HBoxContainer" parent="." index="3"]
+layout_mode = 2
+theme = ExtResource("3_weiw0")
+theme_override_constants/separation = 60
+alignment = 1

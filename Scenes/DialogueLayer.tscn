@@ -12,6 +12,8 @@ follow_viewport_enabled = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -25,6 +27,7 @@ portrait_path = NodePath("Backplate/Content/BodyAndChoices/LineRow/PortraitBox/P
 choice_template_path = NodePath("Backplate/Content/BodyAndChoices/Choices/ChoiceBox/ChoiceButton")
 
 [node name="Backplate" type="NinePatchRect" parent="MarginContainer/DialogueUI"]
+self_modulate = Color(1, 1, 1, 0.921569)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.666667

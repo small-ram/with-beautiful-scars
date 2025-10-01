@@ -55,11 +55,6 @@ music_cleanup = "uid://073xr4s0f1gm"
 
 [node name="Gameplay" type="Node2D" parent="."]
 
-[node name="Box" type="Sprite2D" parent="Gameplay"]
-z_index = -14
-position = Vector2(1556, 512)
-texture = ExtResource("5_3tgeq")
-
 [node name="MarginContainer" type="MarginContainer" parent="Gameplay"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +63,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PhotoStack" type="Node2D" parent="Gameplay/MarginContainer"]
-position = Vector2(-160, 97)
+position = Vector2(-127, 160)
 
 [node name="photo_distance" parent="Gameplay/MarginContainer/PhotoStack" groups=["discardable"] instance=ExtResource("2_r0v0p")]
 position = Vector2(1701, 316)
@@ -202,6 +197,21 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_h1m7h")
 
+[node name="Box" type="TextureRect" parent="UI/WorkspaceLayer/WorkspacePanel"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -682.0
+offset_top = -433.0
+offset_bottom = 433.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("5_3tgeq")
+
 [node name="OverlayLayer" type="CanvasLayer" parent="UI"]
 layer = 5
 
@@ -295,7 +305,7 @@ texture = ExtResource("24_u7mjy")
 position = Vector2(736, 450)
 
 [node name="RiverSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1568, 532)
+position = Vector2(1570, 624)
 
 [node name="FetusSpawn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1013, 777)

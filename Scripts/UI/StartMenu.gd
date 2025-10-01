@@ -41,7 +41,7 @@ func _wire() -> void:
 func _start_loading_ui_now() -> void:
 	if _btn:
 		_btn.disabled = true
-		_btn.text = "Loading"
+		_btn.text = "Loading..."
 	if _immediate_loading_timer == null:
 		_immediate_loading_timer = Timer.new()
 		_immediate_loading_timer.wait_time = 0.35
