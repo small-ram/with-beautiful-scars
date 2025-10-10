@@ -4,12 +4,9 @@ Gameplay
 truhla - kvuli rozliseni by mela byt nastavena na vpravo uprostred
 
 Vizuál
-woman dialog 	- lag po nacteni
-v jednom dialogu italics nebo jine formatovani/na papiru - 2x
 zavrit a otevrit krabici
 animace textu jako kdyby se psal
 pozice odpovědí se dynamicky mění podle délky dialogu
-mit kod v dialogu jako code block
 pointer cursor na critters je jen na milisekundu dokud se nepohnou
 fetus pointer cursor to same jako critters - kdyz je animace, tak neni
 daji se tahnout critters i fotky zaraz, nebo vice critters zaraz, melo by byt vzdy jen jedno

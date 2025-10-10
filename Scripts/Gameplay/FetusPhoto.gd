@@ -9,18 +9,18 @@ signal dialogue_done
 @export var heartbeat_player_path: NodePath            # optional AudioStreamPlayer
 
 # --- Heartbeat look & feel ---
-@export var bpm             : float = 60.0       # visual cycle matches 60/BPM
-@export var scale_amp       : float = 0.06       # 0.04–0.08 is natural
-@export var brighten_amount : float = 0.08       # 0..1 lerp toward white at peak
-@export var use_echo_layer  : bool  = true       # soft after-image behind
-@export var use_micro_ripple: bool  = false      # needs a ShaderMaterial with 'pulse' uniform
+@export var bpm             : float = 60.0
+@export var scale_amp       : float = 0.06
+@export var brighten_amount : float = 0.08
+@export var use_echo_layer  : bool  = true
+@export var use_micro_ripple: bool  = false
 
 # Lub-dub timings (seconds); total cycle auto-adjusted to BPM with a pause
-@export var lub_up      : float = 0.08   # fast swell
-@export var lub_release : float = 0.12   # partial relax
-@export var dub_gap     : float = 0.16   # tiny silence between lub and dub
-@export var dub_up      : float = 0.06   # softer second swell
-@export var dub_release : float = 0.22   # full relax
+@export var lub_up      : float = 0.08
+@export var lub_release : float = 0.12
+@export var dub_gap     : float = 0.16
+@export var dub_up      : float = 0.06
+@export var dub_release : float = 0.22
 
 var _clicked: bool = false
 
@@ -33,9 +33,10 @@ var _base_color : Color
 const _WHITE    : Color = Color(1, 1, 1, 1)
 
 func _ready() -> void:
+	# Join "photos" so the global cursor resolver (from Photo/ Critter) considers us.
+	add_to_group("photos")
 	input_pickable = true
-	mouse_entered.connect(_on_mouse_enter)
-	mouse_exited.connect(_on_mouse_exit)
+	z_index = 400  # matches Z_PHOTO_DEFAULT in Photo.gd
 
 	_sprite = get_node_or_null(fetus_sprite_path) as Sprite2D
 	if _sprite == null:
@@ -66,19 +67,23 @@ func _ready() -> void:
 	if _audio != null and not _audio.playing:
 		_audio.play(0.0)
 
-func _on_mouse_enter() -> void:
-	if not _clicked:
-		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-
-func _on_mouse_exit() -> void:
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-
 func _input_event(_vp: Viewport, ev: InputEvent, _i: int) -> void:
 	if _clicked:
 		return
 	if ev is InputEventMouseButton and ev.pressed:
 		_clicked = true
+		input_pickable = false   # stop showing hand after it’s been clicked
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		_show_panel()
+
+# ---------- GLOBAL CURSOR HOOK ----------
+# Let the unified cursor logic treat this animated photo as “interactive” before click.
+func _is_custom_interactive_at_point(screen_pt: Vector2) -> bool:
+	if _clicked or _sprite == null or _sprite.texture == null:
+		return false
+	var local_pt: Vector2 = _sprite.to_local(screen_pt)
+	var rect: Rect2 = _sprite.get_rect()
+	return rect.has_point(local_pt)
 
 # ───────── overlay only (no movement, no gilding) ─────────
 func _show_panel() -> void:
@@ -87,7 +92,6 @@ func _show_panel() -> void:
 		var panel := panel_scene.instantiate()
 		overlay.add_child(panel)
 		panel.z_index = 10000
-		# TextSequencePanel emits `intro_finished`
 		panel.intro_finished.connect(_on_panel_finished, Object.CONNECT_ONE_SHOT)
 	else:
 		_on_panel_finished()
@@ -99,7 +103,6 @@ func _find_overlay() -> CanvasLayer:
 	var bl := r.find_child("ButtonLayer", true, false) as CanvasLayer
 	if bl: return bl
 	return r.find_child("OverlayLayer", true, false) as CanvasLayer
-
 
 func _on_panel_finished() -> void:
 	dialogue_done.emit()
@@ -159,7 +162,7 @@ func _run_heartbeat_cycle() -> void:
 		e.tween_property(_echo, "modulate:a", 0.0, dub_release + pause).set_ease(Tween.EASE_IN)
 		e.parallel().tween_property(_echo, "scale", _base_scale * (1.0 + scale_amp * 0.15), dub_release + pause)
 
-	# Optional micro-ripple: drive a 'pulse' uniform in a shader on the sprite
+	# Optional micro-ripple
 	if use_micro_ripple and _sprite.material is ShaderMaterial:
 		var mat: ShaderMaterial = _sprite.material as ShaderMaterial
 		var r: Tween = create_tween()

@@ -1,6 +1,6 @@
 {
   "id": "mem_hehory_dialog",
-  "body": 	"I know that's not true.",
+  "body": 	"I [calli]know[/calli] that's not true.",
   "portrait": "res://Assets/hehory.jpg",
   "choices": []
 }

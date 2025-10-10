@@ -1,6 +1,6 @@
 {
   "id": "mem_hehory_dialog",
-  "body": 	"I still feel that anger. It is directed at you now.",
+  "body": 	"I still feel that anger. It is directed at [calli]you[/calli] now.",
   "portrait": "res://Assets/hehory.jpg",
   "choices": []
 }

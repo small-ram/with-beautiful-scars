@@ -1,6 +1,6 @@
 {
   "id": "mem_distance_dialog",
-  "body": 	"She feels like a mistake, but at her age she knows no words for this feeling.",
+  "body": 	"She feels like a mistake, but at her age she knows [calli]no words[/calli] for this feeling.",
   "portrait": "res://Assets/distance.jpg",
   "choices": []
 }

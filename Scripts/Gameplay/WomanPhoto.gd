@@ -41,7 +41,15 @@ var _labels      : Array[Label]      = []
 var _transformed : PackedByteArray   = PackedByteArray()
 var _font_cached : Font              = null
 
+# Cleanup hit support
+var _cleanup_hit    : CollisionPolygon2D = null
+var _cleanup_bounds : Rect2 = Rect2()
+
 func _ready() -> void:
+	# Ensure base Photo init (adds to "photos", sets z, enables global cursor).
+	super._ready()
+
+	# Normal mode: this photo itself is NOT draggable; shards provide interaction.
 	set_pickable(false)
 
 	# Prefer injected font
@@ -64,6 +72,7 @@ func _ready() -> void:
 
 	_transformed.resize(_labels.size())
 
+	# Hook up shard input; overlays hidden initially.
 	var cc: int = _container.get_child_count()
 	for i in range(cc):
 		var shard := _container.get_child(i)
@@ -71,42 +80,117 @@ func _ready() -> void:
 			var a2d: Area2D = shard
 			if not a2d.input_event.is_connected(_on_shard_input):
 				a2d.input_event.connect(_on_shard_input.bind(i))
-			if not a2d.mouse_entered.is_connected(_on_shard_hover_enter):
-				a2d.mouse_entered.connect(_on_shard_hover_enter.bind(i))
-			if not a2d.mouse_exited.is_connected(_on_shard_hover_exit):
-				a2d.mouse_exited.connect(_on_shard_hover_exit.bind(i))
 			var overlay := a2d.get_node_or_null("CrackOverlay")
 			if overlay and overlay is CanvasItem:
 				(overlay as CanvasItem).visible = false
 
-	if not mouse_entered.is_connected(_on_self_hover_enter):
-		mouse_entered.connect(_on_self_hover_enter)
-	if not mouse_exited.is_connected(_on_self_hover_exit):
-		mouse_exited.connect(_on_self_hover_exit)
-
 	set_process(true)
 
+# ─────────────────────────────────────────────────────────────
+# CLEANUP: make the photo itself draggable
+#  - disable shard picking so parent gets the click
+#  - synthesize a hidden polygon on the parent for picking
+# ─────────────────────────────────────────────────────────────
 func unlock_for_cleanup() -> void:
+	_disable_shard_picking(true)
+	_build_cleanup_hit_polygon()
+	# Ensure the parent Photo becomes draggable in cleanup regardless of snap state.
+	_snapped = false
 	set_pickable(true)
 
-func _on_self_hover_enter() -> void:
-	var can_drag: bool = is_pickable() and not _snapped
-	Input.set_default_cursor_shape(
-		Input.CURSOR_POINTING_HAND if can_drag else Input.CURSOR_ARROW
-	)
+# Enable/disable shard picking
+func _disable_shard_picking(disable: bool) -> void:
+	var cc: int = _container.get_child_count()
+	for i in range(cc):
+		var shard := _container.get_child(i)
+		if shard is Area2D:
+			(shard as Area2D).input_pickable = not disable
 
-func _on_self_hover_exit() -> void:
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+# Build (or rebuild) a union bounding box polygon of all shard polygons in THIS node's local space.
+func _build_cleanup_hit_polygon() -> void:
+	var pts: PackedVector2Array = PackedVector2Array()
 
-func _on_shard_hover_enter(idx: int) -> void:
-	var done: bool = _is_shard_transformed(idx)
-	Input.set_default_cursor_shape(
-		Input.CURSOR_POINTING_HAND if not done else Input.CURSOR_ARROW
-	)
+	var cc: int = _container.get_child_count()
+	for i in range(cc):
+		var shard := _container.get_child(i)
+		if not (shard is Area2D):
+			continue
+		var col := (shard as Area2D).get_node_or_null("CollisionPolygon2D") as CollisionPolygon2D
+		if col == null or col.polygon.is_empty():
+			continue
+		# Convert each vertex to woman's local space
+		for p in col.polygon:
+			var gp: Vector2 = col.to_global(p)
+			var lp: Vector2 = to_local(gp)
+			pts.append(lp)
 
-func _on_shard_hover_exit(_idx: int) -> void:
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	if pts.is_empty():
+		# Fallback: make a small 1x1 rect at origin so the parent is still pickable
+		_cleanup_bounds = Rect2(Vector2.ZERO, Vector2.ONE)
+	else:
+		_cleanup_bounds = _points_aabb(pts)
 
+	# Create/update the hidden collision polygon used only for mouse picking.
+	if _cleanup_hit == null:
+		_cleanup_hit = CollisionPolygon2D.new()
+		_cleanup_hit.name = "__CleanupHit__"
+		add_child(_cleanup_hit)
+	# Rectangle polygon (clockwise)
+	var r := _cleanup_bounds
+	var poly := PackedVector2Array([
+		r.position,
+		r.position + Vector2(r.size.x, 0.0),
+		r.position + r.size,
+		r.position + Vector2(0.0, r.size.y),
+	])
+	_cleanup_hit.polygon = poly
+	_cleanup_hit.visible = false
+
+func _points_aabb(points: PackedVector2Array) -> Rect2:
+	var min_x: float = INF; var min_y: float = INF
+	var max_x: float = -INF; var max_y: float = -INF
+	for v in points:
+		min_x = min(min_x, v.x); max_x = max(max_x, v.x)
+		min_y = min(min_y, v.y); max_y = max(max_y, v.y)
+	return Rect2(Vector2(min_x, min_y), Vector2(max_x - min_x, max_y - min_y))
+
+# ─────────────────────────────────────────────────────────────
+# GLOBAL CURSOR HOOK
+#   • Normal: hand over UNTRANSFORMED shards (polygon hit)
+#   • Cleanup: hand over cleanup rectangle (parent becomes drag target)
+# ─────────────────────────────────────────────────────────────
+func _is_custom_interactive_at_point(screen_pt: Vector2) -> bool:
+	# If we're in cleanup, expose the synthesized rectangle on the parent.
+	if _in_cleanup():
+		if not is_pickable():
+			return false
+		if _cleanup_bounds.size == Vector2.ZERO:
+			return false
+		var local_pt: Vector2 = to_local(screen_pt)
+		return _cleanup_bounds.has_point(local_pt)
+
+	# Normal flow: only untransformed shard polygons are interactive
+	if _snapped:
+		return false
+
+	var cc: int = _container.get_child_count()
+	for i in range(cc):
+		if _is_shard_transformed(i):
+			continue
+		var shard_node := _container.get_child(i)
+		if not (shard_node is Area2D):
+			continue
+		var col := (shard_node as Area2D).get_node_or_null("CollisionPolygon2D") as CollisionPolygon2D
+		if col == null or col.polygon.is_empty():
+			continue
+		var local_pt := col.to_local(screen_pt)
+		if Geometry2D.is_point_in_polygon(local_pt, col.polygon):
+			return true
+	return false
+
+# ─────────────────────────────────────────────────────────────
+# EXISTING CONTENT (unchanged)
+# ─────────────────────────────────────────────────────────────
 func _is_shard_transformed(idx: int) -> bool:
 	return (idx >= 0 and idx < _transformed.size() and _transformed[idx] != 0)
 
@@ -224,6 +308,9 @@ func _process(_delta: float) -> void:
 		lbl.add_theme_color_override("font_color", col)
 
 func _on_shard_input(_vp, event: InputEvent, _shape_idx: int, idx: int) -> void:
+	# Ignore shard clicks during cleanup (parent handles drag)
+	if _in_cleanup():
+		return
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
 		_transform_phrase(idx)
 

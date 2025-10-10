@@ -1,6 +1,7 @@
 {
   "id": "mem_distance_dialog",
-  "body": 	"She looks scared when She sees you. When did she become so thin?",
+  "body": 	["She looks scared when She sees you.",
+"When did she become [calli]so thin[/calli]?"],
   "portrait": "res://Assets/distance.jpg",
   "choices": [
 	{ "label": "1) I need to force Her into eating again.", "next": "mem_distance_reply3_1" },

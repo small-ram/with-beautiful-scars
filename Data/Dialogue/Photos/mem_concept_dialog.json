@@ -4,6 +4,6 @@
   "portrait": "res://Assets/concept.jpg",
   "choices": [
 	{ "label": "1) I don't want to talk mathematics.", "next": "mem_concept_reply1" },
-	{ "label": "2) You have no idea how hard it was for me. A black stream runs in our family.;", "next": "mem_concept_reply2" }
+	{ "label": "2) You have no idea how hard it was for me. A black stream runs in our family.", "next": "mem_concept_reply2" }
   ]
 }

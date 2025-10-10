@@ -80,8 +80,10 @@ metadata/_edit_use_anchors_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_fp3vr")
-animation = &"trigger"
+animation = &"move"
+frame = 4
+frame_progress = 0.558155
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, -3)
+position = Vector2(-9, -3)
 shape = SubResource("RectangleShape2D_irxac")

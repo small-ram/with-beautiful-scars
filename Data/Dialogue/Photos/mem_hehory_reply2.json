@@ -1,6 +1,8 @@
 {
   "id": "mem_hehory_dialog",
-  "body": 	"Tell me, were you frightened you might lose her when you saw her lying in the grass with blood gushing from her head? What was the main emotion you felt? And toward whom?",
+  "body": 	["Tell me, were you frightened you might lose her when you saw her lying in the grass with blood gushing from her head?",
+"What was the main emotion you felt?",
+"And toward whom?"],
   "portrait": "res://Assets/hehory.jpg",
   "choices": [
 	{ "label": "1) Anger at her.", "next": "mem_hehory_reply2_1" },

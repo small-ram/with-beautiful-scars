@@ -14,17 +14,15 @@ signal dialogue_done
 @export var edge_pause_min  : float = 0.06
 @export var edge_pause_max  : float = 0.20
 
-@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite     : AnimatedSprite2D = $AnimatedSprite2D
 @onready var key_sprite : Sprite2D         = $Sprite2D
-@onready var label  : Label            = $Sprite2D/KeyLabel
-@onready var vp     : Viewport         = get_viewport()
+@onready var label      : Label            = $Sprite2D/KeyLabel
+@onready var vp         : Viewport         = get_viewport()
 
-# ───────── Z-LAYERS ─────────
 const Z_CRITTER_MOVING    := 700
 const Z_CRITTER_TRIGGERED := 600
 const Z_CLEANUP_BASE      := 500
 const Z_CLEANUP_DRAG      := 1200
-
 
 var _view : Rect2
 var _dir  : Vector2 = Vector2.ZERO
@@ -44,20 +42,35 @@ var _edge_pause_until : float = 0.0
 
 func _ready() -> void:
 	add_to_group("critters")
-	set_pickable(true)  # ← allow mouse clicks on the Area2D
-	mouse_entered.connect(_on_mouse_enter)
-	mouse_exited.connect(_on_mouse_exit)
+	set_pickable(true)
 	vp.size_changed.connect(_on_viewport_resized)
 	_refresh_view_rect()
-
 	_noise = FastNoiseLite.new()
 	_noise.seed = randi()
 	_noise.frequency = 1.0
-
 	_assign_unique_key()
 	_spawn_at_random_edge()
 	sprite.play("move")
-	
+	_update_cursor_global()
+
+# ─────────────────────────────────────────────────────────────
+# Cursor behavior (combined with photos)
+# ─────────────────────────────────────────────────────────────
+func _unhandled_input(ev: InputEvent) -> void:
+	if ev is InputEventMouseMotion:
+		_update_cursor_global()
+
+func _update_cursor_global() -> void:
+	if _any_dragging_global():
+		Input.set_default_cursor_shape(Input.CURSOR_MOVE)
+		return
+	var mouse: Vector2 = get_global_mouse_position()
+	var top := _top_ui_target_at_point(mouse)
+	if top != null:
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+	else:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
 func _can_click() -> bool:
 	if _cleanup_mode: return false
 	if _triggered: return false
@@ -66,19 +79,12 @@ func _can_click() -> bool:
 		return false
 	return true
 
-func _on_mouse_enter() -> void:
-	var shape: int
-	if _cleanup_mode:
-		shape = Input.CURSOR_POINTING_HAND
-	else:
-		shape = Input.CURSOR_POINTING_HAND if _can_click() else Input.CURSOR_ARROW
-	Input.set_default_cursor_shape(shape)
+func _is_draggable_in_cleanup() -> bool:
+	return _cleanup_mode and not _dragging
 
-func _on_mouse_exit() -> void:
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-
-
-# ───────── VIEW UTIL: required editor rect ─────────
+# ─────────────────────────────────────────────────────────────
+# View / movement
+# ─────────────────────────────────────────────────────────────
 func _editor_bounds() -> Rect2:
 	var ref := get_tree().get_first_node_in_group("critter_bounds") as Control
 	assert(ref != null, "Critter bounds ReferenceRect (group 'critter_bounds') is required.")
@@ -168,18 +174,17 @@ func _flip_lane() -> void:
 func _update_facing() -> void:
 	sprite.rotation = atan2(_dir.y, _dir.x) - PI / 2.0
 
-# ---- UNIQUE KEY / INPUT ACTION ----
+# ───────── Unique key / trigger (normal mode) ─────────
 func _assign_unique_key() -> void:
 	var keycode: Key = KeyAssigner.take_free_key()
 	_action_name = "%s_%d" % [base_action, int(keycode)]
 	if not InputMap.has_action(_action_name):
 		InputMap.add_action(_action_name)
 		var ev := InputEventKey.new()
-		ev.physical_keycode = keycode      # ← no cast needed
+		ev.physical_keycode = keycode
 		InputMap.action_add_event(_action_name, ev)
 	label.text = OS.get_keycode_string(keycode)
 
-# ───────── TRIGGER GUARD (no overlapping dialogues) ─────────
 func _trigger() -> void:
 	if _consumed or _triggered:
 		return
@@ -190,7 +195,7 @@ func _trigger() -> void:
 	key_sprite.hide()
 	label.hide()
 
-	# Provide a fallback portrait (first frame of "trigger" or current frame)
+	# Fallback portrait
 	var tex: Texture2D = null
 	if sprite.sprite_frames:
 		if sprite.sprite_frames.has_animation("trigger"):
@@ -217,17 +222,21 @@ func _trigger() -> void:
 
 	await sprite.animation_finished
 	_on_trigger_anim_finished()
+	_update_cursor_global()
 
 func _on_trigger_anim_finished() -> void:
 	if one_liner_id == "":
 		_triggered = false
 		sprite.play("move")
+	_update_cursor_global()
 
 func _on_dialogue_started(id: String) -> void:
 	_my_run_active = (id == one_liner_id)
+	_update_cursor_global()
 
 func _on_dialogue_finished(_last_id: String) -> void:
 	_finish_if_mine()
+	_update_cursor_global()
 
 func _finish_if_mine() -> void:
 	if not _my_run_active:
@@ -238,8 +247,9 @@ func _finish_if_mine() -> void:
 	add_to_group("gold")
 	emit_signal("dialogue_done")
 	z_index = Z_CRITTER_TRIGGERED
+	_update_cursor_global()
 
-# ---- CLEANUP / DRAG ----
+# ───────── Cleanup / drag (river) ─────────
 func unlock_for_cleanup() -> void:
 	_cleanup_mode = true
 	_triggered = true
@@ -252,32 +262,36 @@ func unlock_for_cleanup() -> void:
 	else:
 		sprite.stop()
 	z_index = Z_CLEANUP_BASE
+	_update_cursor_global()
 
 func _input_event(_vp: Viewport, ev: InputEvent, _shape_idx: int) -> void:
-	# Cleanup mode: drag to the river
+	# Cleanup drag
 	if _cleanup_mode:
 		if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
 			if ev.pressed:
 				_dragging = true
 				_drag_off = global_position - ev.position
 				move_to_front()
-				Input.set_default_cursor_shape(Input.CURSOR_MOVE)
-				# Claim a new global-top z and KEEP IT after drop
 				z_index = _claim_top_z()
+				_update_cursor_global()
 			else:
 				_dragging = false
-				Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
-				# DO NOT reset z_index here — we keep the “latest interaction” order
+				_update_cursor_global()
 		return
-	# Normal mode: left-click triggers the critter (same as hotkey)
+
+	# Normal click only if THIS is combined top-most & clickable
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT and ev.pressed:
-		_trigger()
+		var mouse: Vector2 = get_global_mouse_position()
+		if _top_ui_target_at_point(mouse) == self and _can_click():
+			_trigger()
+			_update_cursor_global()
 
 func _input(ev: InputEvent) -> void:
 	if _cleanup_mode and _dragging and ev is InputEventMouseMotion:
 		global_position = ev.position + _drag_off
+		_update_cursor_global()
 
-# ---- UTIL ----
+# ───────── Util ─────────
 func _rotate_toward(current: Vector2, target: Vector2, max_step: float) -> Vector2:
 	var c := current.normalized()
 	var t := target.normalized()
@@ -287,28 +301,128 @@ func _rotate_toward(current: Vector2, target: Vector2, max_step: float) -> Vecto
 	if abs(ang) <= max_step:
 		return t
 	return c.rotated(sign(ang) * max_step).normalized()
-	
-# Critter.gd — add anywhere in the script
+
 func is_in_hand() -> bool:
-	# dragging only exists during cleanup mode
 	return _cleanup_mode and _dragging
 
 func force_drop() -> void:
 	_dragging = false
+	_update_cursor_global()
 
 func _exit_tree() -> void:
-	# Optional: clean InputMap if you want to avoid action buildup across multiple runs.
 	if _action_name != "" and InputMap.has_action(_action_name):
 		InputMap.erase_action(_action_name)
-		
+
 func _find_cleanup_layer() -> Node:
 	return get_tree().current_scene.find_child("CleanupLayer", true, false)
 
 func _claim_top_z() -> int:
 	var cl := _find_cleanup_layer()
-	var cur := 500
+	var cur: int = 500
 	if cl:
 		cur = int(cl.get_meta("interaction_z", 500))
 		cur += 1
 		cl.set_meta("interaction_z", cur)
 	return cur
+
+# ───────── Combined top-most & hit tests (photos + critters) ─────────
+func _top_ui_target_at_point(screen_pt: Vector2) -> Node2D:
+	var best: Node2D = null
+	var best_z: int = -1_000_000
+	var best_idx: int = -1
+
+	# Photos (including special ones like Woman/Fetus that implement a custom hook)
+	for ph in get_tree().get_nodes_in_group("photos"):
+		var n := ph as Node2D
+		if n == null:
+			continue
+
+		var interactive: bool = false
+		var hit: bool = false
+
+		# 1) Custom hook (e.g., WomanPhoto shards, Fetus animated sprite)
+		if n.has_method("_is_custom_interactive_at_point"):
+			interactive = bool(n.call("_is_custom_interactive_at_point", screen_pt))
+			hit = interactive
+		else:
+			# 2) Default Photo hit test
+			var p := n as Photo
+			if p != null:
+				if p.is_pickable() and not p._snapped:
+					var spr := p.get_node_or_null("Sprite2D") as Sprite2D
+					if spr and spr.texture:
+						var lp: Vector2 = spr.to_local(screen_pt)
+						var r: Rect2 = spr.get_rect()
+						hit = r.has_point(lp)
+						interactive = hit
+			else:
+				# 3) Generic Sprite2D fallback (pickable)
+				if n.has_method("is_pickable") and n.call("is_pickable"):
+					var spr2 := n.get_node_or_null("Sprite2D") as Sprite2D
+					if spr2 and spr2.texture:
+						var lp2: Vector2 = spr2.to_local(screen_pt)
+						var r2: Rect2 = spr2.get_rect()
+						hit = r2.has_point(lp2)
+						interactive = hit
+
+		if not (hit and interactive):
+			continue
+
+		var zi: int = n.z_index
+		var idx: int = n.get_index()
+		if zi > best_z or (zi == best_z and idx > best_idx):
+			best = n; best_z = zi; best_idx = idx
+
+	# Critters (unchanged from your current version)
+	for c in get_tree().get_nodes_in_group("critters"):
+		var cr := c as Area2D
+		if cr == null:
+			continue
+		var spr := cr.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+		if spr == null or spr.sprite_frames == null:
+			continue
+		var lp3: Vector2 = spr.to_local(screen_pt)
+		var rect3: Rect2 = _animated_sprite_local_rect(spr)
+		if not rect3.has_point(lp3):
+			continue
+		var inter := false
+		if cr.has_method("_can_click") and cr.call("_can_click"):
+			inter = true
+		if cr.has_method("_is_draggable_in_cleanup") and cr.call("_is_draggable_in_cleanup"):
+			inter = true
+		if not inter:
+			continue
+		var zi3: int = cr.z_index
+		var idx3: int = cr.get_index()
+		if zi3 > best_z or (zi3 == best_z and idx3 > best_idx):
+			best = cr; best_z = zi3; best_idx = idx3
+
+	return best
+
+func _animated_sprite_local_rect(spr: AnimatedSprite2D) -> Rect2:
+	var frames := spr.sprite_frames
+	if frames == null:
+		return Rect2()
+	var anim: String = spr.animation
+	if anim == "":
+		var names := frames.get_animation_names()
+		if names.size() > 0:
+			anim = names[0]
+	var frame_index: int = spr.frame
+	var tex := frames.get_frame_texture(anim, frame_index)
+	if tex == null:
+		return Rect2()
+	var size: Vector2 = tex.get_size()
+	var origin: Vector2 = (spr.offset - (size * 0.5)) if spr.centered else spr.offset
+	return Rect2(origin, size)
+
+func _any_dragging_global() -> bool:
+	for p in get_tree().get_nodes_in_group("photos"):
+		var ph := p as Node
+		if ph != null and ph.has_method("is_in_hand") and ph.call("is_in_hand"):
+			return true
+	for c in get_tree().get_nodes_in_group("critters"):
+		var cr := c as Node
+		if cr != null and cr.has_method("is_in_hand") and cr.call("is_in_hand"):
+			return true
+	return false

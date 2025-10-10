@@ -11,15 +11,16 @@ signal arrangement_complete
 @export var max_rotation_deg: float = 45.0
 @export var gold_tint: Color = Color(1.0, 0.85, 0.30)
 
-const Z_CLEANUP_BASE         := 500
+const Z_CLEANUP_BASE := 500
 
 var _inside: Array[Area2D] = []
 var _snap_point: Marker2D
 var _sprite: Sprite2D
 var _normal_mod: Color = Color(1,1,1,1)
+
 var _eligible_total: int = -1
 var _done_count: int = 0
-var _processed_ids: Dictionary = {}
+var _processed_ids: Dictionary = {}   # iid -> true
 
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
@@ -36,14 +37,15 @@ func set_active(v: bool) -> void:
 	if active:
 		_prepare_eligibility()
 	else:
-		# Make sure we’re visually normal outside cleanup
+		# Visual reset outside cleanup
 		if _sprite:
 			_sprite.modulate = _normal_mod
+		_inside.clear()
 
 func _on_area_entered(a: Area2D) -> void:
 	if not active:
 		return
-	if _is_target(a):
+	if _is_cleanup_target(a):
 		_inside.append(a)
 
 func _on_area_exited(a: Area2D) -> void:
@@ -52,18 +54,20 @@ func _on_area_exited(a: Area2D) -> void:
 	_inside.erase(a)
 
 func _process(_dt: float) -> void:
-	# Only glow during cleanup
+	# Only glow during cleanup and while something is being dragged
 	if _sprite:
 		_sprite.modulate = (gold_tint if (active and _any_dragging()) else _normal_mod)
 
 func _physics_process(_dt: float) -> void:
 	if not active:
 		return
+
 	for a in _inside.duplicate():
 		if not is_instance_valid(a):
 			_inside.erase(a)
 			continue
-		if not _is_target(a):
+		if not _is_cleanup_target(a):
+			_inside.erase(a)
 			continue
 
 		var dragging := false
@@ -78,9 +82,19 @@ func _physics_process(_dt: float) -> void:
 		_snap_onto_horse(a)
 		_inside.erase(a)
 
+	# Completion check (guard to emit once)
 	if _eligible_total >= 0 and _done_count >= _eligible_total:
-		_eligible_total = -1
+		_eligible_total = -1  # prevent re-emits
 		arrangement_complete.emit()
+
+# ---------- eligibility helpers ----------
+func _is_cleanup_target(n: Node) -> bool:
+	# Must be in one of the affects_groups AND not explicitly marked as non-cleanup.
+	if not _is_target(n):
+		return false
+	if n.is_in_group("non_discardable"):
+		return false
+	return true
 
 func _is_target(n: Node) -> bool:
 	for g in affects_groups:
@@ -109,10 +123,13 @@ func _prepare_eligibility() -> void:
 	var uniq := {}
 	for g in affects_groups:
 		for n in get_tree().get_nodes_in_group(g):
-			if n is Area2D:
+			if n is Area2D and _is_cleanup_target(n):
 				uniq[(n as Node).get_instance_id()] = true
 	_eligible_total = uniq.size()
+	# Optional debug:
+	# print("[PAD] Eligible cleanup targets: ", _eligible_total)
 
+# ---------- snapping ----------
 func _snap_onto_horse(a: Area2D) -> void:
 	var iid: int = a.get_instance_id()
 	if _processed_ids.has(iid):
@@ -137,7 +154,7 @@ func _snap_onto_horse(a: Area2D) -> void:
 	if n2d:
 		n2d.global_position = target
 		n2d.rotation_degrees = rot_deg
-		# Put snapped item on top based on the shared counter
+		# Put snapped item on top based on shared counter in CleanupLayer (if present)
 		n2d.z_index = _claim_top_z()
 
 	if a.has_method("set_pickable"):
@@ -145,15 +162,18 @@ func _snap_onto_horse(a: Area2D) -> void:
 
 	_processed_ids[iid] = true
 	_done_count += 1
+	# Optional debug:
+	# print("[PAD] Processed: ", a.name, " -> ", _done_count, "/", _eligible_total)
 
+# ---------- z-index helper ----------
 func _find_cleanup_layer() -> Node:
 	return get_tree().current_scene.find_child("CleanupLayer", true, false)
 
 func _claim_top_z() -> int:
 	var cl := _find_cleanup_layer()
 	if cl:
-		var cur := int(cl.get_meta("interaction_z", 500))
+		var cur := int(cl.get_meta("interaction_z", Z_CLEANUP_BASE))
 		cur += 1
 		cl.set_meta("interaction_z", cur)
 		return cur
-	return 501
+	return Z_CLEANUP_BASE + 1

@@ -1,7 +1,8 @@
 {
   "id": "mem_repair_dialog",
-  "body": 	"
-I have learned that victims make more victims. I needed to talk about the Scar. Soon, it will be your turn to tell your story.",
+  "body": 	["I have learned that victims make more victims.",
+"I needed to talk about the [calli]Scar[/calli].",
+"Soon, it will be your turn to tell your story."],
   "portrait": "res://Assets/repair.jpg",
   "choices": [
 	{ "label": "I wanted Her to be tough. To be ready for the world.", "next": "" },

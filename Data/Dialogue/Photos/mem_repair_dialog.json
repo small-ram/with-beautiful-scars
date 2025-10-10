@@ -1,7 +1,7 @@
 {
   "id": "mem_repair_dialog",
-  "body": 	"She looks at the scar on her head, trying to rethink the incident in a way that might reflect even a trace of her mother’s love, like sunlight on water.
-\nWhy do you think She is doing that?",
+  "body": 	["She looks at the scar on her head, trying to rethink the incident in a way that might reflect even a trace of her mother’s love, like [calli]sunlight on water[/calli].",
+"Why do you think She is doing that?"],
   "portrait": "res://Assets/repair.jpg",
   "choices": [
 	{ "label": "1) She wants to confirm her victim status. I too have suffered, you know.", "next": "mem_repair_reply1" },

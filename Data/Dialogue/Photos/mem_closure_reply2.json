@@ -1,7 +1,8 @@
 {
   "id": "mem_closure_dialog",
   "body": [
-	"Just listen for now. This is not about you. \nShe finds solace in that sentence because She has always felt it was all [calli]her[/calli] fault."
+	"Just listen for now. This is not about you.",
+	"She finds solace in that sentence because She has always felt it was all [calli]her[/calli] fault."
   ],
   "portrait": "res://Assets/closure.jpg",
   "choices": []

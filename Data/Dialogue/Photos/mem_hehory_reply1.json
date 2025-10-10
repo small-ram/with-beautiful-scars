@@ -1,6 +1,7 @@
 {
   "id": "mem_hehory_dialog",
-  "body": 	"You taught Her a lesson on that summer's day in 1994 and the ugly scar keeps reminding her of this lesson. Tell me, what did you feel that day?",
+  "body": 	["You taught Her a lesson on that summer's day in 1994 and the ugly scar keeps reminding her of this lesson.", 
+"Tell me, what did you feel that day?"],
   "portrait": "res://Assets/hehory.jpg",
   "choices": [
 	{ "label": "1) Anger at her.", "next": "mem_hehory_reply2_1" },

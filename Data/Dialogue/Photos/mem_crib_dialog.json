@@ -1,8 +1,10 @@
 {
   "id": "mem_crib_dialog",
-  "body": 	"The baby’s screaming in her crib. 
-\nYou have just fed her with a measured dose of formula and changed her diaper. Just as the Book on parenting (wrote by a male doctor in 1972) told you to.
-\nWhat else does She want? What should you do now?",
+  "body": 	["The baby’s [calli]screaming[/calli] in her crib. 
+\nYou have just fed her with a measured dose of formula and changed her diaper.",
+"Just as [calli]The Book[/calli] on parenting (wrote by a male doctor in 1972) told you to.",
+"What else does She want? What [calli]should you do[/calli] now?"
+],
   "portrait": "res://Assets/crib.jpg",
   "choices": [
 	{ "label": "1) Nothing", "next": "mem_crib_reply1" },
